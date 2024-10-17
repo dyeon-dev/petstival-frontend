@@ -4,15 +4,15 @@
 
 1.  `git clone`으로 원격 저장소 복제 및 연결
 
-        $ git clone https://github.com/PETSTIVAL/frontend.git
+        git clone https://github.com/PETSTIVAL/frontend.git
 
 2.  `npm install`로 관련 의존성 및 라이브러리 설치
 
-        $ npm install
+        npm install
 
 3.  `npm run dev`로 프로젝트 빌드
 
-        $ npm run dev
+        npm run dev
 
 4.  데스크탑의 경우, `Local` 주소에서 빌드된 화면 확인 가능
 5.  모바일의 경우, 데스크탑과 동일한 네트워크 접속 시 `Network` 주소에서 빌드된 화면 확인 가능
