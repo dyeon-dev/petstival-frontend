@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "chromatic": "npx chromatic --project-token=chpt_547e281637c23d2"
   },
   "dependencies": {
     "react": "^18.3.1",
@@ -18,10 +19,13 @@
   "devDependencies": {
     "@chromatic-com/storybook": "^1.9.0",
     "@eslint/js": "^9.11.1",
+    "@storybook/addon-designs": "^8.0.3",
     "@storybook/addon-essentials": "^8.3.5",
     "@storybook/addon-interactions": "^8.3.5",
     "@storybook/addon-links": "^8.3.5",
     "@storybook/addon-onboarding": "^8.3.5",
+    "@storybook/addons": "^7.6.17",
+    "@storybook/api": "^7.6.17",
     "@storybook/blocks": "^8.3.5",
     "@storybook/builder-vite": "^8.3.5",
     "@storybook/react": "^8.3.5",
@@ -30,6 +34,7 @@
     "@types/react": "^18.3.10",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.2",
+    "chromatic": "^11.12.6",
     "eslint": "^9.12.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
