@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   env: { browser: true, es2020: true },
-  extends: ['eslint:recommended', 'plugin:react/recommended', 'plugin:react/jsx-runtime', 'plugin:react-hooks/recommended'],
+  extends: ['eslint:recommended', 'plugin:react/recommended', 'plugin:react/jsx-runtime', 'plugin:react-hooks/recommended', 'plugin:storybook/recommended'],
 
   ignorePatterns: ['dist', '.eslintrc.cjs'], // 검사하지 않을 파일 및 디렉토리 지정
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' }, // ECMAScript 버전 및 모듈 지원 설정
