@@ -1,10 +1,10 @@
 import React from 'react';
-import PaymentsPage from './PaymentsPage';
+import { CheckoutPage } from './PaymentsPage/CheckoutPage';
 
 function App() {
   return (
     <div>
-      <PaymentsPage />
+      <CheckoutPage />
     </div>
   );
 }
