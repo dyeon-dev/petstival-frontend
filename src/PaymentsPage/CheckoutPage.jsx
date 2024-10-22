@@ -2,19 +2,42 @@ import { useEffect, useRef, useState } from "react";
 import { loadTossPayments, ANONYMOUS } from "@tosspayments/tosspayments-sdk";
 import { v4 as uuidv4 } from 'uuid';
 import './style.css';
+import { createClient } from '@supabase/supabase-js';
 
 const generateRandomString = () => window.btoa(Math.random()).slice(0, 20);
 const clientKey = import.meta.env.VITE_CLIENT_SECRET_KEY;;
+
+const supabase = createClient(import.meta.env.VITE_SUPABASE_API_URL, import.meta.env.VITE_SUPABASE_API_KEY);
 
 export function CheckoutPage() {
   const [ready, setReady] = useState(false);
   const [widgets, setWidgets] = useState(null);
 
-   // ------ 주문의 결제 금액 설정 ------
+  // ------ 주문의 결제 금액 설정 ------
   const [amount, setAmount] = useState({
-    currency: "KRW",
-    value: 50000,
+  currency: "KRW",
+  value: 50000,
   });
+
+  // supabase POST
+  const postTestData = async (orderId, amountValue) => {
+    console.log(orderId, amountValue);
+    const dataToPost = {
+      orderId: orderId,
+      amount: amountValue,
+    };
+    // payment_info table에 정보를 업데이트
+    const { data, error } = await supabase.from('payment_info').upsert([dataToPost]);
+
+    if (error) {
+      console.error('Error posting data:', error);
+      return;
+    }
+
+    console.log('Data posted successfully:', data);
+  };
+
+
 
   useEffect(() => {
     async function fetchPaymentWidgets() {
@@ -84,14 +107,11 @@ export function CheckoutPage() {
             className="btn primary w-100"
             onClick={async () => {
               try {
-                /**
-                 * 결제 요청
-                 * 결제를 요청하기 전에 orderId, amount를 서버에 저장하세요.
-                 * 결제 과정에서 악의적으로 결제 금액이 바뀌는 것을 확인하는 용도입니다.
-                 * @docs https://docs.tosspayments.com/sdk/v2/js#widgetsrequestpayment
-                 */
+                const orderId = generateRandomString();
+                await postTestData(orderId, amount.value);
+
                 await widgets?.requestPayment({
-                  orderId: generateRandomString(),
+                  orderId: orderId,
                   orderName: "토스 티셔츠 외 2건",
                   customerName: "김토스",
                   customerEmail: "customer123@gmail.com",

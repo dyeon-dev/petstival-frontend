@@ -13,7 +13,7 @@ Deno.serve(async (req) => {
       const response = await fetch("https://api.tosspayments.com/v1/payments/confirm", {
         method: "POST", // 메서드 추가
         headers: {
-          Authorization: encryptedSecretKey,
+          Authorization: encryptedSecretKey, // 헤더에 encryptedSecretKey 추가
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ // body에 JSON 문자열로 전달
