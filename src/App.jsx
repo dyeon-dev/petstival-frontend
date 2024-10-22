@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { CheckoutPage } from './PaymentsPage/CheckoutPage';
 import { SuccessPage } from './PaymentsPage/SuccessPage';
+import { FailPage } from './PaymentsPage/FailPage';
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
         <Routes>
           <Route path="/" element={<CheckoutPage />} />
           <Route path="/success" element={<SuccessPage />} />
+          <Route path="/fail" element={<FailPage />} />
         </Routes>
       </Router>
     </div>

@@ -23,15 +23,11 @@ Deno.serve(async (req) => {
         }),
       });
 
-      // response.json()으로 받아서 비동기 처리를 해줘야 한다.
-      const responseBody = await response.json();
-
-
+      // data.json()으로 받아서 비동기 처리를 해줘야 한다.
+      const data = await response.json();
+      console.log(data);
       // 결제 성공 비즈니스 로직을 구현하세요.
-      return new Response(JSON.stringify(responseBody), {
-        status: response.statusCode,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return new Response(JSON.stringify(data));
     } catch (error) {
       console.error("Error occurred: ", error); // 에러 로그 추가
       // 결제 실패 비즈니스 로직을 구현하세요.
