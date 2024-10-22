@@ -32,14 +32,19 @@ Deno.serve(async (req) => {
 
         // 결제 상태 확인
         if (data.status !== 'success') { // 결제 성공 여부 확인
-          throw new Error("Payment failed"); // 결제 실패 시 에러 발생
-      }
+          const errorInfo = { code: data.code || "UNKNOWN_ERROR", message: data.message || "An error occurred" }; // 에러 정보 객체 생성
+          throw { ...errorInfo }; // 사용자 정의 에러 객체 던지기
+        }
         return new Response(JSON.stringify(data));
-    } catch (error) { // response data의 코드에 따라서 분기처리?
-      console.error("Error occurred: ", error); // 에러 로그 추가
-      // 결제 실패 비즈니스 로직을 구현하세요.
-      return new Response(JSON.stringify({ message: error.message }), {
-        status: 200,
+    } catch (error) {
+      const errorCode = error.code || "UNKNOWN_ERROR"; // 사용자 정의 에러 객체에서 code 가져오기
+      const errorMessage = error.message || "An error occurred"; // 사용자 정의 에러 객체에서 message 가져오기
+
+      return new Response(JSON.stringify({
+        code: errorCode,
+        message: errorMessage
+      }), {
+        status: 200, // 적절한 상태 코드로 수정
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
