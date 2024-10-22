@@ -21,7 +21,6 @@ export function CheckoutPage() {
 
   // supabase POST
   const postTestData = async (orderId, amountValue) => {
-    console.log(orderId, amountValue);
     const dataToPost = {
       orderId: orderId,
       amount: amountValue,
@@ -34,20 +33,24 @@ export function CheckoutPage() {
       return;
     }
 
-    console.log('Data posted successfully:', data);
+    //console.log('Data posted successfully:', data);
   };
 
 
 
   useEffect(() => {
     async function fetchPaymentWidgets() {
+      try {
       const tossPayments = await loadTossPayments(clientKey); // 클라이언트 키로 TossPayments() 초기화 메서드를 호출하면 토스페이먼츠 객체가 생성된다.
       const customerKey = uuidv4()
       const widgets = tossPayments.widgets({ customerKey: customerKey });
       // 비회원 결제
       // const widgets = tossPayments.widgets({ customerKey: ANONYMOUS });
       setWidgets(widgets);
-    }
+      } catch (error) {
+        console.error("Error fetching payment:", error);
+      }
+    } 
 
     fetchPaymentWidgets();
   }, [clientKey]);
@@ -111,12 +114,13 @@ export function CheckoutPage() {
                 await postTestData(orderId, amount.value);
 
                 await widgets?.requestPayment({
-                  orderId: orderId,
+                  orderId: orderId, // 고유 주문번호
                   orderName: "토스 티셔츠 외 2건",
                   customerName: "김토스",
                   customerEmail: "customer123@gmail.com",
-                   successUrl: window.location.origin + "/success" + window.location.search,
-                   failUrl: window.location.origin + "/fail" + window.location.search
+                  customerMobilePhone: "01012341234",
+                  successUrl: window.location.origin + "/success" + window.location.search,
+                  failUrl: window.location.origin + "/fail" + window.location.search
                 });
               } catch (error) {
                 // TODO: 에러 처리

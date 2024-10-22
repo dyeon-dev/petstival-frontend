@@ -25,13 +25,14 @@ export function SuccessPage() {
     });
 
     if (response.ok) {
-      // 결제 성공 비즈니스 로직을 구현하세요.
-      setIsConfirmed(true);
-    }
-
-    if (!response.ok) {
-      // 결제 실패 비즈니스 로직을 구현하세요.
-      window.location.href = `/fail?message=${json.message}&code=${json.code}`;
+      const json = await response.json(); // 응답 본문을 JSON으로 파싱
+      if (json.message === "Payment failed") { 
+        // 결제 실패 비즈니스 로직을 구현
+        window.location.href = `/fail?message=${json.message}&code=${json.code}`; // 실패 페이지로 이동
+      } else {
+        // 결제 성공 비즈니스 로직을 구현
+        setIsConfirmed(true);
+      }
     }
   }
 
