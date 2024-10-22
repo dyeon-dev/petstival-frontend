@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import './style.css';
 
 const generateRandomString = () => window.btoa(Math.random()).slice(0, 20);
-const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
+const clientKey = import.meta.env.VITE_CLIENT_SECRET_KEY;;
 
 export function CheckoutPage() {
   const [ready, setReady] = useState(false);
