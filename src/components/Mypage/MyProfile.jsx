@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './MyProfile.module.css'; // CSS 모듈 임포트
+import styles from './MyProfile.module.css'; 
 
 function MyProfile() {
   return (
