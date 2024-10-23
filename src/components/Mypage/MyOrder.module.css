@@ -51,7 +51,6 @@
 
 .infoFrame {
     display: flex;
-
     height: 64px;
     align-items: center;
     gap: 16px;
