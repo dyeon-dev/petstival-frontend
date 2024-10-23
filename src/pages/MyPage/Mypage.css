@@ -1,0 +1,67 @@
+.margin {
+    margin-left: 24px;
+    margin-right: 24px;
+}
+.my-profile {
+    color: var(--gray-gray-100, #222022);
+ 
+    /* NanumSquare Neo/heading2 */
+    font-family: "NanumSquare Neo OTF";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 29px;
+}
+
+.my-profile-container {
+    display: inline-flex;
+    width: 100%;
+    padding: 24px 32px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    background: var(--gray-gray-white, #FFF);
+
+    box-shadow: 0px 0px 8px 0px rgba(51, 51, 51, 0.08);
+}
+
+.my-profile-frame {
+    display: flex;
+    align-items: center;
+    gap: 80px;
+}
+
+.my-profile-image {
+    width: 80px;
+    height: 80px;
+}
+
+.my-info {
+    display: flex;
+    width: 174px;
+    flex-direction: column; /* 수직 정렬을 위해 flex-direction을 column으로 설정 */
+    align-items: flex-start;
+    gap: 5px;
+}
+.my-name {
+    max-width: 132px;
+    color: var(--gray-gray-100, #222022);
+
+    /* NanumSquare Neo/heading3 */
+    font-family: "NanumSquare Neo OTF";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 26px;
+}
+
+.my-email {
+    color: var(--gray-gray-60, #838283);
+
+    /* Pretendard/paragraph/paragraph-2 */
+    font-family: Pretendard;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px;
+}
