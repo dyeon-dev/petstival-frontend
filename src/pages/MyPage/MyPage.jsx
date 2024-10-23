@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Header from "../../components/Header/Header";
 import MyProfile from "../../components/Mypage/MyProfile";
-import MyRecentHistory from "../../components/Mypage/MyRecentHistory";
+import MyOrder from "../../components/Mypage/MyOrder";
 import MyAccount from "../../components/Mypage/MyAccount";
 import Navbar from "../../components/Navbar/Navbar";
 
@@ -17,7 +17,7 @@ function MyPage() {
     <Header />
       <Wrapper>
         <MyProfile />
-        <MyRecentHistory />
+        <MyOrder />
         <MyAccount />
       </Wrapper>
     <Navbar />
