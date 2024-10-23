@@ -26,9 +26,8 @@ Deno.serve(async (req) => {
         // data.json()으로 받아서 비동기 처리를 해줘야 한다.
         const data = await response.json();
         console.log(data);
-        console.log("data.status: ", data.status);
         
-        // 결제 성공 비즈니스 로직을 구현하세요.
+        // 결제 성공 비즈니스 로직을 구현
 
         // 결제 상태 확인
         if (data.status !== 'success') { // 결제 성공 여부 확인
