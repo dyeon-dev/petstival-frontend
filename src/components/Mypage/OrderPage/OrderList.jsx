@@ -14,12 +14,10 @@ export default function OrderList({ item }) {
           margin: 'auto',
           marginBottom: '15px',
           marginTop: '15px',
-          maxWidth: 500,
+          maxWidth: 600,
           flexGrow: 1,
           backgroundColor: '#fff',
-          ...theme.applyStyles('dark', {
-            backgroundColor: '#1A2027',
-          }),
+          boxShadow: '0px 0px 8px 0px rgba(51, 51, 51, 0.08)'
         })}
       >
         <Grid item container spacing={2} sx={{ color: 'text.secondary', marginLeft: '10px' }}>

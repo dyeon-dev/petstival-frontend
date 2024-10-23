@@ -10,7 +10,7 @@ const Wrapper = styled.section`
     margin-left: 24px;
     margin-right: 24px;
 `;
-
+// TODO: 최근 구매 내역 1개만 불러오기
 function MyPage() {
   return (
     <>
