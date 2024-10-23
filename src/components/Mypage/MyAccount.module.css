@@ -1,0 +1,46 @@
+.myAccount {
+    margin-top: 50px;
+    color: var(--gray-gray-100, #222022);
+ 
+    /* NanumSquare Neo/heading2 */
+    font-family: "NanumSquare Neo OTF";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 29px;
+}
+
+.myAccountContainer {
+    display: flex;
+    width: 100%;
+    padding: 16px 24px 20px 24px;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 8px;
+    background: #FFF;
+    box-shadow: 0px 0px 8px 0px rgba(51, 51, 51, 0.08);
+    gap: 20px;
+    cursor: pointer;
+}
+
+.myLogout {
+    flex: 1 0 0;
+    color: var(--gray-gray-100, #222022);
+    /* Pretendard/paragraph/paragraph-1 */
+    font-family: Pretendard;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 26px;
+    }
+
+.myWithdraw {
+    flex: 1 0 0;
+    color: var(--gray-gray-100, #222022);
+    /* Pretendard/paragraph/paragraph-1 */
+    font-family: Pretendard;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 26px;
+}
