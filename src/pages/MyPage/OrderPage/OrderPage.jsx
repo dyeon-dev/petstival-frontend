@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import OrderList from '../../../components/Mypage/OrderPage/OrderList';
 import Navbar from '../../../components/Navbar/Navbar';
 import image1 from '../../../assets/info_image.png';
+import { useNavigate } from "react-router-dom";
 
 const Header = styled.div`
   display: flex;
@@ -97,6 +98,8 @@ const groupItemsByDate = (items) => {
 const groupedItems = groupItemsByDate(itemData);
 
 function OrderPage() {
+  const navigate = useNavigate();
+
   return (
     <>
       <Header>
@@ -116,7 +119,7 @@ function OrderPage() {
           <div key={date}>
             <Info>
               <h3>{date}</h3>
-              <Detail>주문 상세 &gt;</Detail>
+              <Detail onClick={() => navigate("/mypage/order/detail")}>주문 상세 &gt;</Detail>
             </Info>
             {groupedItems[date].map((item, index) => (
               <OrderList key={index} item={item} />

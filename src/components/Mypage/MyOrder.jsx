@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import ButtonBase from '@mui/material/ButtonBase';
 import image1 from '../../assets/info_image.png';
 import styled from 'styled-components';
+import { useNavigate } from "react-router-dom";
 
 const Info = styled.div`
   display: flex;
@@ -24,11 +25,13 @@ const Detail = styled.div`
 `;
 
 export default function MyOrder() {
+  const navigate = useNavigate();
+
   return (
     <>
       <Info>
         <h3>최근 구매 내역</h3>
-        <Detail>주문 상세 &gt;</Detail>
+        <Detail onClick={() => navigate('/mypage/order')}>주문 상세 &gt;</Detail>
       </Info>
       <Paper
         sx={(theme) => ({
