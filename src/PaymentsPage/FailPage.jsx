@@ -62,4 +62,4 @@ function FailPage() {
   );
 }
 
-export default FailPage;
+export default FailPage
