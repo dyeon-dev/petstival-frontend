@@ -13,6 +13,7 @@ export default function OrderList({ item }) {
           p: 2,
           margin: 'auto',
           marginBottom: '15px',
+          marginTop: '15px',
           maxWidth: 500,
           flexGrow: 1,
           backgroundColor: '#fff',
