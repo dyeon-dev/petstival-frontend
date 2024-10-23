@@ -11,7 +11,7 @@ const Info = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-top: 20px;
 `;
 
 const Detail = styled.div`
@@ -38,7 +38,7 @@ export default function MyOrder() {
           p: 2,
           margin: 'auto',
           marginBottom: '15px',
-          marginTop: '15px',
+          marginTop: '5px',
           maxWidth: 600,
           flexGrow: 1,
           backgroundColor: '#fff',

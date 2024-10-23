@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import OrderList from '../../../components/Mypage/OrderPage/OrderList';
 import Navbar from '../../../components/Navbar/Navbar';
 import image1 from '../../../assets/info_image.png';
 import { useNavigate } from "react-router-dom";
 import OrderInfo from "../../../components/Mypage/OrderDetailPage/OrderInfo";
+import MyOrder from '../../../components/Mypage/MyOrder';
+import DeliveryInfo from "../../../components/Mypage/OrderDetailPage/DeliveryInfo";
 
 const Header = styled.div`
   display: flex;
@@ -101,6 +102,8 @@ const groupedItems = groupItemsByDate(itemData);
 function OrderDetailPage() {
   const navigate = useNavigate();
 
+   // TODO: 해당 날짜 아이템만 가져오기
+   // TODO: 해당 날짜 아이템만 토대로 주문 내역 컴포넌트 다시 만들기 (현재 임시 컴포넌트)
   return (
     <>
       <Header>
@@ -117,6 +120,8 @@ function OrderDetailPage() {
 
       <Wrapper>
         <OrderInfo />
+        <MyOrder />
+        <DeliveryInfo />
       </Wrapper>
       <Navbar />
     </>
