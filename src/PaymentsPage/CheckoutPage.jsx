@@ -5,11 +5,11 @@ import './style.css';
 import { createClient } from '@supabase/supabase-js';
 
 const generateRandomString = () => window.btoa(Math.random()).slice(0, 20);
-const clientKey = import.meta.env.VITE_CLIENT_SECRET_KEY;;
+const clientKey = import.meta.env.VITE_CLIENT_SECRET_KEY;
 
 const supabase = createClient(import.meta.env.VITE_SUPABASE_API_URL, import.meta.env.VITE_SUPABASE_API_KEY);
 
-export function CheckoutPage() {
+function CheckoutPage() {
   const [ready, setReady] = useState(false);
   const [widgets, setWidgets] = useState(null);
 
@@ -134,3 +134,5 @@ export function CheckoutPage() {
     </div>
   );
 }
+
+export default CheckoutPage;
