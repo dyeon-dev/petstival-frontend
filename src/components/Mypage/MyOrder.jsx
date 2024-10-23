@@ -6,8 +6,7 @@ import ButtonBase from '@mui/material/ButtonBase';
 import image1 from '../../assets/info_image.png';
 import styled from 'styled-components';
 
-export default function MyOrder() {
-  const Info = styled.div`
+const Info = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -24,6 +23,7 @@ const Detail = styled.div`
   cursor: pointer;
 `;
 
+export default function MyOrder() {
   return (
     <>
       <Info>
