@@ -4,6 +4,7 @@ import Header from "../../components/Header/Header";
 import MyProfile from "../../components/Mypage/MyProfile";
 import MyRecentHistory from "../../components/Mypage/MyRecentHistory";
 import MyAccount from "../../components/Mypage/MyAccount";
+import Navbar from "../../components/Navbar/Navbar";
 
 const Wrapper = styled.section`
     margin-left: 24px;
@@ -19,6 +20,7 @@ function MyPage() {
         <MyRecentHistory />
         <MyAccount />
       </Wrapper>
+    <Navbar />
     </>
   );
 }
