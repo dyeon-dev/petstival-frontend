@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
-export function SuccessPage() {
+function SuccessPage() {
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [searchParams] = useSearchParams();
   const paymentKey = searchParams.get("paymentKey");
@@ -113,3 +113,5 @@ export function SuccessPage() {
     </div>
   );
 }
+
+export default SuccessPage;
