@@ -1,4 +1,4 @@
-import LoginPage from '../pages/LoginPage';
+import LoginPage from '../pages/login/LoginPage';
 import CheckoutPage from "../PaymentsPage/CheckoutPage";
 import SuccessPage from "../PaymentsPage/SuccessPage";
 import FailPage from "../PaymentsPage/FailPage";
