@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Header from "../../components/Header/Header";
 import MyProfile from "../../components/Mypage/MyProfile";
 import MyRecentHistory from "../../components/Mypage/MyRecentHistory";
 import MyAccount from "../../components/Mypage/MyAccount";
@@ -12,6 +13,7 @@ const Wrapper = styled.section`
 function MyPage() {
   return (
     <>
+    <Header />
       <Wrapper>
         <MyProfile />
         <MyRecentHistory />
