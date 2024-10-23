@@ -30,10 +30,10 @@ Deno.serve(async (req) => {
         // 결제 성공 비즈니스 로직을 구현
 
         // 결제 상태 확인
-        if (data.status !== 'success') { // 결제 성공 여부 확인
-          const errorInfo = { code: data.code || "UNKNOWN_ERROR", message: data.message || "An error occurred" }; // 에러 정보 객체 생성
-          throw { ...errorInfo }; // 사용자 정의 에러 객체 던지기
-        }
+      if (!data.mId) { // 결제 성공 여부 확인
+        const errorInfo = { code: data.code || "UNKNOWN_ERROR", message: data.message || "An error occurred" }; // 에러 정보 객체 생성
+        throw { ...errorInfo }; // 사용자 정의 에러 객체 던지기
+      }
         return new Response(JSON.stringify(data));
     } catch (error) {
       const errorCode = error.code || "UNKNOWN_ERROR"; // 사용자 정의 에러 객체에서 code 가져오기
