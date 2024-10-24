@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Header.module.css';
 import Logo from '../../assets/logo/logo.svg?react';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import ShoppingCartIcon from '../../assets/icons/cart.svg?react';
 
 function Header() {
   return (
