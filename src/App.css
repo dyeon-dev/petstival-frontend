@@ -8,7 +8,9 @@
   /* 모바일 기기일 경우 위아래 브라우저 UI 영역을 제외한 화면 높이 사용 */
   height: 100svh;
 
+
   background-color: #F9F9F9;
   
   text-align: center;
+
 }
