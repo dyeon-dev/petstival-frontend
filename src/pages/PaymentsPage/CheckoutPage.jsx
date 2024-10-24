@@ -144,8 +144,6 @@ function CheckoutPage() {
           >
             결제하기
           </button>
-          <h3>결제 정보</h3>
-      <p>총 금액: {amount.value} {amount.currency}</p>
         </div>
       </div>
     </div>
