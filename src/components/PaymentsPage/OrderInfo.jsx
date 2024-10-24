@@ -22,6 +22,10 @@ export default function OrderInfo() {
     setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1)); // 수량 감소 (최소 1)
   };
 
+  const handlePayment = () => {
+    navigate(`/payment?total=${total}`); // /payment URL로 이동하면서 total 값 전달
+  };
+
   return (
     <div>
       <h3>주문 상품</h3>
@@ -86,15 +90,15 @@ export default function OrderInfo() {
                 총 주문 금액
               </Typography>
             </Grid>
-            <Grid item xs={6} container justifyContent="flex-end" alignItems="center" sx={{ color: 'var(--secondary-orange-default)', fontWeight: "bold" }}>
+            <Grid item xs={6} container justifyContent="flex-end" alignItems="center" sx={{ color: 'var(--secondary-orange-default)', fontWeight: 'bold' }}>
               {/* 오른쪽 아이템 */}
               {total}원
             </Grid>
           </Grid>
         </Grid>
       </Paper>
-      <Button variant="contained" size="large" sx={{ width: "100%", borderRadius: "8px", backgroundColor: 'var(--primary-default)' }}>
-          결제하기
+      <Button onClick={handlePayment} variant="contained" size="large" sx={{ width: '100%', borderRadius: '8px', backgroundColor: 'var(--primary-default)' }}>
+        결제하기
       </Button>
     </div>
   );

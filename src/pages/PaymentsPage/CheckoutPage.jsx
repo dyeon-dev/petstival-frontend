@@ -3,6 +3,7 @@ import { loadTossPayments, ANONYMOUS } from "@tosspayments/tosspayments-sdk";
 import { v4 as uuidv4 } from 'uuid';
 import './style.css';
 import { createClient } from '@supabase/supabase-js';
+import { useLocation } from 'react-router-dom';
 
 const generateRandomString = () => window.btoa(Math.random()).slice(0, 20);
 const clientKey = import.meta.env.VITE_CLIENT_SECRET_KEY;;
@@ -13,20 +14,34 @@ function CheckoutPage() {
   const [ready, setReady] = useState(false);
   const [widgets, setWidgets] = useState(null);
 
+  const location = useLocation(); // 현재 위치 정보 가져오기
+  const queryParams = new URLSearchParams(location.search); // 쿼리 파라미터 파싱
+  const total = queryParams.get('total'); // total 값 가져오기
+
   // ------ 주문의 결제 금액 설정 ------
   const [amount, setAmount] = useState({
   currency: "KRW",
   value: 50000,
   });
 
+  useEffect(() => {
+    if (total) {
+      setAmount(prevAmount => ({
+        ...prevAmount,
+        value: Number(total), // total 값을 value에 적용
+      }));
+    }
+  }, [total]); // total이 변경될 때마다 실행
+
   // supabase POST
   const postTestData = async (orderId, amountValue) => {
     const dataToPost = {
       orderId: orderId,
       amount: amountValue,
+      order_id: "d4c8b0f7-62f4-4a63-90e7-5af0a5d9e4c6",
     };
     // payment_info table에 정보를 업데이트
-    const { data, error } = await supabase.from('payment_info').upsert([dataToPost]);
+    const { data, error } = await supabase.from('payment').upsert([dataToPost]);
 
     if (error) {
       console.error('Error posting data:', error);
@@ -129,6 +144,8 @@ function CheckoutPage() {
           >
             결제하기
           </button>
+          <h3>결제 정보</h3>
+      <p>총 금액: {amount.value} {amount.currency}</p>
         </div>
       </div>
     </div>
