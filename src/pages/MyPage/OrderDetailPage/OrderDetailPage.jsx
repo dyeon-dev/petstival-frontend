@@ -4,7 +4,6 @@ import Navbar from '../../../components/Navbar/Navbar';
 import OrderInfo from "../../../components/Mypage/OrderDetailPage/OrderInfo";
 import MyOrder from '../../../components/Mypage/MyOrder';
 import DeliveryInfo from "../../../components/Mypage/OrderDetailPage/DeliveryInfo";
-import BackIcon from '../../../assets/icons/back.svg?react';
 import DetailBar from "../../../stories/DetailBar";
 
 const Wrapper = styled.section`
