@@ -1,7 +1,7 @@
-import kakaoLoginBtn from '../../assets/images/kakao_login_btn.png';
+import KakaoLoginBtn from '../../assets/images/login-button/kakaotalk.svg?react';
 import { signInWithProvider } from '../../hooks/useLogin.js';
-
 import './LoginButtons.css';
+
 const KakaoLoginButton = () => {
     
     const handleKakaoLogin = async() =>{
@@ -16,7 +16,7 @@ const KakaoLoginButton = () => {
    
     return (
         <button className="login-button" onClick={handleKakaoLogin}>
-            <img src = {kakaoLoginBtn}/>
+            <KakaoLoginBtn />
         </button>
     )
 }

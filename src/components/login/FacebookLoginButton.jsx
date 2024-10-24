@@ -1,4 +1,4 @@
-import facebookLoginBtn from '../../assets/images/facebook_login_btn.png';
+import FacebookLoginBtn from '../../assets/images/login-button/facebook.svg';
 import { signInWithProvider } from '../../hooks/useLogin.js';
 import './LoginButtons.css';
 const FacebookLoginButton = () => {
@@ -11,7 +11,7 @@ const FacebookLoginButton = () => {
     };
     return (
         <button className="login-button" onClick={handleFacebookLogin}>
-            <img src={facebookLoginBtn}/>
+            <FacebookLoginBtn />
         </button>
     )
 }

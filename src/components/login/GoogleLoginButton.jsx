@@ -1,4 +1,4 @@
-import googleLoginBtn from '../../assets/images/google_login_btn.png'
+import GoogleLoginBtn from '../../assets/images/login-button/google.svg?react'
 import { signInWithProvider } from '../../hooks/useLogin.js';
 import './LoginButtons.css';
 const GoogleLoginButton = () => {
@@ -12,7 +12,7 @@ const GoogleLoginButton = () => {
     return (
        
             <button className="login-button" onClick={handleGoogleLogin}>
-                <img src={googleLoginBtn}/>
+                <GoogleLoginBtn />
             </button>
         
     )
