@@ -1,13 +1,30 @@
-import React from 'react'
-import styles from './MyProfile.module.css'; 
+import * as React from 'react';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import ButtonBase from '@mui/material/ButtonBase';
 
-function MyProfile() {
+export default function MyProfile() {
   return (
     <>
-        <div className={styles.myProfile}>나의 프로필</div>
-        <div className={styles.myProfileContainer}>
-          <div className={styles.myProfileFrame}>
-            <div className={styles.myProfileImage}>
+      <h3>나의 프로필</h3>
+
+      <Paper
+        sx={(theme) => ({
+          p: 2,
+          margin: 'auto',
+          marginBottom: '15px',
+          marginTop: '5px',
+          maxWidth: 600,
+          flexGrow: 1,
+          backgroundColor: '#fff',
+          borderRadius: '8px',
+          boxShadow: '0px 0px 8px 0px rgba(51, 51, 51, 0.08)',
+        })}
+      >
+        <Grid container spacing={2}>
+          <Grid item>
+            <ButtonBase sx={{ width: 100, height: 100 }}>
               <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="40" cy="40" r="39" fill="#EEF6FF" stroke="#C8E2FF" strokeWidth="2" />
                 <ellipse cx="40.3539" cy="27.5474" rx="10.6016" ry="10.6016" fill="#C8E2FF" />
@@ -16,16 +33,23 @@ function MyProfile() {
                   fill="#C8E2FF"
                 />
               </svg>
-            </div>
+            </ButtonBase>
+          </Grid>
 
-            <div className={styles.myInfo}>
-              <div className={styles.myName}>김다연</div>
-              <div className={styles.myEmail}>email@email.com</div>
-            </div>
-          </div>
-        </div>
+          <Grid item sm container sx={{ marginTop: '23px' }}>
+            <Grid item xs container direction="column" spacing={2}>
+              <Grid item xs>
+                <Typography gutterBottom variant="h5" component="div" sx={{ fontWeight: 'bold' }}>
+                  김다연
+                </Typography>
+                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                  email@email.com
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Paper>
     </>
-  )
+  );
 }
-
-export default MyProfile

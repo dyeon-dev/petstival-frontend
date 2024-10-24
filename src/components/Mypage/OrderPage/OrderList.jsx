@@ -16,6 +16,7 @@ export default function OrderList({ item }) {
           marginTop: '5px',
           maxWidth: 600,
           flexGrow: 1,
+          borderRadius: "8px",
           backgroundColor: '#fff',
           boxShadow: '0px 0px 8px 0px rgba(51, 51, 51, 0.08)'
         })}
