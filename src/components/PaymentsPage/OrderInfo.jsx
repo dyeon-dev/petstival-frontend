@@ -13,7 +13,7 @@ export default function OrderInfo() {
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1); // 초기 수량을 1로 설정
   const total = quantity * 39800;
-  
+
   const increaseQuantity = () => {
     setQuantity((prevQuantity) => prevQuantity + 1); // 수량 증가
   };
@@ -93,6 +93,9 @@ export default function OrderInfo() {
           </Grid>
         </Grid>
       </Paper>
+      <Button variant="contained" size="large" sx={{ width: "100%", borderRadius: "8px", backgroundColor: 'var(--primary-default)' }}>
+          결제하기
+      </Button>
     </div>
   );
 }
