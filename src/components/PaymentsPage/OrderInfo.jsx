@@ -12,7 +12,8 @@ import { Button } from '@mui/material';
 export default function OrderInfo() {
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1); // 초기 수량을 1로 설정
-
+  const total = quantity * 39800;
+  
   const increaseQuantity = () => {
     setQuantity((prevQuantity) => prevQuantity + 1); // 수량 증가
   };
@@ -74,6 +75,20 @@ export default function OrderInfo() {
               <Button size="small" onClick={increaseQuantity} variant="outlined">
                 +
               </Button>
+            </Grid>
+          </Grid>
+
+          {/* 총 주문 금액 */}
+          <Grid item container spacing={2} sx={{ marginLeft: '5px', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Grid item xs={6}>
+              {/* 왼쪽 아이템 */}
+              <Typography variant="body2" component="div">
+                총 주문 금액
+              </Typography>
+            </Grid>
+            <Grid item xs={6} container justifyContent="flex-end" alignItems="center" sx={{ color: 'var(--secondary-orange-default)', fontWeight: "bold" }}>
+              {/* 오른쪽 아이템 */}
+              {total}원
             </Grid>
           </Grid>
         </Grid>
