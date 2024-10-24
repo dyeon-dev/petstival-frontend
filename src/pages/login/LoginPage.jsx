@@ -6,15 +6,13 @@ import './Login.css';
 const LoginPage = () => {
   return (
     <>
-    <div className="logo">
-    <img src = {PetstivalLogo}/>
-    </div>
-    
      <div className="login-container">
-      
+        <div className="logo">
+          <img src = {PetstivalLogo}/>
+        </div>
       <KakaoLoginButton/>
       <GoogleLoginButton/>
-      <FacebookLoginButton/>
+      {/* <FacebookLoginButton/> */}
       </div>
     </>
    
