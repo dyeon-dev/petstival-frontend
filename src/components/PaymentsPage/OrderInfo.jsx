@@ -7,7 +7,7 @@ import image1 from '../../assets/info_image.png';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Button } from '@mui/material';
-import { useTotalStore } from "../../store/Store";
+import { useTotalStore } from "../../store/useTotalStore";
 
 export default function OrderInfo() {
   const navigate = useNavigate();

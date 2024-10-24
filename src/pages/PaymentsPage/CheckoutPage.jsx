@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import './style.css';
 import { createClient } from '@supabase/supabase-js';
 import { useLocation } from 'react-router-dom';
-import { useTotalStore } from "../../store/Store";
+import { useTotalStore } from "../../store/useTotalStore";
 
 const generateRandomString = () => window.btoa(Math.random()).slice(0, 20);
 const clientKey = import.meta.env.VITE_CLIENT_SECRET_KEY;
