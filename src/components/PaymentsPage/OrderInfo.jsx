@@ -4,15 +4,24 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import ButtonBase from '@mui/material/ButtonBase';
 import image1 from '../../assets/info_image.png';
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@mui/material';
+import { useTotalStore } from "../../store/Store";
 
 export default function OrderInfo() {
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1); // 초기 수량을 1로 설정
-  const total = quantity * 39800;
+  const { total, setTotal } = useTotalStore(); // Zustand 스토어에서 total과 setTotal 가져오기
+
+  const calculateTotal = () => {
+    return quantity * 39800; // 총 금액 계산 (현재 하드 코딩)
+  };
+
+  useEffect(() => {
+    const newTotal = calculateTotal();
+    setTotal(newTotal); // total 값을 Zustand 스토어에 저장
+  }, [quantity, setTotal]); // quantity가 변경될 때마다 total 업데이트
 
   const increaseQuantity = () => {
     setQuantity((prevQuantity) => prevQuantity + 1); // 수량 증가
@@ -23,7 +32,7 @@ export default function OrderInfo() {
   };
 
   const handlePayment = () => {
-    navigate(`/payment?total=${total}`); // /payment URL로 이동하면서 total 값 전달
+    navigate('/payment');
   };
 
   return (
@@ -63,35 +72,27 @@ export default function OrderInfo() {
 
           <Grid item container spacing={2} sx={{ marginLeft: '5px', justifyContent: 'space-between', alignItems: 'center' }}>
             <Grid item xs={6}>
-              {/* 왼쪽 아이템 */}
               <Typography variant="body2" component="div" sx={{ color: 'text.secondary' }}>
                 수량 변경
               </Typography>
             </Grid>
             <Grid item xs={6} container justifyContent="flex-end" alignItems="center">
-              {/* 오른쪽 아이템 */}
-              <Button size="small" onClick={decreaseQuantity} variant="outlined">
-                -
-              </Button>
+              <Button size="small" onClick={decreaseQuantity} variant="outlined">-</Button>
               <Typography variant="body2" component="div" sx={{ margin: '0 10px' }}>
                 {quantity}
               </Typography>
-              <Button size="small" onClick={increaseQuantity} variant="outlined">
-                +
-              </Button>
+              <Button size="small" onClick={increaseQuantity} variant="outlined">+</Button>
             </Grid>
           </Grid>
 
           {/* 총 주문 금액 */}
           <Grid item container spacing={2} sx={{ marginLeft: '5px', justifyContent: 'space-between', alignItems: 'center' }}>
             <Grid item xs={6}>
-              {/* 왼쪽 아이템 */}
               <Typography variant="body2" component="div">
                 총 주문 금액
               </Typography>
             </Grid>
             <Grid item xs={6} container justifyContent="flex-end" alignItems="center" sx={{ color: 'var(--secondary-orange-default)', fontWeight: 'bold' }}>
-              {/* 오른쪽 아이템 */}
               {total}원
             </Grid>
           </Grid>
