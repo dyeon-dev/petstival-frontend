@@ -4,7 +4,6 @@ import { useRef, useState } from 'react';
 function usePetProfileSurvey() {
   const [petProfileData, setPetProfileData] = useState();
   const [step, setStep] = useState(1);
-  const fileInputRef = useRef(null);
 
   /* 신규 반려견 프로필 등록 */
   // 1-1. 반려견 등록 시 프로필을 초기화
@@ -12,7 +11,7 @@ function usePetProfileSurvey() {
     setPetProfileData({
       pet_name: '',
       know_birth: true,
-      birth_date: '',
+      birth_date: null,
       birth_month: 0,
       breed: '',
       gender: '',
@@ -36,6 +35,7 @@ function usePetProfileSurvey() {
     step, // 설문 진행도
     setStep, // 설문 진행도 변경 함수
     petProfileData, // 설문 데이터
+    setPetProfileData, // 설문 데이터 상태 변경 함수
     initProfileData, // 설문 데이터 초기화 함수
   };
 }

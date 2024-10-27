@@ -5,7 +5,7 @@ import { useRef } from 'react';
 import uploadProfileImg from '../../service/uploadProfileImg';
 
 // Create Supabase client
-function UploadProfileButton({ profileUrl, setData }) {
+function UploadProfileButton({ petName, profileUrl, setData }) {
   const fileInputRef = useRef(null);
 
   // 사진 파일 선택 창 표시
@@ -17,10 +17,11 @@ function UploadProfileButton({ profileUrl, setData }) {
   // 첨부된 사진을 Storage에 업로드 후 URL을 상태에 업데이트
   async function fileInputSubmit(event) {
     const targetFile = event.target.files?.[0];
+    const encodedPath = encodeURIComponent(petName);
     console.log(targetFile.type);
 
     if (!targetFile) return;
-    const profileImgUrl = await uploadProfileImg(targetFile);
+    const profileImgUrl = await uploadProfileImg(targetFile, '2');
     setData(profileImgUrl);
   }
 

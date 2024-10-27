@@ -4,6 +4,8 @@ import usePetProfileSurvey from '../../hooks/usePetProfileSurvey';
 import AngleLeftIcon from '../../assets/icons/angle-left.svg?react';
 import Button from '../../components/Common/Button/Button';
 import ProfileSurvey from '../../components/PetProfile/ProfileSurvey';
+import supabase from '../../service/supabaseClient';
+import postPetProfile from '../../service/postPetProfile';
 
 function PetProfileSurveyPage() {
   const { step, setStep, petProfileData, initProfileData, setPetProfileData } = usePetProfileSurvey();
@@ -52,7 +54,7 @@ function PetProfileSurveyPage() {
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.iconContainer}>
-          <AngleLeftIcon onClick={() => setStep(step - 1)}></AngleLeftIcon>
+          <AngleLeftIcon onClick={() => (step === 1 ? null : setStep(step - 1))}></AngleLeftIcon>
         </div>
         <div>반려견 프로필 등록하기</div>
         <div className={styles.progressIndicator}>
@@ -72,11 +74,21 @@ function PetProfileSurveyPage() {
         </div>
       </div>
       <Button
-        children={'다음으로'}
+        children={step === 7 ? '프로필 생성하기' : '다음으로'}
         size="large"
         onClick={() => {
-          setStep(step + 1);
-          console.table(petProfileData);
+          if (step < 7) {
+            setStep(step + 1);
+            return;
+          }
+          if (step === 7) {
+            try {
+              postPetProfile(petProfileData);
+              window.location.href = '/home';
+            } catch (error) {
+              window.alert('반려견 프로필 생성에 실패했어요. 다시 시도해주세요.'); // TODO 모달로 변경, 예외처리 로직 훅에 넣기
+            }
+          }
         }}
       ></Button>
     </div>

@@ -2,6 +2,7 @@ import styles from './ProfileSurvey.module.css';
 import Input from '../Common/input/Input';
 import RadioGroup from './RadioGroup';
 import RadioButton from './RadioButton';
+import Button from '../Common/Button/Button';
 import UploadProfileButton from './UploadProfileButton';
 
 function ProfileSurvey({ step, petProfileData, setPetProfileData }) {
@@ -50,8 +51,28 @@ function ProfileSurvey({ step, petProfileData, setPetProfileData }) {
           ) : (
             <div>
               {/* 3-2. 대략적인 개월수만 알고 있는 경우 */}
-              <Input type="number" inputmode="numeric" adornment="년" placeholder="0" />
-              <Input type="number" inputmode="numeric" adornment="개월" placeholder="0" />
+              <Input
+                type="number"
+                inputmode="numeric"
+                adornment="년"
+                placeholder="0"
+                setData={(event) =>
+                  setPetProfileData((prev) => {
+                    return { ...prev, birth_month: prev.birth_month + event.target.value * 12 };
+                  })
+                }
+              />
+              <Input
+                type="number"
+                inputmode="numeric"
+                adornment="개월"
+                placeholder="0"
+                setData={(event) =>
+                  setPetProfileData((prev) => {
+                    return { ...prev, birth_month: prev.birth_month + event.target.value };
+                  })
+                }
+              />
             </div>
           )}
         </>
@@ -89,6 +110,7 @@ function ProfileSurvey({ step, petProfileData, setPetProfileData }) {
       {/* 7. 프로필 사진 등록 */}
       {step === 7 && (
         <UploadProfileButton
+          petName={petProfileData.pet_name}
           profileUrl={petProfileData.profile_img_url}
           setData={(data) =>
             setPetProfileData((prev) => {
