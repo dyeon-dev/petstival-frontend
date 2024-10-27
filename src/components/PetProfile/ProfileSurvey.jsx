@@ -87,7 +87,16 @@ function ProfileSurvey({ step, petProfileData, setPetProfileData }) {
       {/* 6. 몸무게 입력 */}
       {step === 6 && <Input type="number" inputmode="decimal" adornment="Kg" placeholder="0" />}
       {/* 7. 프로필 사진 등록 */}
-      {step === 7 && <UploadProfileButton profileUrl={petProfileData.profile_img_url} />}
+      {step === 7 && (
+        <UploadProfileButton
+          profileUrl={petProfileData.profile_img_url}
+          setData={(data) =>
+            setPetProfileData((prev) => {
+              return { ...prev, profile_img_url: data };
+            })
+          }
+        />
+      )}
     </>
   );
 }

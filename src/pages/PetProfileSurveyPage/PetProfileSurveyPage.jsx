@@ -6,7 +6,7 @@ import Button from '../../components/Common/Button/Button';
 import ProfileSurvey from '../../components/PetProfile/ProfileSurvey';
 
 function PetProfileSurveyPage() {
-  const { step, setStep, petProfileData, initProfileData, setPetProfileData, uploadProfileImg } = usePetProfileSurvey();
+  const { step, setStep, petProfileData, initProfileData, setPetProfileData } = usePetProfileSurvey();
 
   useEffect(() => {
     // 화면 렌더링 시 프로필 정보 초기화
@@ -68,7 +68,6 @@ function PetProfileSurveyPage() {
             step={step} // 설문 단계 상태
             petProfileData={petProfileData} // 반려견 프로필 상태
             setPetProfileData={setPetProfileData} // 반려견 프로필 상태 변경 함수
-            uploadProfileImg={uploadProfileImg} // 반려견 프로필 이미지 업로드 함수
           ></ProfileSurvey>
         </div>
       </div>
