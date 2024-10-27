@@ -1,15 +1,16 @@
-import { useEffect, useRef, useState } from "react";
-import { loadTossPayments, ANONYMOUS } from "@tosspayments/tosspayments-sdk";
+import { useEffect, useRef, useState } from 'react';
+import { loadTossPayments, ANONYMOUS } from '@tosspayments/tosspayments-sdk';
 import { v4 as uuidv4 } from 'uuid';
 import './style.css';
 import { createClient } from '@supabase/supabase-js';
 import { useLocation } from 'react-router-dom';
-import { useTotalStore } from "../../store/useTotalStore";
+import { useTotalStore } from '../../store/useTotalStore';
+import supabase from '../../service/supabaseClient';
 
 const generateRandomString = () => window.btoa(Math.random()).slice(0, 20);
 const clientKey = import.meta.env.VITE_CLIENT_SECRET_KEY;
 
-const supabase = createClient(import.meta.env.VITE_SUPABASE_API_URL, import.meta.env.VITE_SUPABASE_API_KEY);
+// const supabase = createClient(import.meta.env.VITE_SUPABASE_API_URL, import.meta.env.VITE_SUPABASE_API_KEY);
 
 function CheckoutPage() {
   const [ready, setReady] = useState(false);
@@ -19,12 +20,12 @@ function CheckoutPage() {
 
   // ------ 주문의 결제 금액 설정 ------
   const [amount, setAmount] = useState({
-    currency: "KRW",
+    currency: 'KRW',
     value: total || 50000, // total 값이 없으면 기본값 설정
   });
 
   useEffect(() => {
-    setAmount(prevAmount => ({
+    setAmount((prevAmount) => ({
       ...prevAmount,
       value: total, // total 값을 value에 적용
     }));
@@ -35,7 +36,7 @@ function CheckoutPage() {
     const dataToPost = {
       orderId: orderId,
       amount: amountValue,
-      order_id: "d4c8b0f7-62f4-4a63-90e7-5af0a5d9e4c6",
+      order_id: 'd4c8b0f7-62f4-4a63-90e7-5af0a5d9e4c6',
     };
     // payment_info table에 정보를 업데이트
     const { data, error } = await supabase.from('payment').upsert([dataToPost]);
@@ -54,9 +55,9 @@ function CheckoutPage() {
         const widgets = tossPayments.widgets({ customerKey: customerKey });
         setWidgets(widgets);
       } catch (error) {
-        console.error("Error fetching payment:", error);
+        console.error('Error fetching payment:', error);
       }
-    } 
+    }
 
     fetchPaymentWidgets();
   }, [clientKey]);
@@ -70,12 +71,12 @@ function CheckoutPage() {
 
       await Promise.all([
         widgets.renderPaymentMethods({
-          selector: "#payment-method",
-          variantKey: "DEFAULT",
+          selector: '#payment-method',
+          variantKey: 'DEFAULT',
         }),
         widgets.renderAgreement({
-          selector: "#agreement",
-          variantKey: "AGREEMENT",
+          selector: '#agreement',
+          variantKey: 'AGREEMENT',
         }),
       ]);
 
@@ -100,12 +101,12 @@ function CheckoutPage() {
 
                 await widgets?.requestPayment({
                   orderId: orderId,
-                  orderName: "토스 티셔츠 외 2건",
-                  customerName: "김토스",
-                  customerEmail: "customer123@gmail.com",
-                  customerMobilePhone: "01012341234",
-                  successUrl: window.location.origin + "/success" + window.location.search,
-                  failUrl: window.location.origin + "/fail" + window.location.search
+                  orderName: '토스 티셔츠 외 2건',
+                  customerName: '김토스',
+                  customerEmail: 'customer123@gmail.com',
+                  customerMobilePhone: '01012341234',
+                  successUrl: window.location.origin + '/success' + window.location.search,
+                  failUrl: window.location.origin + '/fail' + window.location.search,
                 });
               } catch (error) {
                 // TODO: 에러 처리
