@@ -1,4 +1,5 @@
 import HomePage from '../pages/HomePage/HomePage';
+import PetstivalListPage from '../pages/PetstivalListPage/PetstivalListPage';
 import LoginPage from '../pages/login/LoginPage';
 import CheckoutPage from '../pages/PaymentsPage/CheckoutPage';
 import SuccessPage from '../pages/PaymentsPage/SuccessPage';
@@ -12,13 +13,17 @@ import { element } from 'prop-types';
 
 // 페이지 URL 및 렌더링할 페이지 컴포넌트 정보를 저장하는 객체
 export const Screens = {
+  Login: {
+    path: '/login',
+    element: <LoginPage />,
+  },
   Home: {
     path: '/',
     element: <HomePage />,
   },
-  Login: {
-    path: '/login',
-    element: <LoginPage />,
+  PetstivalList: {
+    path: '/petstival',
+    element: <PetstivalListPage />,
   },
   Checkout: {
     path: '/payment',
