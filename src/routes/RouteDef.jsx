@@ -7,8 +7,7 @@ import OrderPage from '../pages/MyPage/OrderPage/OrderPage';
 import OrderDetailPage from '../pages/MyPage/OrderDetailPage/OrderDetailPage';
 import PaymentsPage from '../pages/PaymentsPage/PaymentsPage';
 import PetProfileSurveyPage from '../pages/PetProfileSurveyPage/PetProfileSurveyPage';
-import ApiPage from '../pages/api/ApiPage';
-import { element } from 'prop-types';
+import OauthPage from '../pages/Oauth/OauthPage';
 
 // 페이지 URL 및 렌더링할 페이지 컴포넌트 정보를 저장하는 객체
 export const Screens = {
@@ -44,9 +43,9 @@ export const Screens = {
     path: '/survey',
     element: <PetProfileSurveyPage />,
   },
-  ApiPage: { // 새 페이지 추가
-    path: '/ApiPage',
-    element: <ApiPage />,
+  Oauth: {
+    path: '/oauth',
+    element: <OauthPage />,
   },
   // 페이지를 추가 시 아래에 새로운 페이지 객체 작성
   // Survey: {
