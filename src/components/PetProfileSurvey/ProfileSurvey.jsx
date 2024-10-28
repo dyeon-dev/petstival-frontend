@@ -2,7 +2,6 @@ import styles from './ProfileSurvey.module.css';
 import Input from '../Common/input/Input';
 import RadioGroup from './RadioGroup';
 import RadioButton from './RadioButton';
-import Button from '../Common/Button/Button';
 import UploadProfileButton from './UploadProfileButton';
 
 function ProfileSurvey({ step, petProfileData, setPetProfileData }) {
