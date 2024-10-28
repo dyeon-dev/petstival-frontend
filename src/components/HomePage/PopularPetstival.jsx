@@ -52,7 +52,7 @@ export default function PopularPetstival() {
   return (
     <>
       <Info>
-        <h3>최근 인기 있는 펫스티벌</h3>
+        <h2>최근 인기 있는 펫스티벌</h2>
         <Detail onClick={() => navigate('/petstival')}>자세히 보기 &gt;</Detail>
       </Info>
       <Carousel>
