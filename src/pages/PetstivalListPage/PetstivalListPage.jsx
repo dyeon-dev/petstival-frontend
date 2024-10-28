@@ -24,8 +24,11 @@ export default function PetstivalListPage() {
   // 펫스티벌 데이터 가져오기
   const getData = async () => {
     const { data } = await supabase.from('festivals').select();
-    console.table(data);
-    setData(data);
+
+    const sortedData = data.sort((a, b) => new Date(b.startdate) - new Date(a.startdate));
+
+    console.table(sortedData);
+    setData(sortedData);
     setLoading(false);
   };
 
