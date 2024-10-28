@@ -10,3 +10,8 @@
 
   background-color: var(--background);
 }
+
+.no-height {
+  height: auto;
+  background-color: var(--background);
+}
