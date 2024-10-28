@@ -10,6 +10,7 @@ import ImageListItemBar from '@mui/material/ImageListItemBar';
 import Chip from '@mui/material/Chip';
 import { useNavigate } from 'react-router-dom';
 import supabase from '../../service/supabaseClient';
+import noImage from '../../assets/images/no-image.jpg';
 
 const Wrapper = styled.section`
   margin-left: 24px;
@@ -68,6 +69,7 @@ export default function PetstivalListPage() {
           <ImageList cols={1}>
             {data.map((item) => {
               const { label, color } = getStatus(item.startdate, item.enddate);
+              const imageSrc = item.firstimage || noImage;
 
               return (
                 <Paper
@@ -83,9 +85,9 @@ export default function PetstivalListPage() {
                 >
                   <ImageListItem onClick={() => navigate(`/petstival/${item.id}`)} style={{ cursor: 'pointer' }}>
                     <img
-                      srcSet={`${item.firstimage}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                      src={`${item.firstimage}?w=248&fit=crop&auto=format`}
-                      alt={item.title}
+                      srcSet={`${imageSrc}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                      src={`${imageSrc}?w=248&fit=crop&auto=format`}
+                      alt={item.title || 'No image available'}
                       loading="lazy"
                     />
                     <ImageListItemBar
