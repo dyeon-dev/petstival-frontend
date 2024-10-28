@@ -38,3 +38,10 @@
   font-weight: 500;
   color: var(--gray-60);
 }
+
+.profileImg {
+  width: 80px;
+  height: 80px;
+  border-radius: 80px;
+  object-fit: cover;
+}
