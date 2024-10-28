@@ -7,6 +7,7 @@ import OrderPage from '../pages/MyPage/OrderPage/OrderPage';
 import OrderDetailPage from '../pages/MyPage/OrderDetailPage/OrderDetailPage';
 import PaymentsPage from '../pages/PaymentsPage/PaymentsPage';
 import PetProfileSurveyPage from '../pages/PetProfileSurveyPage/PetProfileSurveyPage';
+import OauthPage from '../pages/Oauth/OauthPage';
 import PetPage from '../pages/PetPage/PetPage';
 import PetProfilePage from '../pages/PetPage/PetProfilePage/PetProfilePage';
 
@@ -43,6 +44,10 @@ export const Screens = {
   PetProfileSurvey: {
     path: '/survey',
     element: <PetProfileSurveyPage />,
+  },
+  Oauth: {
+    path: '/oauth',
+    element: <OauthPage />,
   },
   Pet: {
     path: '/pet',

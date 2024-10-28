@@ -9,10 +9,10 @@ export const signInWithProvider = async (provider) => {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
     options: {
+      redirectTo: 'http://localhost:5173/oauth',
       queryParams: {
-        access_type: 'offline',
-        prompt: 'consent',
-        redirect: 'http://localhost:5173/home',
+        access_type: 'offline', // 리프레시 토큰 발급
+        prompt: 'consent', // 소셜 로그인 시 항상 권한 요청 화면 표시
       },
     },
   });
