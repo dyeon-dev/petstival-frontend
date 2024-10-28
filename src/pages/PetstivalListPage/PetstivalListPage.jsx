@@ -8,6 +8,7 @@ import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import Chip from '@mui/material/Chip';
+import { useNavigate } from 'react-router-dom';
 import supabase from '../../service/supabaseClient';
 
 const Wrapper = styled.section`
@@ -19,6 +20,7 @@ export default function PetstivalListPage() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   // 펫스티벌 데이터 가져오기 및 날짜별 정렬
   const getData = async () => {
@@ -64,7 +66,7 @@ export default function PetstivalListPage() {
                     boxShadow: '0px 0px 8px 0px rgba(51, 51, 51, 0.08)',
                   }}
                 >
-                  <ImageListItem>
+                  <ImageListItem onClick={() => navigate(`/petstival/${item.id}`)} style={{ cursor: 'pointer' }}>
                     <img
                       srcSet={`${item.firstimage}?w=248&fit=crop&auto=format&dpr=2 2x`}
                       src={`${item.firstimage}?w=248&fit=crop&auto=format`}

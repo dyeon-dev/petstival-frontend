@@ -1,5 +1,6 @@
 import HomePage from '../pages/HomePage/HomePage';
 import PetstivalListPage from '../pages/PetstivalListPage/PetstivalListPage';
+import PetstivalDetailPage from '../pages/PetstivalListPage/PetstivalDetailPage/PetstivalDetailPage';
 import LoginPage from '../pages/login/LoginPage';
 import CheckoutPage from '../pages/PaymentsPage/CheckoutPage';
 import SuccessPage from '../pages/PaymentsPage/SuccessPage';
@@ -23,6 +24,10 @@ export const Screens = {
   PetstivalList: {
     path: '/petstival',
     element: <PetstivalListPage />,
+  },
+  PetstivalDetail: {
+    path: '/petstival/:id',
+    element: <PetstivalDetailPage />,
   },
   Checkout: {
     path: '/payment',
