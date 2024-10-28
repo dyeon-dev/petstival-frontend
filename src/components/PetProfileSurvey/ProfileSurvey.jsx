@@ -1,5 +1,5 @@
 import styles from './ProfileSurvey.module.css';
-import Input from '../Common/input/Input';
+import Input from '../Common/Input/Input';
 import RadioGroup from './RadioGroup';
 import RadioButton from './RadioButton';
 import UploadProfileButton from './UploadProfileButton';
@@ -102,16 +102,7 @@ function ProfileSurvey({ step, petProfileData, setPetProfileData }) {
             }}
             size="Medium"
           />
-          <RadioButton
-            title="중성화 했어요."
-            value={petProfileData.neutered}
-            selected={petProfileData.neutered}
-            setData={() =>
-              setPetProfileData((prev) => {
-                return { ...prev, neutered: !prev.neutered };
-              })
-            }
-          />
+          <RadioButton title="중성화 했어요." value={petProfileData.neutered} selected={petProfileData.neutered} setData={null} />
         </div>
       )}
       {/* 6. 몸무게 입력 */}

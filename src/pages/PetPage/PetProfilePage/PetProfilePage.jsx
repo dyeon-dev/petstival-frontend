@@ -7,11 +7,12 @@ function PetProfilePage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { pet_id } = useParams();
+  const { petId } = useParams();
   const { petData } = location.state || {};
+  console.log(petId);
 
   function handleClickEditProfile() {
-    navigate(`/pet/${pet_id}/edit`, { state: { petData: petData } });
+    navigate(`/pet/${petId}/edit`, { state: { petData: petData } });
   }
 
   return (
