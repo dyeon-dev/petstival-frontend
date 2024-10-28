@@ -74,13 +74,16 @@ type(영문): subject(한글)
 ```
 
 ### type 종류
-```
-feat : 새로운 기능 추가
-fix : 버그 수정
-docs : 문서 수정
-style : 코드 포맷팅, 세미콜론 누락, 코드 변경이 없는 경우
-refactor : 코드 리펙토링
-test : 테스트 코드, 리펙토링 테스트 코드 추가
-chore : 빌드 업무 수정, 패키지 매니저 수정
-```
+| 커밋 태그 | 설명                              | 예시                          |
+|-----------|-----------------------------------|-------------------------------|
+| feat      | 새로운 기능 추가                   | feat: …                       |
+| fix       | 버그 수정                          | fix: …                        |
+| style     | HTML, CSS로 UI 구현 시 작성       | style: 로그인 페이지 UI 구현    |
+| refactor  | 코드 리팩토링                      | refactor: update login logic  |
+| docs      | 문서 (README, 템플릿) 수정         | docs: …                       |
+| test      | 테스트 코드                        | test: …                       |
+| build     | 빌드 관련 파일 수정               | build: …                      |
+| ci        | CI 설정 파일 수정                 | ci: …                         |
+| pref      | 성능 개선                          | pref: …                       |
+| chore     | 의존성 추가 등 기타 작업           | chore: …                      |
 
