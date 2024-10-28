@@ -3,9 +3,8 @@ import styles from './PetProfileSurveyPage.module.css';
 import usePetProfileSurvey from '../../hooks/usePetProfileSurvey';
 import AngleLeftIcon from '../../assets/icons/angle-left.svg?react';
 import Button from '../../components/Common/Button/Button';
-import ProfileSurvey from '../../components/PetProfile/ProfileSurvey';
-import supabase from '../../service/supabaseClient';
-import postPetProfile from '../../service/postPetProfile';
+import ProfileSurvey from '../../components/PetProfileSurvey/ProfileSurvey';
+import insertPetProfile from '../../services/insertPetProfile';
 
 function PetProfileSurveyPage() {
   const { step, setStep, petProfileData, initProfileData, setPetProfileData } = usePetProfileSurvey();
@@ -83,7 +82,7 @@ function PetProfileSurveyPage() {
           }
           if (step === 7) {
             try {
-              postPetProfile(petProfileData);
+              insertPetProfile(petProfileData);
               window.location.href = '/home';
             } catch (error) {
               window.alert('반려견 프로필 생성에 실패했어요. 다시 시도해주세요.'); // TODO 모달로 변경, 예외처리 로직 훅에 넣기

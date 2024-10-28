@@ -1,4 +1,4 @@
-import supabase from '../service/supabaseClient';
+import supabase from '../services/supabaseClient';
 
 /**
  * 소셜 로그인 함수

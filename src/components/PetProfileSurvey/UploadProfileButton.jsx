@@ -2,7 +2,7 @@ import PetProfileIcon from '../../assets/icons/profile-pet.svg?react';
 import CameraIcon from '../../assets/icons/camera.svg?react';
 import styles from './UploadProfileButton.module.css';
 import { useRef } from 'react';
-import uploadProfileImg from '../../service/uploadProfileImg';
+import uploadProfileImg from '../../services/uploadProfileImg';
 
 // Create Supabase client
 function UploadProfileButton({ petName, profileUrl, setData }) {

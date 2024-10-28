@@ -1,6 +1,6 @@
 import supabase from './supabaseClient';
 
-async function postPetProfile(data) {
+async function insertPetProfile(data) {
   console.table(data);
   const {
     data: { user },
@@ -26,4 +26,4 @@ async function postPetProfile(data) {
   }
 }
 
-export default postPetProfile;
+export default insertPetProfile;
