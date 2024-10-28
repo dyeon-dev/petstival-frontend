@@ -3,8 +3,7 @@ import styles from './PetProfileSurveyPage.module.css';
 import usePetProfileSurvey from '../../hooks/usePetProfileSurvey';
 import AngleLeftIcon from '../../assets/icons/angle-left.svg?react';
 import Button from '../../components/Common/Button/Button';
-import ProfileSurvey from '../../components/PetProfile/ProfileSurvey';
-import supabase from '../../service/supabaseClient';
+import ProfileSurvey from '../../components/PetProfileSurvey/ProfileSurvey';
 import postPetProfile from '../../service/postPetProfile';
 
 function PetProfileSurveyPage() {

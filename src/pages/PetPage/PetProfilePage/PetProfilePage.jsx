@@ -1,14 +1,15 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styles from './PetProfilePage.module.css';
 import DetailBar from '../../../stories/DetailBar';
-import Navbar from '../../../components/Navbar/Navbar';
 import PetProfileCard from '../../../components/Pet/PetProfileCard';
 
 function PetProfilePage() {
   const navigate = useNavigate();
+  const { petId } = useParams();
+  console.log(petId);
 
   function handleClickEditProfile() {
-    navigate(`/pet/${pet_id}/edit`);
+    navigate(`/pet/${petId}/edit`);
   }
 
   return (
