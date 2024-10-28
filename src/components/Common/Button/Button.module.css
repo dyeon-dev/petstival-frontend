@@ -1,0 +1,21 @@
+.btn {
+  width: calc(100% - 64px);
+  height: 64px;
+  margin: 0 32px;
+  position: absolute;
+  bottom: 48px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  background-color: var(--primary-default);
+  color: var(--white);
+}
+
+.btn:active {
+  background-color: var(--primary-darken);
+}
+
+.btn:disabled {
+  background-color: var(--gray-20);
+  color: var(--gray-60);
+}
