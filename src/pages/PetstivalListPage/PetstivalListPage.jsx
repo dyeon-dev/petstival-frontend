@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
+import Chip from '@mui/material/Chip';
 
 const Wrapper = styled.section`
   margin-left: 24px;
@@ -37,10 +38,16 @@ export default function PetstivalListPage() {
                   alt={item.title}
                   loading="lazy"
                 />
-                <ImageListItemBar 
-                  title={<Typography variant="h6">{item.title}</Typography>} 
+                
+                <ImageListItemBar
+                  title={
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <Typography variant="h6" sx={{ marginRight: '8px' }}>{item.title}</Typography>
+                      <Chip label="진행중" color="primary" variant="outlined" />
+                    </div>
+                  }
                   subtitle={<Typography sx={{ marginTop: '4px' }}>{item.date}</Typography>}
-                  position="below" 
+                  position="below"
                 />
               </ImageListItem>
             </Paper>
