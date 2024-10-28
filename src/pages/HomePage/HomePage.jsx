@@ -22,7 +22,7 @@ function HomePage() {
         <RecommendCommerce />
         <Category />
       </Wrapper>
-      <Navbar selectedMenu="MyPage" />
+      <Navbar selectedMenu="Home" />
     </div>
   );
 }
