@@ -42,6 +42,21 @@ export default function PetstivalListPage() {
     getData();
   }, []);
 
+  const today = new Date();
+
+  const getStatus = (startDate, endDate) => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    if (start > today) {
+      return { label: '진행예정', color: '#FF866B' };
+    } else if (start <= today && end >= today) {
+      return { label: '진행중', color: 'primary' };
+    } else {
+      return { label: '진행완료', color: '#838283' };
+    }
+  };
+
   return (
     <div className="no-height">
       <Header />
@@ -52,7 +67,7 @@ export default function PetstivalListPage() {
         ) : (
           <ImageList cols={1}>
             {data.map((item) => {
-              const isCompleted = new Date(item.enddate) < new Date();
+              const { label, color } = getStatus(item.startdate, item.enddate);
 
               return (
                 <Paper
@@ -80,13 +95,20 @@ export default function PetstivalListPage() {
                             {item.title}
                           </Typography>
                           <Chip
-                            label={isCompleted ? "진행완료" : "진행중"}
-                            color={isCompleted ? "success" : "primary"}
+                            label={label}
+                            sx={{
+                              color: color === '#FF866B' ? '#FF866B' : undefined,
+                              borderColor: color === '#FF866B' ? '#FF866B' : undefined,
+                            }}
                             variant="outlined"
                           />
                         </div>
                       }
-                      subtitle={<Typography sx={{ marginTop: '4px' }}>{item.startdate} - {item.enddate}</Typography>}
+                      subtitle={
+                        <Typography sx={{ marginTop: '4px' }}>
+                          {item.startdate} ~ {item.enddate}
+                        </Typography>
+                      }
                       position="below"
                     />
                   </ImageListItem>
