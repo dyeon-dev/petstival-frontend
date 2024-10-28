@@ -12,6 +12,7 @@ export const signInWithProvider = async (provider) => {
       queryParams: {
         access_type: 'offline',
         prompt: 'consent',
+        redirect: 'http://localhost:5173/home',
       },
     },
   });
