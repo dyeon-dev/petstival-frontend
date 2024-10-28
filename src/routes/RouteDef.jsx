@@ -1,3 +1,6 @@
+import HomePage from '../pages/HomePage/HomePage';
+import PetstivalListPage from '../pages/PetstivalListPage/PetstivalListPage';
+import PetstivalDetailPage from '../pages/PetstivalListPage/PetstivalDetailPage/PetstivalDetailPage';
 import LoginPage from '../pages/login/LoginPage';
 import CheckoutPage from '../pages/PaymentsPage/CheckoutPage';
 import SuccessPage from '../pages/PaymentsPage/SuccessPage';
@@ -8,12 +11,23 @@ import OrderDetailPage from '../pages/MyPage/OrderDetailPage/OrderDetailPage';
 import PaymentsPage from '../pages/PaymentsPage/PaymentsPage';
 import PetProfileSurveyPage from '../pages/PetProfileSurveyPage/PetProfileSurveyPage';
 import OauthPage from '../pages/Oauth/OauthPage';
-
 // 페이지 URL 및 렌더링할 페이지 컴포넌트 정보를 저장하는 객체
 export const Screens = {
   Login: {
     path: '/login',
     element: <LoginPage />,
+  },
+  Home: {
+    path: '/',
+    element: <HomePage />,
+  },
+  PetstivalList: {
+    path: '/petstival',
+    element: <PetstivalListPage />,
+  },
+  PetstivalDetail: {
+    path: '/petstival/:id',
+    element: <PetstivalDetailPage />,
   },
   Checkout: {
     path: '/payment',
