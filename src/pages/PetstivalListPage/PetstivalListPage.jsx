@@ -16,20 +16,24 @@ const Wrapper = styled.section`
 `;
 
 export default function PetstivalListPage() {
-  const [data, setData] = useState(false);
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [message, setMessage] = useState('');
 
-  // 펫스티벌 데이터 가져오기
+  // 펫스티벌 데이터 가져오기 및 날짜별 정렬
   const getData = async () => {
-    const { data } = await supabase.from('festivals').select();
+    try {
+      const { data, error } = await supabase.from('festivals').select();
+      if (error) throw error;
 
-    const sortedData = data.sort((a, b) => new Date(b.startdate) - new Date(a.startdate));
-
-    console.table(sortedData);
-    setData(sortedData);
-    setLoading(false);
+      const sortedData = data.sort((a, b) => new Date(b.startdate) - new Date(a.startdate));
+      setData(sortedData);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setError('Error fetching data');
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -41,46 +45,52 @@ export default function PetstivalListPage() {
       <Header />
       <Wrapper>
         {error && <p style={{ color: 'red' }}>오류: {error}</p>}
-        {message && <p style={{ color: 'green' }}>{message}</p>}
         {loading ? (
           '로딩 중...'
         ) : (
           <ImageList cols={1}>
-            {data.map((item) => (
-              <Paper
-                key={item.id}
-                sx={(theme) => ({
-                  p: 2,
-                  marginBottom: '15px',
-                  flexGrow: 1,
-                  backgroundColor: '#fff',
-                  borderRadius: '8px',
-                  boxShadow: '0px 0px 8px 0px rgba(51, 51, 51, 0.08)',
-                })}
-              >
-                <ImageListItem>
-                  <img
-                    srcSet={`${item.firstimage}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                    src={`${item.firstimage}?w=248&fit=crop&auto=format`}
-                    alt={item.title}
-                    loading="lazy"
-                  />
+            {data.map((item) => {
+              const isCompleted = new Date(item.enddate) < new Date();
 
-                  <ImageListItemBar
-                    title={
-                      <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <Typography variant="h6" sx={{ marginRight: '8px' }}>
-                          {item.title}
-                        </Typography>
-                        <Chip label="진행중" color="primary" variant="outlined" />
-                      </div>
-                    }
-                    subtitle={<Typography sx={{ marginTop: '4px' }}>{item.startdate} - {item.enddate}</Typography>}
-                    position="below"
-                  />
-                </ImageListItem>
-              </Paper>
-            ))}
+              return (
+                <Paper
+                  key={item.id}
+                  sx={{
+                    p: 2,
+                    marginBottom: '15px',
+                    flexGrow: 1,
+                    backgroundColor: '#fff',
+                    borderRadius: '8px',
+                    boxShadow: '0px 0px 8px 0px rgba(51, 51, 51, 0.08)',
+                  }}
+                >
+                  <ImageListItem>
+                    <img
+                      srcSet={`${item.firstimage}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                      src={`${item.firstimage}?w=248&fit=crop&auto=format`}
+                      alt={item.title}
+                      loading="lazy"
+                    />
+                    <ImageListItemBar
+                      title={
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                          <Typography variant="h6" sx={{ marginRight: '8px' }}>
+                            {item.title}
+                          </Typography>
+                          <Chip
+                            label={isCompleted ? "진행완료" : "진행중"}
+                            color={isCompleted ? "success" : "primary"}
+                            variant="outlined"
+                          />
+                        </div>
+                      }
+                      subtitle={<Typography sx={{ marginTop: '4px' }}>{item.startdate} - {item.enddate}</Typography>}
+                      position="below"
+                    />
+                  </ImageListItem>
+                </Paper>
+              );
+            })}
           </ImageList>
         )}
       </Wrapper>
