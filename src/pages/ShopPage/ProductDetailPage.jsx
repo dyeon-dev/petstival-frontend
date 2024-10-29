@@ -20,7 +20,7 @@ const ProductDetailPage = () => {
   };
 
   const handleBuyNow = () => {
-    alert('구매하기 버튼이 클릭되었습니다!'); // 다연님이 만든 페이지로 이동할 수 있게끔 로직 수정
+    navigate('/payment')
   };
 
   return (
