@@ -2,6 +2,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styles from './PetProfilePage.module.css';
 import DetailBar from '../../../stories/DetailBar';
 import PetProfileCard from '../../../components/Pet/PetProfileCard';
+import ButtonMedium from '../../../components/Common/Button/ButtonMedium';
 
 function PetProfilePage() {
   const navigate = useNavigate();
@@ -27,6 +28,11 @@ function PetProfilePage() {
         </div>
         <div className={`${styles.cardWrapper}`}>
           <PetProfileCard petData={petData} />
+        </div>
+        {/* NOTE Medium 버튼 컴포넌트 예시 */}
+        <div className={`${styles.buttonMediumWrapper}`}>
+          <ButtonMedium children={'장바구니 담기'} sub={true} onClick={null} />
+          <ButtonMedium children={'구매하기'} sub={false} onClick={null} />
         </div>
       </div>
     </div>
