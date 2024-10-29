@@ -9,7 +9,7 @@ import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import Chip from '@mui/material/Chip';
 import { useNavigate } from 'react-router-dom';
-import supabase from '../../service/supabaseClient';
+import supabase from '../../services/supabaseClient';
 import noImage from '../../assets/images/no-image.jpg';
 
 const Wrapper = styled.section`

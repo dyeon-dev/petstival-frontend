@@ -1,5 +1,5 @@
 import FacebookLoginBtn from '../../assets/images/login-button/facebook.svg';
-import { signInWithProvider } from '../../hooks/useLogin.js';
+import { signInWithProvider } from '../../hooks/useAuth';
 import './LoginButtons.css';
 const FacebookLoginButton = () => {
     const handleFacebookLogin = async() =>{
