@@ -8,10 +8,6 @@
   /* 모바일 기기일 경우 위아래 브라우저 UI 영역을 제외한 화면 높이 사용 */
   height: 100svh;
 
-  /* 오버플로우 설정 */
-  overflow-y: auto;
-  overflow-x: hidden;
-  
   background-color: var(--background);
 }
 
