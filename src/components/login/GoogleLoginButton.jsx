@@ -1,7 +1,7 @@
 import GoogleLoginBtn from '../../assets/images/login-button/google.svg?react'
 import { signInWithProvider } from '../../hooks/useAuth';
 import './LoginButtons.css';
-import { useAuthStore } from '../../store/useAuthStore';
+import { useAuthStore } from '../../stores/useAuthStore';
 
 const GoogleLoginButton = () => {
   const setUser = useAuthStore(state => state.setUser); // Zustand 스토어에서 setUser 가져오기

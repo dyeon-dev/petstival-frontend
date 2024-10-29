@@ -1,7 +1,7 @@
 // src/hooks/useAuth.js
-import supabase from '../service/supabaseClient';
-import { useAuthStore } from '../store/useAuthStore';
-import supabaseAdmin from '../service/supabaseAdminClient';
+import supabase from '../services/supabaseClient';
+import { useAuthStore } from '../stores/useAuthStore';
+import supabaseAdmin from '../services/supabaseAdminClient';
 
 /**
  * 소셜 로그인 함수

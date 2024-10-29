@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import ButtonBase from '@mui/material/ButtonBase';
-import {useAuthStore} from '../../store/useAuthStore';
+import {useAuthStore} from '../../stores/useAuthStore';
 import {useNavigate} from 'react-router-dom';
 export default function MyProfile() {
   const { user } = useAuthStore();

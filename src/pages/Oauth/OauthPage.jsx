@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../../store/useAuthStore'; // useAuthStore import
-import supabase from '../../service/supabaseClient'; // Supabase 클라이언트 import
+import { useAuthStore } from '../../stores/useAuthStore'; // useAuthStore import
+import supabase from '../../services/supabaseClient'; // Supabase 클라이언트 import
 
 function OauthPage() {
   const location = useLocation();

@@ -1,7 +1,7 @@
 import KakaoLoginBtn from '../../assets/images/login-button/kakaotalk.svg?react';
 import { signInWithProvider } from '../../hooks/useAuth';
 import './LoginButtons.css';
-import { useAuthStore } from '../../store/useAuthStore';
+import { useAuthStore } from '../../stores/useAuthStore';
 const KakaoLoginButton = () => {
     
     const handleKakaoLogin = async() =>{
