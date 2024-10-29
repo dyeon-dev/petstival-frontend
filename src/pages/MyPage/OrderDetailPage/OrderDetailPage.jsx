@@ -25,7 +25,7 @@ function OrderDetailPage() {
         <MyOrder />
         <DeliveryInfo />
       </Wrapper>
-      <Navbar />
+      <Navbar selectedMenu="MyPage" />
     </>
   );
 }
