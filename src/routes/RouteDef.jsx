@@ -18,7 +18,7 @@ export const Screens = {
     element: <LoginPage />,
   },
   Home: {
-    path: '/',
+    path: '/home',
     element: <HomePage />,
   },
   PetstivalList: {

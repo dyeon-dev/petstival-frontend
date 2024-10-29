@@ -97,7 +97,7 @@ function OrderPage() {
           </div>
         ))}
       </Wrapper>
-      <Navbar />
+      <Navbar selectedMenu="MyPage" />
     </>
   );
 }

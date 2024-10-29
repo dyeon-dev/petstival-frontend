@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Header from '../../components/Header/Header';
+import DetailBar from "../../stories/DetailBar";
 import Navbar from '../../components/Navbar/Navbar';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
@@ -60,7 +60,7 @@ export default function PetstivalListPage() {
 
   return (
     <div className="no-height">
-      <Header />
+      <DetailBar title="펫스티벌 모아보기"/>
       <Wrapper>
         {error && <p style={{ color: 'red' }}>오류: {error}</p>}
         {loading ? (
@@ -89,6 +89,7 @@ export default function PetstivalListPage() {
                       src={`${imageSrc}?w=248&fit=crop&auto=format`}
                       alt={item.title || 'No image available'}
                       loading="lazy"
+                    //  style={{ width: '420px', height: '150px', objectFit: 'cover' }}
                     />
                     <ImageListItemBar
                       title={
@@ -120,7 +121,7 @@ export default function PetstivalListPage() {
           </ImageList>
         )}
       </Wrapper>
-      <Navbar selectedMenu="MyPage" />
+      <Navbar selectedMenu="Home" />
     </div>
   );
 }
