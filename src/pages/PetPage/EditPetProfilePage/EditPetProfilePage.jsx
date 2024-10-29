@@ -163,14 +163,15 @@ function EditPetProfilePage() {
               </div>
             </div>
           </div>
-          <Button
-            size={'large'}
-            children={'수정한 정보 저장하기'}
-            onClick={() => {
-              console.table(petProfileData);
-              updateProfileData(petId);
-            }}
-          />
+          <>
+            <Button
+              children={'수정한 정보 저장하기'}
+              onClick={() => {
+                console.table(petProfileData);
+                updateProfileData(petId);
+              }}
+            />
+          </>
         </div>
       ) : (
         <div>로딩중</div>

@@ -42,21 +42,7 @@ function PetPage() {
           </div>
         </div>
         <div className={`${styles.cardWrapper}`}>
-          {petsData ? (
-            petsData.map((pet) => (
-              <PetProfileCard
-                key={pet.pet_id}
-                pet_id={pet.pet_id}
-                pet_name={pet.pet_name}
-                breed={pet.breed}
-                birth_date={pet.birth_date}
-                birth_month={pet.birth_month}
-                profile_img_url={pet.profile_url}
-              />
-            ))
-          ) : (
-            <div>로딩중</div>
-          )}
+          {petsData ? petsData.map((pet, index) => <PetProfileCard key={index} petData={pet} />) : <div>로딩중</div>}
         </div>
       </div>
       <Navbar selectedMenu="Pet" />
