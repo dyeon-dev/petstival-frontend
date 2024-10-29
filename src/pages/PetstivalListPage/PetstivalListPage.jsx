@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import DetailBar from "../../stories/DetailBar";
+import DetailBar from '../../stories/DetailBar';
 import Navbar from '../../components/Navbar/Navbar';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
@@ -59,8 +59,8 @@ export default function PetstivalListPage() {
   };
 
   return (
-    <div className="no-height">
-      <DetailBar title="펫스티벌 모아보기"/>
+    <div>
+      <DetailBar title="펫스티벌 모아보기" />
       <Wrapper>
         {error && <p style={{ color: 'red' }}>오류: {error}</p>}
         {loading ? (
@@ -89,11 +89,11 @@ export default function PetstivalListPage() {
                       src={`${imageSrc}?w=248&fit=crop&auto=format`}
                       alt={item.title || 'No image available'}
                       loading="lazy"
-                    //  style={{ width: '420px', height: '150px', objectFit: 'cover' }}
+                      //  style={{ width: '420px', height: '150px', objectFit: 'cover' }}
                     />
                     <ImageListItemBar
                       title={
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
                           <Typography variant="h6" sx={{ marginRight: '8px' }}>
                             {item.title}
                           </Typography>
