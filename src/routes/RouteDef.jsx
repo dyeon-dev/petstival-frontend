@@ -34,6 +34,10 @@ export const Screens = {
     path: '/petstival/:id',
     element: <PetstivalDetailPage />,
   },
+  Payments: {
+    path: '/products/:id/order',
+    element: <PaymentsPage />,
+  },
   Checkout: {
     path: '/payment',
     element: <CheckoutPage />,
