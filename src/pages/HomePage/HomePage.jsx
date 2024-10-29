@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import Header from '../../components/Header/Header';
 import PopularPetstival from '../../components/HomePage/PopularPetstival';
+import RecommendCommerce from '../../components/HomePage/RecommendCommerce';
+import Category from '../../components/HomePage/Category';
 import Navbar from '../../components/Navbar/Navbar';
 
 
@@ -13,12 +15,14 @@ const Wrapper = styled.section`
 function HomePage() {
     
   return (
-    <div>
+    <div className="no-height">
       <Header />
       <Wrapper>
         <PopularPetstival />
+        <RecommendCommerce />
+        <Category />
       </Wrapper>
-      <Navbar selectedMenu="MyPage" />
+      <Navbar selectedMenu="Home" />
     </div>
   );
 }
