@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
-import supabase from '../../service/supabaseClient';
+import supabase from '../../services/supabaseClient';
 
 const Info = styled.div`
   display: flex;

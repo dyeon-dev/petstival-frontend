@@ -30,7 +30,7 @@ export default function RecommendCommerce() {
     <>
       <Info>
         <h3>펫스티벌 추천 상품</h3>
-        <Detail onClick={() => navigate('/order')}>자세히 보기 &gt;</Detail>
+        <Detail onClick={() => navigate('/products')}>자세히 보기 &gt;</Detail>
       </Info>
       <Paper
         sx={(theme) => ({
