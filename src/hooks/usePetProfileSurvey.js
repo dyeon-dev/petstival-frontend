@@ -13,14 +13,38 @@ function usePetProfileSurvey() {
       pet_name: '',
       know_birth: true,
       birth_date: null,
-      birth_year: 0,
-      birth_month: 0,
+      birth_year: '',
+      birth_month: '',
       breed: '',
       gender: '',
       neutered: true,
-      weight: 0,
+      weight: '',
       profile_img_url: '',
     });
+
+    setStep(1);
+  }
+
+  // 1-2. 반려견 설문 단계별 유효성 검사
+  function validateStep() {
+    switch (step) {
+      case 1:
+        return petProfileData.pet_name !== '';
+      case 2:
+        return petProfileData.know_birth !== undefined;
+      case 3:
+        return petProfileData.know_birth ? petProfileData.birth_date !== '' : petProfileData.birth_year > 0 || petProfileData.birth_month > 0;
+      case 4:
+        return petProfileData.breed !== '';
+      case 5:
+        return petProfileData.gender !== undefined;
+      case 6:
+        return petProfileData.weight > 0;
+      case 7:
+        return petProfileData.profile_img_url === '';
+      default:
+        return false;
+    }
   }
 
   // 1-2. DB에 새로운 반려견 프로필을 저장
@@ -46,17 +70,20 @@ function usePetProfileSurvey() {
 
   // 2-2. DB에 수정된 반려견 프로필 업데이트
   async function updateProfileData(petId) {
-    // 반려견 생년월일 숙지 유무에 따라 사용하지 않는 값 null 처리
+    // 반려견 프로필 정보 유효성 검사
+    const isValidated = validatePetProfileData(petProfileData);
+    if (!isValidated) return;
+
+    // 반려견 생년월일 숙지 유무에 따라 사용하지 않는 값을 초기화
     if (petProfileData.know_birth) {
-      petProfileData.birth_year = null;
-      petProfileData.birth_month = null;
+      petProfileData.birth_year = 0;
+      petProfileData.birth_month = 0;
     } else {
-      petProfileData.birth_date = null;
+      petProfileData.birth_date = '';
     }
 
     // 반려견 프로필 정보 업데이트
     try {
-      console.log('여기까진되냐?');
       await updatePetProfile(petId, petProfileData);
     } catch (error) {
       window.alert('업로드에 실패했어요. 다시 시도해주세요.');
@@ -67,6 +94,36 @@ function usePetProfileSurvey() {
     window.location.href = '/pet';
   }
 
+  /* 반려견 프로필 정보 유효성 검사 */
+  function validatePetProfileData(data) {
+    // 1. 이름이 빈 값인지 검사
+    if (!data.pet_name) {
+      alert('이름을 입력해주세요.');
+      return false;
+    }
+
+    // 2. 연, 개월 수 모두 0인지 검사
+    if (!data.know_birth && data.birth_year === 0 && data.birth_month === 0) {
+      alert('최소 1개월 이상의 나이를 입력해주세요.');
+      return false;
+    }
+
+    // 3. 견종이 빈 값인지 검사
+    if (!data.breed) {
+      alert('견종을 입력해주세요.');
+      return false;
+    }
+
+    // 4. 몸무게가 0인지 검사
+    if (data.weight === 0) {
+      alert('몸무게는 0으로 설정할 수 없어요.');
+      return false;
+    }
+
+    // 모든 유효성 검사를 통과한 경우
+    return true;
+  }
+
   return {
     step, // 설문 진행도
     setStep, // 설문 진행도 변경 함수
@@ -75,6 +132,7 @@ function usePetProfileSurvey() {
     setPetProfileData, // 설문 데이터 상태 변경 함수
     updateProfileData, // 설문 데이터 업데이트 함수
     initProfileData, // 설문 데이터 초기화 함수
+    validateStep, // 설문 단계별 유효성 검사
   };
 }
 export default usePetProfileSurvey;

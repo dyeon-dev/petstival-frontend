@@ -1,16 +1,17 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 import styles from './EditPetProfilePage.module.css';
 import DetailBar from '../../../stories/DetailBar';
 import Button from '../../../components/Common/Button/Button';
 import UploadProfileButton from '../../../components/PetProfileSurvey/UploadProfileButton';
 import Input from '../../../components/Common/Input/Input';
+import InputNumber from '../../../components/Common/Input/InputNumber';
 import RadioGroup from '../../../components/PetProfileSurvey/RadioGroup';
 import RadioButton from '../../../components/PetProfileSurvey/RadioButton';
 import usePetProfileSurvey from '../../../hooks/usePetProfileSurvey';
-import { useEffect } from 'react';
 
 function EditPetProfilePage() {
-  const { petProfileData, getPetProfileData, setPetProfileData, updateProfileData } = usePetProfileSurvey();
+  const { petProfileData, getPetProfileData, setPetProfileData, updateProfileData, setWeightData } = usePetProfileSurvey();
   const location = useLocation();
   const { petId } = useParams();
   const { petData } = location.state || {};
@@ -80,27 +81,27 @@ function EditPetProfilePage() {
                   />
                 ) : (
                   <>
-                    <Input
+                    <InputNumber
                       type="number"
                       value={petProfileData.birth_year}
                       numType="numeric"
                       adornment="년"
                       placeholder="0"
-                      setData={(event) =>
+                      setData={(data) =>
                         setPetProfileData((prev) => {
-                          return { ...prev, birth_year: event.target.value };
+                          return { ...prev, birth_year: data };
                         })
                       }
                     />
-                    <Input
+                    <InputNumber
                       type="number"
                       value={petProfileData.birth_month}
                       numType="numeric"
                       adornment="개월"
                       placeholder="0"
-                      setData={(event) =>
+                      setData={(data) =>
                         setPetProfileData((prev) => {
-                          return { ...prev, birth_month: event.target.value };
+                          return { ...prev, birth_month: data };
                         })
                       }
                     />
@@ -148,15 +149,14 @@ function EditPetProfilePage() {
               {/* 6. 몸무게 */}
               <div className={`${styles.fieldContainer}`}>
                 <div className={`${styles.label}`}>몸무게</div>
-                <Input
-                  type="number"
+                <InputNumber
                   value={petProfileData.weight}
                   numType="decimal"
                   adornment="kg"
                   placeholder="0"
-                  setData={(event) =>
+                  setData={(data) =>
                     setPetProfileData((prev) => {
-                      return { ...prev, weight: event.target.value };
+                      return { ...prev, weight: data };
                     })
                   }
                 />
