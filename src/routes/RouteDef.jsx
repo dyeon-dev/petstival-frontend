@@ -13,9 +13,8 @@ import PetProfileSurveyPage from '../pages/PetProfileSurveyPage/PetProfileSurvey
 import OauthPage from '../pages/Oauth/OauthPage';
 import PetPage from '../pages/PetPage/PetPage';
 import PetProfilePage from '../pages/PetPage/PetProfilePage/PetProfilePage';
-import ProductListPage from '../pages/Shopping/ProductListPage';
-import ProductDetailPage from '../pages/Shopping/ProductDetailPage';
-import CartPage from '../pages/Shopping/CartPage';
+import ProductListPage from '../pages/ShopPage/ProductListPage';
+import ProductDetailPage from '../pages/ShopPage/ProductDetailPage';
 
 // 페이지 URL 및 렌더링할 페이지 컴포넌트 정보를 저장하는 객체
 export const Screens = {

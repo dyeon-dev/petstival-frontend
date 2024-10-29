@@ -1,11 +1,16 @@
 // 쇼핑 페이지
 import React, { useState } from 'react';
+import styled from 'styled-components';
 import ShopTabBar from '../../components/ProductList/ShopTabBar';
 import ProductItem from '../../components/ProductList/ProductItem';
 import styles from './ProductListPage.module.css';
 import picnicImage from '../../assets/picnic.svg';
 import Header from '../../components/Header/Header';
 import Navbar from '../../components/Navbar/Navbar';
+
+const Wrapper = styled.section`
+  margin-left: 28px;
+`;
 
 const ProductListPage = () => {
   const [activeTab, setActiveTab] = useState('전체'); // 상위 컴포넌트에서 activeTab 상태 관리
@@ -41,15 +46,18 @@ const ProductListPage = () => {
   });
 
   return (
-    // 헤더 + 네비게이션 적용
-    <div className={styles.shopItemContainer}>
-      <ShopTabBar activeTab={activeTab} onTabChange={setActiveTab} /> {/* activeTab을 ShopTabBar로 전달 */}
-      <div className={styles.itemWrapper}>
-        {filteredProducts.map((product) => (
-          <ProductItem key={product.id} id={product.id} title={product.title} price={product.price} imageSrc={product.imageSrc} />
-        ))}
-      </div>
-    </div>
+    <>
+      <Header />
+      <Wrapper>
+        <ShopTabBar activeTab={activeTab} onTabChange={setActiveTab} /> {/* activeTab을 ShopTabBar로 전달 */}
+        <div className={styles.itemWrapper}>
+          {filteredProducts.map((product) => (
+            <ProductItem key={product.id} id={product.id} title={product.title} price={product.price} imageSrc={product.imageSrc} />
+          ))}
+        </div>
+      </Wrapper>
+      <Navbar selectedMenu="Shop" />
+    </>
   );
 };
 

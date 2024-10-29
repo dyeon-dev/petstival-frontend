@@ -4,7 +4,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
 }
 
 .productImage {
@@ -28,4 +27,5 @@
   font-size: 16px;
   font-weight: 700;
   text-align: center;
+  margin-top: -10px;
 }

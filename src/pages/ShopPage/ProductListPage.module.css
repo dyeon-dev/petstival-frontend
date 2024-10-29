@@ -8,8 +8,6 @@
   text-align: left;
   padding: 24px;
   margin: 0 auto;
-  overflow-y: auto;
-  overflow-x: hidden;
 }
 
 /* item-wrapper의 스타일 */
@@ -17,7 +15,7 @@
   display: flex;
   align-items: flex-start;
   align-content: flex-start;
-  gap: 1px;
+  gap: 35px;
   flex-wrap: wrap;
 }
 
