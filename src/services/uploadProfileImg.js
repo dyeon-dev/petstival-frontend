@@ -5,10 +5,11 @@ import { v4 as uuidv4 } from 'uuid'; // uuid를 import 문으로 가져옵니다
 async function uploadProfileImg(file) {
   // TODO 현재 로그인한 유저 아이디를 받아옴, zustand 참고하도록 수정 필요
   const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  console.log(user.identities[0].id);
-  const user_id = user.identities[0].id;
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  const user_id = session?.user?.id; // 세션의 uid 가져오기
+  console.log(user_id);
 
   // 사진 URL에 들어갈 uuid 생성
   const uuid = uuidv4();

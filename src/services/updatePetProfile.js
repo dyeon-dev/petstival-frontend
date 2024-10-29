@@ -1,7 +1,6 @@
 import supabase from './supabaseClient';
 
 async function updatePetProfile(petId, petData) {
-  console.log('tlqkf');
   const { data, error } = await supabase
     .from('pet')
     .update({
