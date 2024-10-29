@@ -71,16 +71,8 @@ function usePetProfileSurvey() {
   // 2-2. DB에 수정된 반려견 프로필 업데이트
   async function updateProfileData(petId) {
     // 반려견 프로필 정보 유효성 검사
-    const isValidated = validatePetProfileData(petProfileData);
+    const isValidated = validateEditFrom(petProfileData);
     if (!isValidated) return;
-
-    // 반려견 생년월일 숙지 유무에 따라 사용하지 않는 값을 초기화
-    if (petProfileData.know_birth) {
-      petProfileData.birth_year = 0;
-      petProfileData.birth_month = 0;
-    } else {
-      petProfileData.birth_date = '';
-    }
 
     // 반려견 프로필 정보 업데이트
     try {
@@ -94,8 +86,8 @@ function usePetProfileSurvey() {
     window.location.href = '/pet';
   }
 
-  /* 반려견 프로필 정보 유효성 검사 */
-  function validatePetProfileData(data) {
+  /* 반려견 프로필 수정 폼 유효성 검사 */
+  function validateEditFrom(data) {
     // 1. 이름이 빈 값인지 검사
     if (!data.pet_name) {
       alert('이름을 입력해주세요.');
