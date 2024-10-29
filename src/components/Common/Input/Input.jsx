@@ -1,27 +1,20 @@
 import { useEffect, useState } from 'react';
 import styles from './Input.module.css';
+import getDateToday from '../../../utils/getDateToday';
 
-function Input({ type, value, inputmode, adornment, placeholder, setData }) {
-  const [inputValue, setInputValue] = useState('');
-
-  useEffect(() => {
-    if (value) {
-      setInputValue(value);
-    }
-  }, []);
+function Input({ type, value, numType, adornment, placeholder, setData }) {
+  const today = getDateToday();
 
   return (
     <div className={`${styles.container}`}>
       <input
         className={`${styles.input} drop-shadow-default`}
-        value={inputValue}
+        value={value}
         type={type}
-        inputmode={inputmode}
+        inputMode={numType}
+        max={type === 'date' ? today : null}
         placeholder={placeholder}
-        onChange={(event) => {
-          setInputValue(event.target.value);
-          setData;
-        }}
+        onChange={setData}
       />
       <div className={`${styles.adornment}`}>{adornment}</div>
     </div>

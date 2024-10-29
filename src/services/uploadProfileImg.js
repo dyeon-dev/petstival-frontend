@@ -2,6 +2,7 @@ import supabase from './supabaseClient';
 
 // Storage에 이미지 파일을 업로드하고 URL을 return
 async function uploadProfileImg(file, url) {
+  // TODO 현재 로그인한 유저 아이디를 받아옴, zustand 참고하도록 수정 필요
   const {
     data: { user },
   } = await supabase.auth.getUser();

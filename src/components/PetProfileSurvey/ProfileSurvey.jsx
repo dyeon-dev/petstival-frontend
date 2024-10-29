@@ -52,7 +52,7 @@ function ProfileSurvey({ step, petProfileData, setPetProfileData }) {
               {/* 3-2. 대략적인 개월수만 알고 있는 경우 */}
               <Input
                 type="number"
-                inputmode="numeric"
+                numType="numeric"
                 adornment="년"
                 placeholder="0"
                 setData={(event) =>
@@ -63,7 +63,7 @@ function ProfileSurvey({ step, petProfileData, setPetProfileData }) {
               />
               <Input
                 type="number"
-                inputmode="numeric"
+                numType="numeric"
                 adornment="개월"
                 placeholder="0"
                 setData={(event) =>
@@ -102,11 +102,33 @@ function ProfileSurvey({ step, petProfileData, setPetProfileData }) {
             }}
             size="Medium"
           />
-          <RadioButton title="중성화 했어요." value={petProfileData.neutered} selected={petProfileData.neutered} setData={null} />
+          <RadioButton
+            title="중성화 했어요."
+            value={petProfileData.neutered}
+            selected={petProfileData.neutered}
+            setData={() =>
+              setPetProfileData((prev) => {
+                console.log('sb', prev.neutered);
+                return { ...prev, neutered: !prev.neutered };
+              })
+            }
+          />
         </div>
       )}
       {/* 6. 몸무게 입력 */}
-      {step === 6 && <Input type="number" inputmode="decimal" adornment="Kg" placeholder="0" />}
+      {step === 6 && (
+        <Input
+          type="number"
+          numType="decimal"
+          adornment="Kg"
+          placeholder="0"
+          setData={(event) =>
+            setPetProfileData((prev) => {
+              return { ...prev, weight: event.target.value };
+            })
+          }
+        />
+      )}
       {/* 7. 프로필 사진 등록 */}
       {step === 7 && (
         <UploadProfileButton
