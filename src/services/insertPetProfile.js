@@ -11,8 +11,8 @@ async function insertPetProfile(data) {
   const { error } = await supabase.from('pet').insert({
     pet_name: data.pet_name,
     know_birth: data.know_birth,
-    birth_date: data.birth_date,
-    birth_month: data.birth_month,
+    birth_date: data.know_birth ? data.birth_date : '',
+    birth_month: data.know_birth ? data.birth_month : 0,
     breed: data.breed,
     gender: data.gender,
     neutered: data.neutered,
