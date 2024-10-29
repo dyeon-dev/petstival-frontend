@@ -2,7 +2,6 @@ import styles from './ProfileSurvey.module.css';
 import Input from '../Common/input/Input';
 import RadioGroup from './RadioGroup';
 import RadioButton from './RadioButton';
-import Button from '../Common/Button/Button';
 import UploadProfileButton from './UploadProfileButton';
 
 function ProfileSurvey({ step, petProfileData, setPetProfileData }) {
@@ -58,7 +57,7 @@ function ProfileSurvey({ step, petProfileData, setPetProfileData }) {
                 placeholder="0"
                 setData={(event) =>
                   setPetProfileData((prev) => {
-                    return { ...prev, birth_month: prev.birth_month + event.target.value * 12 };
+                    return { ...prev, birth_month: prev.birth_month + +event.target.value * 12 };
                   })
                 }
               />
@@ -69,7 +68,7 @@ function ProfileSurvey({ step, petProfileData, setPetProfileData }) {
                 placeholder="0"
                 setData={(event) =>
                   setPetProfileData((prev) => {
-                    return { ...prev, birth_month: prev.birth_month + event.target.value };
+                    return { ...prev, birth_month: prev.birth_month + +event.target.value };
                   })
                 }
               />
@@ -78,7 +77,17 @@ function ProfileSurvey({ step, petProfileData, setPetProfileData }) {
         </>
       )}
       {/* 4. 반려견 견종 */}
-      {step === 4 && <Input type="text" placeholder="견종을 입력해주세요" />}
+      {step === 4 && (
+        <Input
+          type="text"
+          placeholder="견종을 입력해주세요"
+          setData={(event) =>
+            setPetProfileData((prev) => {
+              return { ...prev, breed: event.target.value };
+            })
+          }
+        />
+      )}
       {/* 5. 반려견 성별 */}
       {step === 5 && (
         <div className={`${styles.genderRadioWrapper}`}>

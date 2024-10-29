@@ -16,7 +16,7 @@ console.log("Supabase URL:", supabaseUrl); // Supabase URL 확인
 console.log("Supabase Key:", supabaseKey); // Supabase Key 확인
 console.log("API URLs:", apiUrls); // API URL 목록 확인
 
-const ApiPage = () => {
+const OpenApi = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState('');
@@ -132,4 +132,4 @@ const ApiPage = () => {
   );
 };
 
-export default ApiPage;
+export default OpenApi;
