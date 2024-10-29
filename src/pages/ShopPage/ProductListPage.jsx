@@ -9,7 +9,7 @@ import Header from '../../components/Header/Header';
 import Navbar from '../../components/Navbar/Navbar';
 
 const Wrapper = styled.section`
-  margin-left: 28px;
+  padding: 24px;
 `;
 
 const ProductListPage = () => {
