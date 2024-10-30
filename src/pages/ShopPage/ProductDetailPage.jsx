@@ -11,8 +11,8 @@ const ProductDetailPage = () => {
   // url에서 id 가져옴
   const { id } = useParams();
   const navigate = useNavigate();
-  // Zustand에서 제품 데이터 가져오기 (ID를 숫자로 변환) --> 근데 아직 상품 데이터 없으니까 하드코딩으로 해도 괜찮을 것 같고...
-  const product = useProductStore((state) => state.getProductById(Number(id)));
+  // Zustand에서 제품 데이터 가져오기
+  const product = useProductStore((state) => state.getProductById(id));
 
   const handleAddToCart = () => {
     // 장바구니 페이지로 이동
