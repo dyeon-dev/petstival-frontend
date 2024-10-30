@@ -31,8 +31,8 @@ function PetProfilePage() {
         </div>
         {/* NOTE Medium 버튼 컴포넌트 예시 */}
         <div className={`${styles.buttonMediumWrapper}`}>
-          <ButtonMedium children={'장바구니 담기'} sub={true} onClick={null} />
-          <ButtonMedium children={'구매하기'} sub={false} onClick={null} />
+          <ButtonMedium children={'장바구니 담기'} sub={'secondary'} onClick={null} />
+          <ButtonMedium children={'구매하기'} sub={'primary'} onClick={null} />
         </div>
       </div>
     </div>

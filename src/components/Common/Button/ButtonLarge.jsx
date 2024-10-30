@@ -35,7 +35,7 @@ function ButtonLarge({ children, onClick, disabled }) {
 ButtonLarge.propTypes = {
   children: PropTypes.string.isRequired,
   onClick: PropTypes.func,
-  disabled: PropTypes.boolean.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default ButtonLarge;
