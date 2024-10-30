@@ -12,7 +12,6 @@ const Wrapper = styled.section`
 `;
 
 const PetstivalShopPage = () => {
-  const [activeTab, setActiveTab] = useState('전체'); // 상위 컴포넌트에서 activeTab 상태 관리
   const { products, fetchProducts } = useProductStore();
   
   const fetchData = async () => {

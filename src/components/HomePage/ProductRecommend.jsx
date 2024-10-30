@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
@@ -6,6 +6,7 @@ import ButtonBase from '@mui/material/ButtonBase';
 import image1 from '../../assets/info_image.png';
 import styled from 'styled-components';
 import { useNavigate } from "react-router-dom";
+import { useProductStore } from '../../stores/useProductStore';
 
 const Info = styled.div`
   display: flex;
@@ -26,6 +27,21 @@ const Detail = styled.div`
 export default function ProductRecommend() {
   const navigate = useNavigate();
 
+  const { products, fetchProducts } = useProductStore();
+  
+  const fetchData = async () => {
+  await fetchProducts(); // 비동기 함수 호출
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+  
+  const filteredProduct = products.filter((product) => {
+    if (product.product_id == "59c0c21e-b22d-4f79-9347-87bdbee66275") return true; // 1개 제품만 반환
+    return false;
+  });
+  
   return (
     <>
       <Info>
@@ -48,7 +64,7 @@ export default function ProductRecommend() {
         <Grid container spacing={2}>
           <Grid item>
             <ButtonBase sx={{ width: 100, height: 100 }}>
-              <img alt="강아지와 함께하는 피크닉 세트" src={image1} />
+              <img alt="{filteredProduct[0].product_name}" src={filteredProduct[0].image_url_1} style={{ width: 100, height: 100 }} />
             </ButtonBase>
           </Grid>
 
@@ -56,14 +72,14 @@ export default function ProductRecommend() {
             <Grid item xs container direction="column" spacing={2}>
               <Grid item xs>
                 <Typography gutterBottom variant="subtitle1" component="div" sx={{ cursor: 'pointer', fontWeight: 'bold' }}>
-                  강아지와 함께하는 피크닉 세트
+                  {filteredProduct[0].product_name}
                 </Typography>
 
                 <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                댕댕이와 피크닉에 꼭 필요한 피크닉 매트 + 텀블러 + 신발 세트
+                {filteredProduct[0].content}
                 </Typography>
 
-                <Typography sx={{ cursor: 'pointer', color: 'var(--secondary-orange-default)', fontWeight: 'bold' }}>39,800원</Typography>
+                <Typography sx={{ cursor: 'pointer', color: 'var(--secondary-orange-default)', fontWeight: 'bold' }}>{filteredProduct[0].price.toLocaleString()}원</Typography>
               </Grid>
             </Grid>
           </Grid>
