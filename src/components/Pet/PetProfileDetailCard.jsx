@@ -15,7 +15,7 @@ function PetProfileCard({ petData, onDeleteClick }) {
       </div>
       <div className={`${styles.wrapper}`}>
         <div className={`${styles.profileImgContainer}`}>
-          {petData.profile_url ? <img className={`${styles.profileImg}`} src={petData.profile_url} /> : <PetProfileIcon width="80px" height="80px" />}
+          {petData.profile_url ? <img className={`${styles.profileImg}`} src={petData.profile_url} /> : <PetProfileIcon width="72%" height="72%" />}
         </div>
 
         <div>
