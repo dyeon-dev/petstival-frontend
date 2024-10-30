@@ -13,7 +13,8 @@ import PetProfileSurveyPage from '../pages/PetProfileSurveyPage/PetProfileSurvey
 import OauthPage from '../pages/Oauth/OauthPage';
 import PetPage from '../pages/PetPage/PetPage';
 import PetProfilePage from '../pages/PetPage/PetProfilePage/PetProfilePage';
-import EditPetProfilePage from '../pages/PetPage/EditPetProfilePage/EditPetProfilePage';
+import ProductListPage from '../pages/ShopPage/ProductListPage';
+import ProductDetailPage from '../pages/ShopPage/ProductDetailPage';
 
 // 페이지 URL 및 렌더링할 페이지 컴포넌트 정보를 저장하는 객체
 export const Screens = {
@@ -73,9 +74,17 @@ export const Screens = {
     path: '/pet/:petId',
     element: <PetProfilePage />,
   },
-  EditPetProfile: {
-    path: '/pet/:petId/edit',
-    element: <EditPetProfilePage />,
+  Products: {
+    path: '/products',
+    element: <ProductListPage />,
+  },
+  Detail: {
+    path: '/products/:id',
+    element: <ProductDetailPage />,
+  },
+  Payments: {
+    path: '/products/:id/order',
+    element: <PaymentsPage />,
   },
   // 페이지를 추가 시 아래에 새로운 페이지 객체 작성
   // Survey: {
