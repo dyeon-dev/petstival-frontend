@@ -5,9 +5,8 @@ import svgr from 'vite-plugin-svgr';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), svgr()],
-  // mui datepicker 종속성 강제 최적화
   optimizeDeps: {
-    include: ['@mui/x-date-pickers', '@mui/x-date-pickers/AdapterDayjs', '@mui/x-date-pickers/LocalizationProvider'],
+    include: [],
   },
   server: {
     proxy: {

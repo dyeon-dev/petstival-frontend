@@ -11,14 +11,14 @@ export default {
   },
   // 스토리에서 사용할 기본 props 값을 설정할 수 있습니다. 이렇게 하면 스토리를 렌더링할 때 해당 props가 자동으로 적용됩니다.
   args: {
-    title: "주문 상세",
+    title: '주문 상세',
     onBack: () => window.history.back(), // 클릭 시 뒤로 가는 이벤트 설정
   },
 };
 
 export const DetailTitle = {
   args: {
-    title: "주문 상세",
+    title: '주문 상세',
     onBack: () => window.history.back(), // 클릭 시 뒤로 가는 이벤트 설정
   },
 };
