@@ -15,6 +15,7 @@ import PetPage from '../pages/PetPage/PetPage';
 import PetProfilePage from '../pages/PetPage/PetProfilePage/PetProfilePage';
 import ProductListPage from '../pages/ShopPage/ProductListPage';
 import ProductDetailPage from '../pages/ShopPage/ProductDetailPage';
+import PetstivalShopPage from "../pages/PetstivalShopPage/PetstivalShopPage";
 
 // 페이지 URL 및 렌더링할 페이지 컴포넌트 정보를 저장하는 객체
 export const Screens = {
@@ -85,6 +86,10 @@ export const Screens = {
   Payments: {
     path: '/products/:id/order',
     element: <PaymentsPage />,
+  },
+  PetstivalProducts: {
+    path: '/products/petstival',
+    element: <PetstivalShopPage />,
   },
   // 페이지를 추가 시 아래에 새로운 페이지 객체 작성
   // Survey: {
