@@ -81,4 +81,5 @@ export const deleteAccount = async (user) => {
 
   clearUser(); // 유저 정보 초기화
   console.log('회원 탈퇴 성공');
+  await supabase.auth.signOut();
 };
