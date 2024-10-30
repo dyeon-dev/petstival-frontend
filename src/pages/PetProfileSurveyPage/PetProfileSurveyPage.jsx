@@ -3,11 +3,10 @@ import styles from './PetProfileSurveyPage.module.css';
 import usePetProfileSurvey from '../../hooks/usePetProfileSurvey';
 import AngleLeftIcon from '../../assets/icons/angle-left.svg?react';
 import ProfileSurvey from '../../components/PetProfileSurvey/ProfileSurvey';
-import insertPetProfile from '../../services/insertPetProfile';
 import ButtonLarge from '../../components/Common/Button/ButtonLarge';
 
 function PetProfileSurveyPage() {
-  const { step, setStep, petProfileData, initProfileData, setPetProfileData, validateStep } = usePetProfileSurvey();
+  const { step, setStep, petProfileData, initProfileData, setPetProfileData, postProfileData, validateStep, handleSurveyStep } = usePetProfileSurvey();
   const [isNextButtonEnabled, setIsNextButtonEnabled] = useState(false);
 
   useEffect(() => {
@@ -25,7 +24,7 @@ function PetProfileSurveyPage() {
       subtitle: `생년월일을 몰라도 괜찮아요.`,
     },
     {
-      title: `반려견의 나이를\n입력해주세요.`, // TODO know_birth 상태에 따라 다르게 보이게 처리
+      title: `반려견의 나이를\n입력해주세요.`,
       subtitle: `프로필 입력 후에도 수정할 수 있어요.`,
     },
     {
@@ -79,26 +78,7 @@ function PetProfileSurveyPage() {
           )}
         </div>
       </div>
-      <ButtonLarge
-        children={step === 7 ? '프로필 생성하기' : '다음으로'}
-        disabled={!isNextButtonEnabled}
-        onClick={() => {
-          if (step < 7) {
-            setStep(step + 1);
-            return;
-          }
-          if (step === 7) {
-            try {
-              insertPetProfile(petProfileData);
-              window.alert('프로필 생성이 완료되었어요.'); // TODO 모달로 변경, 예외처리 로직 훅에 넣기
-
-              window.location.href = '/home';
-            } catch (error) {
-              window.alert('반려견 프로필 생성에 실패했어요. 다시 시도해주세요.'); // TODO 모달로 변경, 예외처리 로직 훅에 넣기
-            }
-          }
-        }}
-      ></ButtonLarge>
+      <ButtonLarge children={step === 7 ? '프로필 생성하기' : '다음으로'} disabled={!isNextButtonEnabled} onClick={handleSurveyStep}></ButtonLarge>
     </div>
   );
 }
