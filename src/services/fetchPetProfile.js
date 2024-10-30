@@ -1,7 +1,6 @@
 import supabase from './supabaseClient';
 
 async function fetchPetProfile() {
-  // TODO 현재 세션에서 user id 가져오기, zustand로 수정
   const {
     data: { session },
   } = await supabase.auth.getSession();

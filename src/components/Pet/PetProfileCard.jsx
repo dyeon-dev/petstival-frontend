@@ -4,11 +4,12 @@ import { useNavigate } from 'react-router-dom';
 
 function PetProfileCard({ petData }) {
   const navigate = useNavigate();
+  const pet_id = petData.pet_id;
   const birth_year_calc = Math.floor(petData.birth_month / 12);
   const birth_month_calc = petData.birth_month % 12;
-  console.log(petData);
+
   function handleCardClick() {
-    navigate(`/pet/${petData.pet_id}`, {
+    navigate(`/pet/${pet_id}`, {
       state: {
         petData: petData,
       },

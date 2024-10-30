@@ -9,6 +9,7 @@ import RadioGroup from '../../../components/PetProfileSurvey/RadioGroup';
 import RadioButton from '../../../components/PetProfileSurvey/RadioButton';
 import usePetProfileSurvey from '../../../hooks/usePetProfileSurvey';
 import ButtonLarge from '../../../components/Common/Button/ButtonLarge';
+import { CircularProgress } from '@mui/material';
 
 function EditPetProfilePage() {
   const { petProfileData, getPetProfileData, setPetProfileData, updateProfileData, setWeightData } = usePetProfileSurvey();
@@ -174,7 +175,7 @@ function EditPetProfilePage() {
           </>
         </div>
       ) : (
-        <div>로딩중</div>
+        <CircularProgress />
       )}
     </>
   );
