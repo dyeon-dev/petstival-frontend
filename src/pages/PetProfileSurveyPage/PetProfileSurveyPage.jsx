@@ -1,14 +1,14 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './PetProfileSurveyPage.module.css';
 import usePetProfileSurvey from '../../hooks/usePetProfileSurvey';
 import AngleLeftIcon from '../../assets/icons/angle-left.svg?react';
-import Button from '../../components/Common/Button/Button';
-import ProfileSurvey from '../../components/PetProfile/ProfileSurvey';
-import supabase from '../../service/supabaseClient';
-import postPetProfile from '../../service/postPetProfile';
+import ProfileSurvey from '../../components/PetProfileSurvey/ProfileSurvey';
+import insertPetProfile from '../../services/insertPetProfile';
+import ButtonLarge from '../../components/Common/Button/ButtonLarge';
 
 function PetProfileSurveyPage() {
-  const { step, setStep, petProfileData, initProfileData, setPetProfileData } = usePetProfileSurvey();
+  const { step, setStep, petProfileData, initProfileData, setPetProfileData, validateStep } = usePetProfileSurvey();
+  const [isNextButtonEnabled, setIsNextButtonEnabled] = useState(false);
 
   useEffect(() => {
     // 화면 렌더링 시 프로필 정보 초기화
@@ -54,7 +54,7 @@ function PetProfileSurveyPage() {
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.iconContainer}>
-          <AngleLeftIcon onClick={() => (step === 1 ? null : setStep(step - 1))}></AngleLeftIcon>
+          <AngleLeftIcon onClick={() => (step === 1 ? window.history.back() : setStep(step - 1))}></AngleLeftIcon>
         </div>
         <div>반려견 프로필 등록하기</div>
         <div className={styles.progressIndicator}>
@@ -66,16 +66,22 @@ function PetProfileSurveyPage() {
         <div className={styles.title}>{surveyTitle[step - 1].title}</div>
         <div className={styles.subTitle}>{surveyTitle[step - 1].subtitle}</div>
         <div className={styles.surveyContentContainer}>
-          <ProfileSurvey
-            step={step} // 설문 단계 상태
-            petProfileData={petProfileData} // 반려견 프로필 상태
-            setPetProfileData={setPetProfileData} // 반려견 프로필 상태 변경 함수
-          ></ProfileSurvey>
+          {petProfileData ? (
+            <ProfileSurvey
+              step={step} // 설문 단계 상태
+              petProfileData={petProfileData} // 반려견 프로필 상태
+              setPetProfileData={setPetProfileData} // 반려견 프로필 상태 변경 함수
+              validateStep={validateStep} // 설문 항목별 유효성 검사
+              setIsNextButtonEnabled={setIsNextButtonEnabled}
+            ></ProfileSurvey>
+          ) : (
+            <div></div>
+          )}
         </div>
       </div>
-      <Button
+      <ButtonLarge
         children={step === 7 ? '프로필 생성하기' : '다음으로'}
-        size="large"
+        disabled={!isNextButtonEnabled}
         onClick={() => {
           if (step < 7) {
             setStep(step + 1);
@@ -83,14 +89,16 @@ function PetProfileSurveyPage() {
           }
           if (step === 7) {
             try {
-              postPetProfile(petProfileData);
+              insertPetProfile(petProfileData);
+              window.alert('프로필 생성이 완료되었어요.'); // TODO 모달로 변경, 예외처리 로직 훅에 넣기
+
               window.location.href = '/home';
             } catch (error) {
               window.alert('반려견 프로필 생성에 실패했어요. 다시 시도해주세요.'); // TODO 모달로 변경, 예외처리 로직 훅에 넣기
             }
           }
         }}
-      ></Button>
+      ></ButtonLarge>
     </div>
   );
 }

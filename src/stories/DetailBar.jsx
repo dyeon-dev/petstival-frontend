@@ -5,27 +5,24 @@ import styled from 'styled-components';
 
 const Header = styled.div`
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
   height: 80px;
-  align-items: center;
-  justify-content: space-between;
-  flex-shrink: 0;
+  padding: 0 24px;
   background: #fff;
   box-shadow: 0px 2px 4px 0px rgba(24, 119, 242, 0.08);
 `;
 
-const Back = styled.div`
-  margin-left: 30px;
-`;
+const Back = styled.div``;
 
 const OrderText = styled.div`
-  flex: 1;
+  width: calc(100% - 36px);
+  margin-right: 16px;
   text-align: center;
-  font-family: Pretendard;
-  font-size: 20px;
-  font-style: normal;
+  font-size: 16px;
   font-weight: 700;
-  line-height: 26px;
 `;
 
 const DetailBar = ({ title, onBack }) => {

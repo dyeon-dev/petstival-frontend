@@ -7,7 +7,7 @@ import image1 from '../../assets/info_image.png';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Button } from '@mui/material';
-import { useTotalStore } from "../../store/useTotalStore";
+import { useTotalStore } from '../../stores/useTotalStore';
 
 export default function OrderInfo() {
   const navigate = useNavigate();
@@ -77,11 +77,15 @@ export default function OrderInfo() {
               </Typography>
             </Grid>
             <Grid item xs={6} container justifyContent="flex-end" alignItems="center">
-              <Button size="small" onClick={decreaseQuantity} variant="outlined">-</Button>
+              <Button size="small" onClick={decreaseQuantity} variant="outlined">
+                -
+              </Button>
               <Typography variant="body2" component="div" sx={{ margin: '0 10px' }}>
                 {quantity}
               </Typography>
-              <Button size="small" onClick={increaseQuantity} variant="outlined">+</Button>
+              <Button size="small" onClick={increaseQuantity} variant="outlined">
+                +
+              </Button>
             </Grid>
           </Grid>
 
