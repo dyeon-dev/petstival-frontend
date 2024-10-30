@@ -14,16 +14,15 @@ export default {
 };
 
 // 활성화
-export const Default = (args) => <ButtonLarge {...args}>다음</ButtonLarge>;
+export const Default = { args: { disabled: false } };
 
 // 비활성화
-export const Disabled = (args) => <ButtonLarge {...args}>다음</ButtonLarge>;
+export const Disabled = { args: { disabled: true } };
 
-// 기본 args 설정
-Default.args = {
-  disabled: false,
-};
-
-Disabled.args = {
-  disabled: true,
+// 피그마로 컴포넌트 디자인 확인하기
+ButtonLarge.parameters = {
+  design: {
+    type: 'figma',
+    url: 'https://www.figma.com/design/G14CLP8aTlOvMhZPhx4Ggt/PETSTIVAL-UI?node-id=2092-561&t=CSIA7CP1ivnhak4W-1',
+  },
 };

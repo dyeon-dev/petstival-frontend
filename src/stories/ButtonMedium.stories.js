@@ -14,20 +14,15 @@ export default {
 };
 
 // Primary
-export const Primary = (args) => <ButtonMedium {...args}>장바구니 담기</ButtonMedium>;
+export const Primary = { args: { sub: false } };
 
 // Secondary (sub button)
-export const Secondary = (args) => (
-  <ButtonMedium {...args} sub={true}>
-    장바구니 담기
-  </ButtonMedium>
-);
+export const Secondary = { args: { sub: true } };
 
-// 기본 args 설정
-Primary.args = {
-  sub: false,
-};
-
-Secondary.args = {
-  sub: true,
+// 피그마로 컴포넌트 디자인 확인하기
+DetailTitle.parameters = {
+  design: {
+    type: 'figma',
+    url: 'https://www.figma.com/design/G14CLP8aTlOvMhZPhx4Ggt/PETSTIVAL-UI?node-id=4002-1718&t=CSIA7CP1ivnhak4W-1',
+  },
 };
