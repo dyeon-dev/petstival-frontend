@@ -6,7 +6,7 @@ import formatDate from '../../utils/formatDate';
 function PetProfileCard({ petData }) {
   const navigate = useNavigate();
   const pet_id = petData.pet_id;
-  const birth_date_calc = formatDate(petData.birth_date) || '';
+  const birth_date_calc = petData.birth_date ? formatDate(petData.birth_date) : '';
   const birth_year_calc = Math.floor(petData.birth_month / 12);
   const birth_month_calc = petData.birth_month % 12;
 

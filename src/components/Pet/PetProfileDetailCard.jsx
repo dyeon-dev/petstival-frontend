@@ -4,7 +4,7 @@ import formatDate from '../../utils/formatDate';
 import CancelIcon from '../../assets/icons/cancel.svg?react';
 
 function PetProfileCard({ petData, onDeleteClick }) {
-  const birth_date_calc = formatDate(petData.birth_date) || '';
+  const birth_date_calc = petData.birth_date ? formatDate(petData.birth_date) : '';
   const birth_year_calc = Math.floor(petData.birth_month / 12);
   const birth_month_calc = petData.birth_month % 12;
 
