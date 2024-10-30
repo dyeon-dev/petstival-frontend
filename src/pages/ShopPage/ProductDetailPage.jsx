@@ -20,7 +20,7 @@ const ProductDetailPage = () => {
   };
 
   const handleBuyNow = () => {
-    navigate('/products/:id/order')
+    navigate(`/products/${id}/order`)
   };
 
   return (

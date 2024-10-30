@@ -1,17 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import NumberPicker from './NumberPicker';
 import PriceDisplay from './PriceDisplay';
 import styles from './ItemSelectContainer.module.css';
+import useTotalStore from '../../stores/useTotalStore';
 
 const ItemSelectContainer = ({ price }) => {
-  // 쉼표를 제거한 후 숫자로 변환
   const numericPrice = parseInt(price.replace(/,/g, ''), 10);
-  const [quantity, setQuantity] = useState(1); // 기본 수량 1부터 시작
-  const [totalPrice, setTotalPrice] = useState(numericPrice); // 기본 가격
+
+  // 전역 상태 및 상태 업데이트 함수 가져오기
+  const { quantity, setQuantity, totalPrice, setUnitPrice } = useTotalStore();
+
+  // price 값이 변경될 때 unitPrice를 설정
+  useEffect(() => {
+    setUnitPrice(numericPrice);
+  }, [numericPrice, setUnitPrice]);
 
   const handleCountChange = (newQuantity) => {
-    setQuantity(newQuantity);
-    setTotalPrice(newQuantity * numericPrice); // 수량에 따른 가격 계산
+    setQuantity(newQuantity); // 수량이 변경되면 자동으로 totalPrice가 업데이트됨
   };
 
   return (

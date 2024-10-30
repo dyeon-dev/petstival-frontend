@@ -34,10 +34,6 @@ export const Screens = {
     path: '/petstival/:id',
     element: <PetstivalDetailPage />,
   },
-  Payments: {
-    path: '/products/:id/order',
-    element: <PaymentsPage />,
-  },
   Checkout: {
     path: '/payment',
     element: <CheckoutPage />,
@@ -85,6 +81,10 @@ export const Screens = {
   Detail: {
     path: '/products/:id',
     element: <ProductDetailPage />,
+  },
+  Payments: {
+    path: '/products/:id/order',
+    element: <PaymentsPage />,
   },
   // 페이지를 추가 시 아래에 새로운 페이지 객체 작성
   // Survey: {

@@ -7,28 +7,16 @@ import image1 from '../../assets/info_image.png';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Button } from '@mui/material';
-import { useTotalStore } from '../../stores/useTotalStore';
+import useTotalStore from '../../stores/useTotalStore';
+import NumberPicker from "../ProductDetail/NumberPicker";
 
 export default function OrderInfo() {
   const navigate = useNavigate();
-  const [quantity, setQuantity] = useState(1); // 초기 수량을 1로 설정
-  const { total, setTotal } = useTotalStore(); // Zustand 스토어에서 total과 setTotal 가져오기
 
-  const calculateTotal = () => {
-    return quantity * 39800; // 총 금액 계산 (현재 하드 코딩)
-  };
-
-  useEffect(() => {
-    const newTotal = calculateTotal();
-    setTotal(newTotal); // total 값을 Zustand 스토어에 저장
-  }, [quantity, setTotal]); // quantity가 변경될 때마다 total 업데이트
-
-  const increaseQuantity = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1); // 수량 증가
-  };
-
-  const decreaseQuantity = () => {
-    setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1)); // 수량 감소 (최소 1)
+  const { quantity, totalPrice, setQuantity } = useTotalStore();
+  
+  const handleCountChange = (newQuantity) => {
+    setQuantity(newQuantity); // 수량이 변경되면 자동으로 totalPrice가 업데이트됨
   };
 
   const handlePayment = () => {
@@ -76,7 +64,8 @@ export default function OrderInfo() {
                 수량 변경
               </Typography>
             </Grid>
-            <Grid item xs={6} container justifyContent="flex-end" alignItems="center">
+            <NumberPicker onCountChange={handleCountChange}  initialCount={quantity} />
+            {/* <Grid item xs={6} container justifyContent="flex-end" alignItems="center">
               <Button size="small" onClick={decreaseQuantity} variant="outlined">
                 -
               </Button>
@@ -86,7 +75,7 @@ export default function OrderInfo() {
               <Button size="small" onClick={increaseQuantity} variant="outlined">
                 +
               </Button>
-            </Grid>
+            </Grid> */}
           </Grid>
 
           {/* 총 주문 금액 */}
@@ -97,7 +86,7 @@ export default function OrderInfo() {
               </Typography>
             </Grid>
             <Grid item xs={6} container justifyContent="flex-end" alignItems="center" sx={{ color: 'var(--secondary-orange-default)', fontWeight: 'bold' }}>
-              {total}원
+              {totalPrice}원
             </Grid>
           </Grid>
         </Grid>

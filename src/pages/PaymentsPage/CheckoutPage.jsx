@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import './style.css';
 import { createClient } from '@supabase/supabase-js';
 import { useLocation } from 'react-router-dom';
-import { useTotalStore } from '../../stores/useTotalStore';
+import useTotalStore from '../../stores/useTotalStore';
 import supabase from '../../services/supabaseClient';
 
 const generateRandomString = () => window.btoa(Math.random()).slice(0, 20);
@@ -16,20 +16,20 @@ function CheckoutPage() {
   const [ready, setReady] = useState(false);
   const [widgets, setWidgets] = useState(null);
 
-  const { total } = useTotalStore(); // Zustand 스토어에서 total 가져오기
+  const { totalPrice } = useTotalStore(); // Zustand 스토어에서 total 가져오기
 
   // ------ 주문의 결제 금액 설정 ------
   const [amount, setAmount] = useState({
     currency: 'KRW',
-    value: total || 50000, // total 값이 없으면 기본값 설정
+    value: totalPrice || 50000, // total 값이 없으면 기본값 설정
   });
 
   useEffect(() => {
     setAmount((prevAmount) => ({
       ...prevAmount,
-      value: total, // total 값을 value에 적용
+      value: totalPrice, // total 값을 value에 적용
     }));
-  }, [total]); // total이 변경될 때마다 실행
+  }, [totalPrice]); // total이 변경될 때마다 실행
 
   // supabase POST
   const postTestData = async (orderId, amountValue) => {
