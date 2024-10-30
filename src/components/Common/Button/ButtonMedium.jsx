@@ -22,4 +22,11 @@ function ButtonMedium({ children, sub, onClick }) {
   );
 }
 
+// PropTypes 정의
+ButtonLarge.propTypes = {
+  children: PropTypes.string.isRequired,
+  sub: PropTypes.boolean.isRequired,
+  onClick: PropTypes.func,
+};
+
 export default ButtonMedium;

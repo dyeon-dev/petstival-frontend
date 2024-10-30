@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const Button = styled.button`
@@ -29,5 +30,12 @@ function ButtonLarge({ children, onClick, disabled }) {
     </Button>
   );
 }
+
+// PropTypes 정의
+ButtonLarge.propTypes = {
+  children: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
+  disabled: PropTypes.boolean.isRequired,
+};
 
 export default ButtonLarge;
