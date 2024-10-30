@@ -74,7 +74,7 @@
 
 .profileImg {
   width: 100%;
-  aspect-ratio: 1 / 1; /* 가로세로 비율 1대1 지정 */
+  aspect-ratio: 1 / 1; /* 가로세로 비율 1대1 지정*/
   max-width: 220px;
   border-radius: 200px;
   object-fit: cover;
