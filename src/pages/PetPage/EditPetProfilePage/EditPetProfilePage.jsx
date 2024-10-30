@@ -2,13 +2,13 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import styles from './EditPetProfilePage.module.css';
 import DetailBar from '../../../stories/DetailBar';
-import Button from '../../../components/Common/Button/Button';
 import UploadProfileButton from '../../../components/PetProfileSurvey/UploadProfileButton';
 import Input from '../../../components/Common/Input/Input';
 import InputNumber from '../../../components/Common/Input/InputNumber';
 import RadioGroup from '../../../components/PetProfileSurvey/RadioGroup';
 import RadioButton from '../../../components/PetProfileSurvey/RadioButton';
 import usePetProfileSurvey from '../../../hooks/usePetProfileSurvey';
+import ButtonLarge from '../../../components/Common/Button/ButtonLarge';
 
 function EditPetProfilePage() {
   const { petProfileData, getPetProfileData, setPetProfileData, updateProfileData, setWeightData } = usePetProfileSurvey();
@@ -164,7 +164,7 @@ function EditPetProfilePage() {
             </div>
           </div>
           <>
-            <Button
+            <ButtonLarge
               children={'수정한 정보 저장하기'}
               onClick={() => {
                 console.table(petProfileData);

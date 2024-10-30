@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import styles from './PetProfileSurveyPage.module.css';
 import usePetProfileSurvey from '../../hooks/usePetProfileSurvey';
 import AngleLeftIcon from '../../assets/icons/angle-left.svg?react';
-import Button from '../../components/Common/Button/Button';
 import ProfileSurvey from '../../components/PetProfileSurvey/ProfileSurvey';
 import insertPetProfile from '../../services/insertPetProfile';
+import ButtonLarge from '../../components/Common/Button/ButtonLarge';
 
 function PetProfileSurveyPage() {
   const { step, setStep, petProfileData, initProfileData, setPetProfileData, validateStep } = usePetProfileSurvey();
@@ -54,7 +54,7 @@ function PetProfileSurveyPage() {
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.iconContainer}>
-          <AngleLeftIcon onClick={() => (step === 1 ? null : setStep(step - 1))}></AngleLeftIcon>
+          <AngleLeftIcon onClick={() => (step === 1 ? window.history.back() : setStep(step - 1))}></AngleLeftIcon>
         </div>
         <div>반려견 프로필 등록하기</div>
         <div className={styles.progressIndicator}>
@@ -79,9 +79,8 @@ function PetProfileSurveyPage() {
           )}
         </div>
       </div>
-      <Button
+      <ButtonLarge
         children={step === 7 ? '프로필 생성하기' : '다음으로'}
-        size="large"
         disabled={!isNextButtonEnabled}
         onClick={() => {
           if (step < 7) {
@@ -99,7 +98,7 @@ function PetProfileSurveyPage() {
             }
           }
         }}
-      ></Button>
+      ></ButtonLarge>
     </div>
   );
 }
