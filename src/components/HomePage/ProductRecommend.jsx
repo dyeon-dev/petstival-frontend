@@ -23,7 +23,7 @@ const Detail = styled.div`
   cursor: pointer;
 `;
 
-export default function RecommendCommerce() {
+export default function ProductRecommend() {
   const navigate = useNavigate();
 
   return (
