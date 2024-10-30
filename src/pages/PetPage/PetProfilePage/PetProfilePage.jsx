@@ -1,11 +1,8 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styles from './PetProfilePage.module.css';
 import DetailBar from '../../../stories/DetailBar';
-import PetProfileCard from '../../../components/Pet/PetProfileCard';
+import PetProfileDetailCard from '../../../components/Pet/PetProfileDetailCard';
 
-// [ ] asdf
-// TODO UI 수정 및 상세정보 추가
-// TODO 프로필 삭제 버튼 추가
 function PetProfilePage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -29,7 +26,7 @@ function PetProfilePage() {
           </div>
         </div>
         <div className={`${styles.cardWrapper}`}>
-          <PetProfileCard petData={petData} />
+          <PetProfileDetailCard petData={petData} han />
         </div>
       </div>
     </div>
