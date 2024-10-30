@@ -9,6 +9,7 @@ import { Button } from '@mui/material';
 import useTotalStore from '../../stores/useTotalStore';
 import NumberPicker from '../ProductDetail/NumberPicker';
 import { useProductStore } from '../../stores/useProductStore';
+import ButtonLarge from '../../components/Common/Button/ButtonLarge';
 
 export default function OrderInfo() {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ export default function OrderInfo() {
     navigate('/payment');
   };
 
-  // 위치가 중요함... 
+  // 위치가 중요함...
   if (!product) {
     return <p>Loading product data...</p>;
   }
@@ -57,7 +58,7 @@ export default function OrderInfo() {
       >
         <Grid container spacing={2}>
           <Grid item>
-              <img src={product.image_url_1} alt={product.product_name} style={{ width: "418px", height: "264px", objectFit: "cover" }} />
+            <img src={product.image_url_1} alt={product.product_name} style={{ width: '418px', height: '264px', objectFit: 'cover' }} />
           </Grid>
           <Grid item xs={12} sm container sx={{ marginTop: '10px' }}>
             <Grid item xs container direction="column" spacing={2}>
@@ -65,9 +66,7 @@ export default function OrderInfo() {
                 <Typography gutterBottom variant="subtitle1" component="div" sx={{ cursor: 'pointer', fontWeight: 'bold' }}>
                   {product.product_name}
                 </Typography>
-                <Typography sx={{ cursor: 'pointer', fontWeight: 'bold' }}>
-                  {product.price.toLocaleString()}원
-                </Typography>
+                <Typography sx={{ cursor: 'pointer', fontWeight: 'bold' }}>{product.price.toLocaleString()}원</Typography>
               </Grid>
             </Grid>
           </Grid>

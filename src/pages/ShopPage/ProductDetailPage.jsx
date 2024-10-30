@@ -6,6 +6,7 @@ import ItemSelectContainer from '../../components/ProductDetail/ItemSelectContai
 import Header from '../../components/Header/Header';
 import Navbar from '../../components/Navbar/Navbar';
 import styles from './ProductDetailPage.module.css';
+import ButtonMedium from '../../components/Common/Button/ButtonMedium';
 
 const ProductDetailPage = () => {
   // url에서 id 가져옴
@@ -61,8 +62,10 @@ const ProductDetailPage = () => {
       <ItemSelectContainer price={product.price} />
       {/* 버튼 영역 */}
       <div className={styles.buttonWrapper}>
-        <button onClick={handleAddToCart}>장바구니</button>
-        <button onClick={handleBuyNow}>구매하기</button>
+      <ButtonMedium children={'장바구니 담기'} sub={'secondary'} onClick={handleAddToCart} />
+      <ButtonMedium children={'구매하기'} sub={'primary'} onClick={handleBuyNow} />
+        {/* <button onClick={handleAddToCart}>장바구니</button>
+        <button onClick={handleBuyNow}>구매하기</button> */}
       </div>
     </div>
     <Navbar selectedMenu="Shop" />
