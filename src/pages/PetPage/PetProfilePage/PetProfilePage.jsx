@@ -3,6 +3,9 @@ import styles from './PetProfilePage.module.css';
 import DetailBar from '../../../stories/DetailBar';
 import PetProfileCard from '../../../components/Pet/PetProfileCard';
 
+// [ ] asdf
+// TODO UI 수정 및 상세정보 추가
+// TODO 프로필 삭제 버튼 추가
 function PetProfilePage() {
   const navigate = useNavigate();
   const location = useLocation();
