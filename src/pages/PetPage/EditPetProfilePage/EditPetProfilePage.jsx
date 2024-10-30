@@ -10,6 +10,7 @@ import RadioButton from '../../../components/PetProfileSurvey/RadioButton';
 import usePetProfileSurvey from '../../../hooks/usePetProfileSurvey';
 import ButtonLarge from '../../../components/Common/Button/ButtonLarge';
 import { CircularProgress } from '@mui/material';
+import ButtonMedium from '../../../components/Common/Button/ButtonMedium';
 
 function EditPetProfilePage() {
   const { petProfileData, getPetProfileData, setPetProfileData, updateProfileData, setWeightData } = usePetProfileSurvey();
@@ -161,18 +162,13 @@ function EditPetProfilePage() {
                     })
                   }
                 />
+                <div className={styles.buttonWrapper}>
+                  <ButtonMedium children={'삭제하기'} sub={'secondary'} onClick={null} />
+                  <ButtonMedium children={'정보 저장하기'} sub={'primary'} onClick={() => updateProfileData(petId)} />
+                </div>
               </div>
             </div>
           </div>
-          <>
-            <ButtonLarge
-              children={'수정한 정보 저장하기'}
-              onClick={() => {
-                console.table(petProfileData);
-                updateProfileData(petId);
-              }}
-            />
-          </>
         </div>
       ) : (
         <CircularProgress />
