@@ -28,7 +28,7 @@ function DefaultModal({ title, content, isOpen, setIsOpen, onYesClick }) {
       <Btn
         onClick={() => {
           setIsOpen(false);
-          onYesClick();
+          onYesClick ? onYesClick() : null;
         }}
       >
         확인

@@ -95,6 +95,7 @@ function usePetProfileSurvey() {
     window.location.href = '/pet';
   }
 
+  // TODO alert -> 에러 메시지 상태 관리로 변경
   /* 반려견 프로필 수정 폼 유효성 검사 */
   function validateEditFrom(data) {
     // 1. 이름이 빈 값인지 검사
