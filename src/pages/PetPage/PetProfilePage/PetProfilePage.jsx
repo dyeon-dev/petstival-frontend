@@ -2,14 +2,15 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styles from './PetProfilePage.module.css';
 import DetailBar from '../../../stories/DetailBar';
 import PetProfileDetailCard from '../../../components/Pet/PetProfileDetailCard';
+import usePetProfileSurvey from '../../../hooks/usePetProfileSurvey';
 
 function PetProfilePage() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { deleteProfileData } = usePetProfileSurvey();
 
   const { petId } = useParams();
   const { petData } = location.state || {};
-  console.log(petId);
 
   function handleClickEditProfile() {
     navigate(`/pet/${petId}/edit`, { state: { petData: petData } });
@@ -26,7 +27,7 @@ function PetProfilePage() {
           </div>
         </div>
         <div className={`${styles.cardWrapper}`}>
-          <PetProfileDetailCard petData={petData} han />
+          <PetProfileDetailCard petData={petData} onDeleteClick={() => deleteProfileData(petId)} />
         </div>
       </div>
     </div>

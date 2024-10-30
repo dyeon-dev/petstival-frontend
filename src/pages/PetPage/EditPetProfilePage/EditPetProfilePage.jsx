@@ -13,7 +13,7 @@ import { CircularProgress } from '@mui/material';
 import ButtonMedium from '../../../components/Common/Button/ButtonMedium';
 
 function EditPetProfilePage() {
-  const { petProfileData, getPetProfileData, setPetProfileData, updateProfileData, setWeightData } = usePetProfileSurvey();
+  const { petProfileData, getPetProfileData, setPetProfileData, updateProfileData, deleteProfileData } = usePetProfileSurvey();
   const location = useLocation();
   const { petId } = useParams();
   const { petData } = location.state || {};
@@ -163,7 +163,7 @@ function EditPetProfilePage() {
                   }
                 />
                 <div className={styles.buttonWrapper}>
-                  <ButtonMedium children={'삭제하기'} sub={'secondary'} onClick={null} />
+                  <ButtonMedium children={'삭제하기'} sub={'secondary'} onClick={() => deleteProfileData(petId)} />
                   <ButtonMedium children={'정보 저장하기'} sub={'primary'} onClick={() => updateProfileData(petId)} />
                 </div>
               </div>

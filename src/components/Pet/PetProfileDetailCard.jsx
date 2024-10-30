@@ -3,9 +3,6 @@ import PetProfileIcon from '../../assets/icons/profile-pet.svg?react';
 import formatDate from '../../utils/formatDate';
 import CancelIcon from '../../assets/icons/cancel.svg?react';
 
-// TODO 날짜 포맷팅 함수 적용 (2024-01-01 -> 2024.01.01)
-// TODO 날짜 들어가는 곳마다 적용 (birth_date)
-
 function PetProfileCard({ petData, onDeleteClick }) {
   const birth_date_calc = formatDate(petData.birth_date) || '';
   const birth_year_calc = Math.floor(petData.birth_month / 12);
@@ -13,7 +10,7 @@ function PetProfileCard({ petData, onDeleteClick }) {
 
   return (
     <div className={`${styles.container} drop-shadow-default`}>
-      <div className={`${styles.cancelButtonContainer}`} onClick={console.log('삭제하기 기능')}>
+      <div className={`${styles.cancelButtonContainer}`} onClick={onDeleteClick}>
         <CancelIcon />
       </div>
       <div className={`${styles.wrapper}`}>
