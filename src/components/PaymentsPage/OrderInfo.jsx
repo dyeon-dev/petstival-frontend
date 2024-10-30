@@ -16,7 +16,6 @@ export default function OrderInfo() {
   const { fetchProducts, getProductById } = useProductStore();
   const [product, setProduct] = useState(null);
 
-  // Fetch product data from Zustand
   useEffect(() => {
     const loadProduct = async () => {
       await fetchProducts();
@@ -35,7 +34,7 @@ export default function OrderInfo() {
     navigate('/payment');
   };
 
-  // Conditional rendering to handle initial `null` state for `product`
+  // 위치가 중요함... 
   if (!product) {
     return <p>Loading product data...</p>;
   }
