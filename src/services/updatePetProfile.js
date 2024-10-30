@@ -6,8 +6,8 @@ async function updatePetProfile(petId, petData) {
     .update({
       pet_name: petData.pet_name,
       know_birth: petData.know_birth,
-      birth_date: petData.know_birth ? petData.birth_date : '',
-      birth_month: petData.know_birth ? Number(petData.birth_year) * 12 + Number(petData.birth_month) : 0,
+      birth_date: petData.know_birth ? petData.birth_date : null,
+      birth_month: !petData.know_birth ? Number(petData.birth_year) * 12 + Number(petData.birth_month) : 0,
       breed: petData.breed,
       gender: petData.gender,
       neutered: petData.neutered,

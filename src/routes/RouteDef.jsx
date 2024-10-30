@@ -13,6 +13,7 @@ import PetProfileSurveyPage from '../pages/PetProfileSurveyPage/PetProfileSurvey
 import OauthPage from '../pages/Oauth/OauthPage';
 import PetPage from '../pages/PetPage/PetPage';
 import PetProfilePage from '../pages/PetPage/PetProfilePage/PetProfilePage';
+import EditPetProfilePage from '../pages/PetPage/EditPetProfilePage/EditPetProfilePage';
 import ProductListPage from '../pages/ShopPage/ProductListPage';
 import ProductDetailPage from '../pages/ShopPage/ProductDetailPage';
 import PetstivalShopPage from "../pages/PetstivalShopPage/PetstivalShopPage";
@@ -74,6 +75,10 @@ export const Screens = {
   PetProfile: {
     path: '/pet/:petId',
     element: <PetProfilePage />,
+  },
+  EditPetProfile: {
+    path: '/pet/:petId/edit',
+    element: <EditPetProfilePage />,
   },
   Products: {
     path: '/products',
