@@ -37,6 +37,9 @@ const ProductListPage = () => {
     }
     if (activeTab === '장난감') {
       return product.category_id==4;
+    } 
+    if (activeTab=== "추천상품") {
+      return ![1, 2, 3, 4].includes(product.category_id); // 1,2,3,4에 포함되지 않는 제품 반환
     }
     return false; // 다섯 개의 조건에 해당되지 않는 경우
   });
