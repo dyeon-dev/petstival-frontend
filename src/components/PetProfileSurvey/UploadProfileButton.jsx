@@ -18,7 +18,6 @@ function UploadProfileButton({ petId, petName, profileUrl, setData }) {
   async function fileInputSubmit(event) {
     const targetFile = event.target.files?.[0];
     const encodedPath = encodeURIComponent(petName);
-    console.log(targetFile.type);
 
     if (!targetFile) return;
     const profileImgUrl = await uploadProfileImg(targetFile, petId);
