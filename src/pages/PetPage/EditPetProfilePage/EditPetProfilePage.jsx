@@ -1,5 +1,5 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './EditPetProfilePage.module.css';
 import DetailBar from '../../../stories/DetailBar';
 import UploadProfileButton from '../../../components/PetProfileSurvey/UploadProfileButton';
@@ -8,15 +8,30 @@ import InputNumber from '../../../components/Common/Input/InputNumber';
 import RadioGroup from '../../../components/PetProfileSurvey/RadioGroup';
 import RadioButton from '../../../components/PetProfileSurvey/RadioButton';
 import usePetProfileSurvey from '../../../hooks/usePetProfileSurvey';
-import ButtonLarge from '../../../components/Common/Button/ButtonLarge';
 import { CircularProgress } from '@mui/material';
 import ButtonMedium from '../../../components/Common/Button/ButtonMedium';
+import deletePetProfile from '../../../services/deletePetProfile';
+import DefaultModal from '../../../components/Common/Modal/DefaultModal';
+import YesNoModal from '../../../components/Common/Modal/YesNoModal';
 
 function EditPetProfilePage() {
-  const { petProfileData, getPetProfileData, setPetProfileData, updateProfileData, deleteProfileData } = usePetProfileSurvey();
+  const { petProfileData, getPetProfileData, setPetProfileData, updateProfileData } = usePetProfileSurvey();
   const location = useLocation();
   const { petId } = useParams();
   const { petData } = location.state || {};
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [isDeleteSuccess, setIsDeleteSuccess] = useState(false);
+  const [isDeleteFailed, setIsDeleteFailed] = useState(false);
+
+  // 반려견 프로필 데이터 삭제 함수
+  async function handleDeletePetProfile() {
+    try {
+      await deletePetProfile(petId); // petId에 해당하는 반려견 프로필 데이터 삭제
+      setIsDeleteSuccess(true); // 삭제에 성공한 경우 성공 알림 모달 띄움
+    } catch (error) {
+      setIsDeleteFailed(true); // 삭제에 실패한 경우 실패 알림 모달 띄움
+    }
+  }
 
   // 초기 화면 렌더링 시 petData를 usePetProfileSurvey 훅에 저장
   useEffect(() => {
@@ -163,12 +178,35 @@ function EditPetProfilePage() {
                   }
                 />
                 <div className={styles.buttonWrapper}>
-                  <ButtonMedium children={'삭제하기'} sub={'secondary'} onClick={() => deleteProfileData(petId)} />
+                  <ButtonMedium children={'삭제하기'} sub={'secondary'} onClick={() => setIsConfirmModalOpen(true)} />
                   <ButtonMedium children={'정보 저장하기'} sub={'primary'} onClick={() => updateProfileData(petId)} />
                 </div>
               </div>
             </div>
           </div>
+          <YesNoModal
+            title={'반려견 프로필 삭제'}
+            content={'정말 반려견 프로필을 삭제하시겠어요?'}
+            isOpen={isConfirmModalOpen}
+            setIsOpen={() => setIsConfirmModalOpen(!setIsConfirmModalOpen)}
+            onYesClick={handleDeletePetProfile}
+          />
+          <DefaultModal
+            title={'삭제 완료'}
+            content={'반려견 프로필 삭제가 완료되었어요.'}
+            isOpen={isDeleteSuccess}
+            setIsOpen={() => setIsDeleteSuccess(!setIsDeleteSuccess)}
+            onYesClick={() => {
+              window.location.href = '/pet';
+            }}
+          />
+          <DefaultModal
+            title={'삭제 실패'}
+            content={'반려견 프로필 삭제에 실패했어요.\n다시 시도해주세요.'}
+            isOpen={isDeleteFailed}
+            setIsOpen={() => setIsDeleteFailed(!isDeleteFailed)}
+            onYesClick={() => setIsDeleteSuccess(!setIsDeleteSuccess)}
+          />
         </div>
       ) : (
         <CircularProgress />

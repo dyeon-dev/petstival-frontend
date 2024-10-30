@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import updatePetProfile from '../services/updatePetProfile';
 import insertPetProfile from '../services/insertPetProfile';
-import deletePetProfile from '../services/deletePetProfile';
 
 /* 반려견 프로필 생성 및 DB 저장 */
 function usePetProfileSurvey() {
@@ -68,30 +67,13 @@ function usePetProfileSurvey() {
     try {
       await updatePetProfile(petId, petProfileData);
     } catch (error) {
+      // TODO 업데이트 실패 모달 투가
       window.alert('업로드에 실패했어요. 다시 시도해주세요.');
       console.log(error);
       return;
     }
+    // TODO 성공은 모달 띄우지 않고 바로 이동
     window.alert('프로필 정보 업데이트에 성공했어요.');
-    window.location.href = '/pet';
-  }
-
-  /* 반려견 프로필 삭제 */
-  // 3. 반려견 프로필 삭제
-  async function deleteProfileData(petId) {
-    // TODO alert 창을 모달로 변경
-    // '예'를 선택한 경우 deletePetProfile 실행, '아니오'를 선택한 경우 바로 return
-    const isDelete = window.confirm('정말 반려견 프로필 정보를 삭제하시겠어요?');
-    if (!isDelete) return;
-
-    try {
-      const response = await deletePetProfile(petId);
-    } catch (error) {
-      console.log(error);
-      window.alert('프로필 삭제에 실패했어요.');
-      return;
-    }
-    window.alert('프로필 정보가 삭제되었어요.');
     window.location.href = '/pet';
   }
 
@@ -171,7 +153,6 @@ function usePetProfileSurvey() {
     postProfileData, // 설문 데이터 생성 함수
     setPetProfileData, // 설문 데이터 상태 변경 함수
     updateProfileData, // 설문 데이터 업데이트 함수
-    deleteProfileData, // 반려견 프로필 정보 삭제 함수
     initProfileData, // 설문 데이터 초기화 함수
     handleSurveyStep, // 설문 단계 핸들러 함수
     validateStep, // 설문 단계별 유효성 검사
