@@ -1,5 +1,5 @@
 // 제품 상세 정보 페이지
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useProductStore } from '../../stores/useProductStore';
 import ItemSelectContainer from '../../components/ProductDetail/ItemSelectContainer';
@@ -10,9 +10,25 @@ import styles from './ProductDetailPage.module.css';
 const ProductDetailPage = () => {
   // url에서 id 가져옴
   const { id } = useParams();
+  const { fetchProducts, getProductById } = useProductStore();
+  const [product, setProduct] = useState(null);
+
   const navigate = useNavigate();
+
   // Zustand에서 제품 데이터 가져오기
-  const product = useProductStore((state) => state.getProductById(id));
+  const loadProduct = async () => {
+    await fetchProducts(); // 비동기 함수로 제품 데이터 불러오기
+    const foundProduct = getProductById(id);
+    setProduct(foundProduct); // 제품을 상태에 저장
+  };
+
+  useEffect(() => {
+    loadProduct();
+  }, [fetchProducts, getProductById, id]);
+
+  if (!product) {
+    return <p>Loading product details...</p>;
+  }
 
   const handleAddToCart = () => {
     // 장바구니 페이지로 이동
@@ -29,19 +45,17 @@ const ProductDetailPage = () => {
     <div className={styles.detailContainer}>
       {/* 제품 이미지 - 이미지 스토리지에 넣은 URL 사용 */}
       <img
-        src="https://hfnchwvpqruwmlehusbs.supabase.co/storage/v1/object/public/test/test-img.png?t=2024-10-29T04%3A54%3A48.164Z"
-        alt={product.title}
-        className={styles.productDetailImage}
+        src={product.image_url_1}
+        alt={product.product_name}
+      //  className={styles.productDetailImage}
       />
       {/* 제품 제목, 설명, 가격 */}
       <div className={styles.infoTextWrapper}>
-        <h2 className={styles.titleText}>{product.title}</h2>
+        <h2 className={styles.titleText}>{product.product_name}</h2>
         <p className={styles.contentText}>
-          댕댕이와 피크닉에 꼭 필요한
-          <br />
-          피크닉 매트 + 텀블러 + 신발 세트
+          {product.contents}
         </p>
-        <p className={styles.priceTextOrange}>{product.price}원</p>
+        <p className={styles.priceTextOrange}>{product.price.toLocaleString()}원</p>
       </div>
       {/* 수량 선택 및 가격 표시 컴포넌트 삽입 */}
       <ItemSelectContainer price={product.price} />
