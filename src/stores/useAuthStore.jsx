@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist,createJSONStorage } from 'zustand/middleware';
 
 // Zustand 스토어 생성
 export const useAuthStore = create(persist(
@@ -19,6 +19,6 @@ export const useAuthStore = create(persist(
   }),
   {
     name: 'auth-storage', // 로컬 스토리지의 키 이름
-    getStorage: () => sessionStorage, // sessionStorage를 사용
+    storage: createJSONStorage(() => sessionStorage), // sessionStorage를 사용
   }
 ));

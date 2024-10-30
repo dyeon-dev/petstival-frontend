@@ -7,6 +7,7 @@
   height: 80px;
   border-radius: 8px;
   padding: 0 24px;
+  margin-bottom: 16px;
   font-family: 'Pretendard';
   font-size: 16px;
   font-weight: 500;
@@ -15,4 +16,20 @@
 
 .input::placeholder {
   color: var(--gray-40);
+}
+
+/* Chrome, Safari, Edge */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: inner-spin-button;
+  opacity: 1;
+}
+
+.adornment {
+  position: absolute;
+  top: 27px;
+  right: 24px;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--gray-100);
 }

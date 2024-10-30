@@ -1,8 +1,17 @@
-import { create } from 'zustand'
+import { create } from 'zustand';
 
-export const useTotalStore = create((set) => {
-  return {
-    total: 0,
-    setTotal: (newTotal) => set({ total: newTotal }), // total 값을 업데이트하는 함수 추가
-  }
-})
+const useTotalStore = create((set) => ({
+  quantity: 1,
+  unitPrice: 0,
+  totalPrice: 0,
+  setUnitPrice: (price) => set((state) => ({
+    unitPrice: price,
+    totalPrice: price * state.quantity,
+  })),
+  setQuantity: (newQuantity) => set((state) => ({
+    quantity: newQuantity,
+    totalPrice: newQuantity * state.unitPrice,
+  })),
+}));
+
+export default useTotalStore;
