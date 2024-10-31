@@ -1,41 +1,44 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { logout, deleteAccount } from '../../hooks/useAuth';
 import { useAuthStore } from '../../stores/useAuthStore';
 import { useNavigate } from 'react-router-dom';
+import YesNoModal from '../../components/Common/Modal/YesNoModal';
+import DefaultModal from '../../components/Common/Modal/DefaultModal';
 
 export default function MyAccount() {
   const navigate = useNavigate();
-  const { user, setUser,clearUser } = useAuthStore(); // setUser 추가
-
-  useEffect(() => {
-    if (user) {
-      console.log('현재 유저:', user);
-    }
-  }, [user]);
+  const { user, clearUser } = useAuthStore(); // setUser 추가
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [isFailedModalOpen, setIsFailedModalOpen] = useState(false);
+  const [modalType, setModalType] = useState('');
 
   const handleLogout = async () => {
     try {
       await logout(); // 로그아웃 함수 호출
       // setUser(null); // 로그아웃 후 사용자 상태를 null로 설정
       clearUser();
-      navigate("/home"); // 로그인 페이지로 이동
+      // 로그아웃 성공 시 로그아웃 성공 모달 열기
+      setIsSuccessModalOpen(true);
     } catch (error) {
-      alert('로그아웃 실패: ' + error.message); // 에러 처리
+      console.error(error);
+      setIsFailedModalOpen(true);
     }
   };
 
   const handleDelete = async () => {
-    if (window.confirm('정말로 계정을 삭제하시겠습니까?')) { // 사용자 확인
-      try {
-        await deleteAccount(user); // 회원 탈퇴 함수 호출
-        clearUser(); // 유저 정보 초기화
-        navigate("/home"); // 로그인 페이지로 이동
-      } catch (error) {
-        console.error('회원 탈퇴 실패: ' + error.message); // 에러 처리
-      }
+    try {
+      await deleteAccount(user); // 회원 탈퇴 함수 호출
+      clearUser(); // 유저 정보 초기화
+
+      // 회원 탈퇴 성공 시 회원 탈퇴 모달 열기
+      setIsSuccessModalOpen(true);
+    } catch (error) {
+      console.error('회원 탈퇴 실패: ' + error);
+      setIsFailedModalOpen(true);
     }
   };
 
@@ -58,19 +61,25 @@ export default function MyAccount() {
         <Grid container>
           <Grid item xs container direction="column" spacing={2}>
             <Grid item xs>
-              <Typography 
-                gutterBottom 
-                variant="body2" 
-                sx={{ margin: '15px', cursor: "pointer" }} 
-                onClick={handleLogout}
+              <Typography
+                gutterBottom
+                variant="body2"
+                sx={{ margin: '15px', cursor: 'pointer' }}
+                onClick={() => {
+                  setIsConfirmModalOpen(true);
+                  setModalType('로그아웃');
+                }}
               >
                 로그아웃
               </Typography>
-              <Typography 
-                gutterBottom 
-                variant="body2" 
-                sx={{ margin: '15px', cursor: "pointer" }} 
-                onClick={handleDelete}
+              <Typography
+                gutterBottom
+                variant="body2"
+                sx={{ margin: '15px', cursor: 'pointer' }}
+                onClick={() => {
+                  setIsConfirmModalOpen(true);
+                  setModalType('회원 탈퇴');
+                }}
               >
                 회원탈퇴
               </Typography>
@@ -78,6 +87,29 @@ export default function MyAccount() {
           </Grid>
         </Grid>
       </Paper>
+      <YesNoModal
+        title={`${modalType} 확인`}
+        content={`정말 ${modalType}하시겠어요?`}
+        isOpen={isConfirmModalOpen}
+        setIsOpen={() => setIsConfirmModalOpen(!isConfirmModalOpen)}
+        onYesClick={modalType === '로그아웃' ? handleLogout : handleDelete}
+      />
+      <DefaultModal
+        title={`${modalType} 완료`}
+        content={`${modalType}이 완료되었어요.`}
+        isOpen={isSuccessModalOpen}
+        setIsOpen={() => setIsSuccessModalOpen(!isSuccessModalOpen)}
+        onYesClick={() => {
+          window.location.href = '/login';
+        }}
+      />
+      <DefaultModal
+        title={`${modalType} 실패`}
+        content={`${modalType}에 실패했어요.\n다시 시도해주세요.`}
+        isOpen={isFailedModalOpen}
+        setIsOpen={() => setIsFailedModalOpen(!isFailedModalOpen)}
+        onYesClick={() => setIsFailedModalOpen(!isFailedModalOpen)}
+      />
     </>
   );
 }

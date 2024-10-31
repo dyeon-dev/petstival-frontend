@@ -60,7 +60,6 @@ function ProfileSurvey({ step, petProfileData, setPetProfileData, validateStep, 
           ) : (
             <div className={`${styles.inputWrapper}`}>
               {/* 3-2. 대략적인 개월수만 알고 있는 경우 */}
-              {/* TODO  */}
               <InputNumber
                 type="number"
                 value={petProfileData.birth_year}
