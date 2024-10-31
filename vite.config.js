@@ -6,7 +6,7 @@ import svgr from 'vite-plugin-svgr';
 export default defineConfig({
   plugins: [react(), svgr()],
   optimizeDeps: {
-    include: ['chunk-HQKIOHVU.js'], // vite 종속성 오류
+    // include: ['chunk-HQKIOHVU.js'], // vite 종속성 오류
   },
   server: {
     proxy: {

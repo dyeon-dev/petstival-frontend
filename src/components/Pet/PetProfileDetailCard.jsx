@@ -15,7 +15,7 @@ function PetProfileCard({ petData, onDeleteClick }) {
       </div>
       <div className={`${styles.wrapper}`}>
         <div className={`${styles.profileImgContainer}`}>
-          {petData.profile_url ? <img className={`${styles.profileImg}`} src={petData.profile_url} /> : <PetProfileIcon width="80px" height="80px" />}
+          {petData.profile_url ? <img className={`${styles.profileImg}`} src={petData.profile_url} /> : <PetProfileIcon width="72%" height="72%" />}
         </div>
 
         <div>
@@ -29,7 +29,7 @@ function PetProfileCard({ petData, onDeleteClick }) {
           </div>
           <div className={`${styles.contentRowWrapper}`}>
             <div className={`${styles.labelText}`}>{`성별`}</div>
-            <div className={`${styles.contentText}`}>{petData.gender === 'Male' ? '남아' : '여아'}</div>
+            <div className={`${styles.contentText}`}>{petData.gender === 'male' ? '남아' : '여아'}</div>
           </div>
           <div className={`${styles.contentRowWrapper}`}>
             <div className={`${styles.labelText}`}>{`몸무게`}</div>
