@@ -48,6 +48,7 @@ export default function OrderInfo() {
   const handlePayment = async () => {
     navigate('/payment');
 
+    // order table에 주문 데이터 삽입
     const dataToPost = {
       user_id: user.id,
       delivery_name: name,
@@ -58,11 +59,34 @@ export default function OrderInfo() {
       total_count: quantity
     };
     
-    // order table에 주문 데이터 삽입
-    const { data, error } = await supabase.from('order').insert([dataToPost]);
+    const { data: insertData, error: insertError } = await supabase.from('order').insert([dataToPost]);
 
-    if (error) {
-      console.error('Error posting data:', error);
+    if (insertError) {
+      console.error('Error posting data:', insertError);
+      return;
+    }
+
+
+    // order table에서 orderData 가져오기
+    const { data: orderData, error: selectError } = await supabase.from('order').select();
+
+    if (selectError) {
+      console.error('Error fetching order data:', selectError);
+      return;
+    }
+
+    // order_detail table에 주문 상세 데이터 삽입
+    const orderDetailPost = {
+      order_id: orderData[0].order_id, // 예시로 첫 번째 데이터 사용
+      product_id: id,
+      count: orderData[0].total_count,
+      price: orderData[0].total_price,
+    };
+    
+    const { data: detailData, error: detailError } = await supabase.from('order_detail').insert([orderDetailPost]);
+
+    if (detailError) {
+      console.error('Error posting data:', detailError);
       return;
     }
   };
