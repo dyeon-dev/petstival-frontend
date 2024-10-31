@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styles from './PetProfilePage.module.css';
 import DetailBar from '../../../stories/DetailBar';
@@ -6,7 +7,7 @@ import usePetProfileSurvey from '../../../hooks/usePetProfileSurvey';
 import deletePetProfile from '../../../services/deletePetProfile';
 import DefaultModal from '../../../components/Common/Modal/DefaultModal';
 import YesNoModal from '../../../components/Common/Modal/YesNoModal';
-import { useState } from 'react';
+import NavBar from '../../../components/Navbar/Navbar';
 
 function PetProfilePage() {
   const navigate = useNavigate();
@@ -74,6 +75,7 @@ function PetProfilePage() {
         setIsOpen={() => setIsDeleteFailed(!isDeleteFailed)}
         onYesClick={() => setIsDeleteFailed(!isDeleteFailed)}
       />
+      <NavBar selectedMenu={'Pet'} />
     </div>
   );
 }
