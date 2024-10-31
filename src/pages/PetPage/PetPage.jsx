@@ -9,10 +9,20 @@ import CircularProgress from '@mui/material/CircularProgress';
 import fetchPetProfile from '../../services/fetchPetProfile';
 import PetProfileGray from '../../assets/icons/profile-pet-gray.svg?react';
 import NoPetsCard from '../../components/Pet/NoPetsCard';
-
+import {useNavigate} from 'react-router-dom';
 function PetPage() {
   const [petsData, setPetsData] = useState(null);
   const userName = useAuthStore((state) => state.user?.name);
+
+
+    const navigate = useNavigate();
+    useEffect(() => {
+      if (!userName) {
+        navigate('/login'); // user가 없는 경우 login 페이지로 리디렉션
+      }
+    }, [userName, navigate]); // user 또는 navigate가 변경될 때만 실행
+  
+    if (!userName) return null; // user가 없을 때는 null을 반환하여 컴포넌트 렌더링을 막음
 
   // 프로필 추가하기 버튼을 클릭할 경우 반려견 프로필 설문 페이지로 이동
   function handleClickAddProfile() {

@@ -21,7 +21,7 @@ export default function MyAccount() {
       await logout(); // 로그아웃 함수 호출
       // setUser(null); // 로그아웃 후 사용자 상태를 null로 설정
       clearUser();
-      navigate("/login"); // 로그인 페이지로 이동
+      navigate("/home"); // 로그인 페이지로 이동
     } catch (error) {
       alert('로그아웃 실패: ' + error.message); // 에러 처리
     }
@@ -32,7 +32,7 @@ export default function MyAccount() {
       try {
         await deleteAccount(user); // 회원 탈퇴 함수 호출
         clearUser(); // 유저 정보 초기화
-        navigate("/login"); // 로그인 페이지로 이동
+        navigate("/home"); // 로그인 페이지로 이동
       } catch (error) {
         console.error('회원 탈퇴 실패: ' + error.message); // 에러 처리
       }
