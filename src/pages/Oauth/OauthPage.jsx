@@ -26,7 +26,7 @@ function OauthPage() {
   const accessToken = params.get('access_token');
 
   // 최초 로그인 여부를 받아와 분기 처리
-  const getisFirstLogin = async (user_id) => {
+  const getIsFirstLogin = async (user_id) => {
     try {
       // user.id로 DB에서 사용자 정보 조회
       const { data, error } = await supabase.from('user').select().eq('user_id', `${user_id}`);
@@ -34,10 +34,12 @@ function OauthPage() {
 
       if (error) {
         console.error(error);
-        isFailedModalOpen(true);
+        setIsFailedModalOpen(true);
         throw error;
       }
 
+      console.table(user);
+      console.log('최초 로그인 여부 =', user.is_first_login);
       if (user.is_first_login) {
         // 최초 로그인인 경우 최초 로그인 여부를 DB에 업데이트하고 설문 페이지로 이동
         setNextPage('/survey');
@@ -52,7 +54,7 @@ function OauthPage() {
       }
     } catch (error) {
       console.error(error);
-      isFailedModalOpen(true);
+      setIsFailedModalOpen(true);
       throw error;
     }
   };
@@ -65,12 +67,12 @@ function OauthPage() {
 
       if (error) {
         console.error(error);
-        isFailedModalOpen(true);
+        setIsFailedModalOpen(true);
         throw error;
       }
     } catch (error) {
       console.error(error);
-      isFailedModalOpen(true);
+      setIsFailedModalOpen(true);
       throw error;
     }
   };
@@ -103,7 +105,7 @@ function OauthPage() {
             });
 
             // 최초 로그인 여부에 따라 분기
-            getisFirstLogin(userData.id);
+            getIsFirstLogin(userData.id);
             return;
           } else {
             console.error('no User Data');
