@@ -20,7 +20,6 @@ function FailPage() {
         console.error('Error posting data:', error);
         return;
       }
-      console.log('Data posted successfully:', data);
     };
 
     updatePaymentState();
