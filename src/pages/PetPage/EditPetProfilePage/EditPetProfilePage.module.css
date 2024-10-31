@@ -30,3 +30,12 @@
   font-size: 14px;
   font-weight: 500;
 }
+
+.buttonWrapper {
+  width: calc(100% - 64px);
+  position: absolute;
+  bottom: 48px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
