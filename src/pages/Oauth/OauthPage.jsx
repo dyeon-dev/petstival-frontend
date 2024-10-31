@@ -3,6 +3,17 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../stores/useAuthStore'; // useAuthStore import
 import supabase from '../../services/supabaseClient'; // Supabase 클라이언트 import
 import DefaultModal from '../../components/Common/Modal/DefaultModal';
+import styled from 'styled-components';
+import { CircularProgress } from '@mui/material';
+import styles from '../../pages/Oauth/OauthPage.module.css';
+
+const OAuthContainer = styled`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 function OauthPage() {
   const location = useLocation();
@@ -73,7 +84,6 @@ function OauthPage() {
 
           if (error) {
             console.error('Error fetching user:', error.message);
-            // window.alert('Failed to retrieve user information!', 'error');
 
             setIsFailedModalOpen(true);
             // navigate('/login');
@@ -114,8 +124,8 @@ function OauthPage() {
   }, []);
 
   return (
-    <div style="display: flex; justify-content: center; align-items: center; height: 100vh">
-      <div>로그인 중, 잠시만 기다려주세요...</div>
+    <div className={styles.container}>
+      <CircularProgress />
       <DefaultModal
         title={'로그인 성공'}
         content={'로그인에 성공했어요.'}
