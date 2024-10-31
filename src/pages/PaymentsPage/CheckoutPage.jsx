@@ -3,7 +3,7 @@ import { loadTossPayments, ANONYMOUS } from '@tosspayments/tosspayments-sdk';
 import { v4 as uuidv4 } from 'uuid';
 import './style.css';
 import { createClient } from '@supabase/supabase-js';
-import { useLocation } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import useTotalStore from '../../stores/useTotalStore';
 import supabase from '../../services/supabaseClient';
 
@@ -15,6 +15,8 @@ const clientKey = import.meta.env.VITE_CLIENT_SECRET_KEY;
 function CheckoutPage() {
   const [ready, setReady] = useState(false);
   const [widgets, setWidgets] = useState(null);
+  const [searchParams] = useSearchParams();
+  const order_id = searchParams.get('order_id');
 
   const { totalPrice } = useTotalStore(); // Zustand 스토어에서 total 가져오기
 
@@ -36,10 +38,10 @@ function CheckoutPage() {
     const dataToPost = {
       orderId: orderId,
       amount: amountValue,
-      order_id: 'd4c8b0f7-62f4-4a63-90e7-5af0a5d9e4c6',
+      order_id: order_id,
     };
-    // payment_info table에 정보를 업데이트
-    const { data, error } = await supabase.from('payment').upsert([dataToPost]);
+    // payment_info table에 결제 정보를 삽입
+    const { data, error } = await supabase.from('payment').insert([dataToPost]);
 
     if (error) {
       console.error('Error posting data:', error);

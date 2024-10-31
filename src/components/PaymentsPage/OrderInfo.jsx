@@ -46,8 +46,6 @@ export default function OrderInfo() {
   };
 
   const handlePayment = async () => {
-    navigate('/payment');
-
     // order table에 주문 데이터 삽입
     const dataToPost = {
       user_id: user.id,
@@ -66,8 +64,6 @@ export default function OrderInfo() {
       return;
     }
 
-    console.log('insertData: ', insertData);
-
     // insertData에서 order_id 가져오기
     const newOrderId = insertData[0].order_id;
 
@@ -85,6 +81,8 @@ export default function OrderInfo() {
       console.error('Error posting data:', detailError);
       return;
     }
+
+    navigate(`/payment?order_id=${newOrderId}`);
   };
 
   // 위치가 중요함...
