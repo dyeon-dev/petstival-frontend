@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Navbar from '../../components/Navbar/Navbar';
-import DeliveryInfo from "../../components/Mypage/OrderDetailPage/DeliveryInfo";
+import DeliveryInfo from "../../components/PaymentsPage/DeliveryInfo";
 import DetailBar from "../../stories/DetailBar";
 import OrderInfo from '../../components/PaymentsPage/OrderInfo';
 
