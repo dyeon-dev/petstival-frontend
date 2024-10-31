@@ -6,6 +6,7 @@ import ButtonBase from '@mui/material/ButtonBase';
 import image1 from '../../assets/info_image.png';
 import styled from 'styled-components';
 import { useNavigate } from "react-router-dom";
+import useTotalStore from '../../stores/useTotalStore';
 
 const Info = styled.div`
   display: flex;
@@ -26,6 +27,7 @@ const Detail = styled.div`
 
 export default function MyOrder() {
   const navigate = useNavigate();
+  const { quantity, totalPrice, setQuantity } = useTotalStore();
 
   return (
     <>
@@ -70,10 +72,10 @@ export default function MyOrder() {
                 </Typography>
 
                 <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                  1개
+                  {quantity}개
                 </Typography>
 
-                <Typography sx={{ cursor: 'pointer', fontWeight: 'bold' }}>39,800원</Typography>
+                <Typography sx={{ cursor: 'pointer', fontWeight: 'bold' }}>{totalPrice.toLocaleString()}원</Typography>
               </Grid>
             </Grid>
           </Grid>

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
+import supabase from '../../services/supabaseClient';
 
 function SuccessPage() {
   const [isConfirmed, setIsConfirmed] = useState(false);
@@ -29,9 +30,33 @@ function SuccessPage() {
       if (json.code && json.message) {
         // 결제 실패 비즈니스 로직을 구현
         window.location.href = `/fail?message=${json.message}&code=${json.code}`; // 실패 페이지로 이동
+
+         // payment table에 payment_state 정보를 fail 업데이트
+         const { data, error } = await supabase
+         .from('payment')
+         .update({ payment_state: 'fail' })
+         .eq('orderId', orderId);
+ 
+         if (error) {
+           console.error('Error posting data:', error);
+           return;
+         }
+         console.log('Data posted successfully:', data);
+
       } else {
         // 결제 성공 비즈니스 로직을 구현
         setIsConfirmed(true);
+        // payment table에 payment_state 정보를 success로 업데이트
+        const { data, error } = await supabase
+        .from('payment')
+        .update({ payment_state: 'success' })
+        .eq('orderId', orderId);
+
+        if (error) {
+          console.error('Error posting data:', error);
+          return;
+        }
+        console.log('Data posted successfully:', data);
       }
     }
   }
