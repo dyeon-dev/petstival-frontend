@@ -29,20 +29,7 @@ function SuccessPage() {
       const json = await response.json(); // 응답 본문을 JSON으로 파싱
       if (json.code && json.message) {
         // 결제 실패 비즈니스 로직을 구현
-        window.location.href = `/fail?message=${json.message}&code=${json.code}`; // 실패 페이지로 이동
-
-         // payment table에 payment_state 정보를 fail 업데이트
-         const { data, error } = await supabase
-         .from('payment')
-         .update({ payment_state: 'fail' })
-         .eq('orderId', orderId);
- 
-         if (error) {
-           console.error('Error posting data:', error);
-           return;
-         }
-         console.log('Data posted successfully:', data);
-
+        window.location.href = `/fail?message=${json.message}&code=${json.code}&orderId=${orderId}`; // 실패 페이지로 이동
       } else {
         // 결제 성공 비즈니스 로직을 구현
         setIsConfirmed(true);
@@ -50,7 +37,7 @@ function SuccessPage() {
         const { data, error } = await supabase
         .from('payment')
         .update({ payment_state: 'success' })
-        .eq('orderId', orderId);
+        .eq('orderId', orderId)
 
         if (error) {
           console.error('Error posting data:', error);
