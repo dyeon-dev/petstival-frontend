@@ -41,11 +41,13 @@ function OrderPage() {
   // 아이템 데이터를 날짜별로 그룹화하는 함수
   const groupItemsByDate = (items) => {
     return items.reduce((acc, item) => {
-      const date = new Date(item.order.created_at).toLocaleDateString('ko-KR', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit'
-      }).replace(/\.$/, ''); // 날짜만 추출
+      const date = new Date(item.order.created_at)
+        .toLocaleDateString('ko-KR', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+        })
+        .replace(/\.$/, ''); // 날짜만 추출
       if (!acc[date]) {
         acc[date] = [];
       }
@@ -62,7 +64,7 @@ function OrderPage() {
       <Wrapper>
         {Object.keys(groupedItems).map((date) => (
           <div key={date}>
-              <h3>{date}</h3>
+            <h3>{date}</h3>
             {groupedItems[date].map((item, index) => (
               <OrderList key={index} item={item} />
             ))}

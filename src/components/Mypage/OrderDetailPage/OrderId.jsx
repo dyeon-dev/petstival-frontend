@@ -3,7 +3,12 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 
-export default function OrderInfo() {
+export default function OrderId(props) {
+  // 위치가 중요함...
+  if (!props) {
+    return <p>Loading product data...</p>;
+  }
+
   return (
     <>
       <h3>주문 정보</h3>
@@ -20,14 +25,21 @@ export default function OrderInfo() {
         })}
       >
         <Typography gutterBottom variant="subtitle3" component="div" sx={{ fontWeight: 'bold', marginLeft: '10px', marginBottom: '20px' }}>
-          No. 0000001
+          {props.order_id}
         </Typography>
         <Grid item container spacing={2} sx={{ color: 'text.secondary', marginLeft: '10px' }}>
           <Typography variant="body2" component="div">
-            2024.10.23 01:17 &nbsp;
-          </Typography>
-          <Typography variant="body2" component="div">
-            결제 완료
+            {new Date(props.created_at)
+              .toLocaleString('ko-KR', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false,
+              })
+              .replace(/\.$/, '')}
+            &nbsp; 결제 완료
           </Typography>
         </Grid>
       </Paper>
