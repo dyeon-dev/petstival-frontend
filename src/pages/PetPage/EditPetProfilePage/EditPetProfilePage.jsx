@@ -229,7 +229,6 @@ function EditPetProfilePage() {
                     })
                   }
                 />
-                {/* TODO 유효성 검사 에러 메시지 추가 */}
                 <div className={`${styles.errorMsg}`}>{errorMsg.weight}</div>
               </div>
               <div className={styles.buttonWrapper}>
