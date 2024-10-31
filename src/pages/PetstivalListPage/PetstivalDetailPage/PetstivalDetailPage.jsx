@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Slider from "react-slick";
-import Header from '../../../components/Header/Header';
+import DetailBar from '../../../stories/DetailBar';
 import Navbar from '../../../components/Navbar/Navbar';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
@@ -148,7 +148,7 @@ export default function PetstivalDetailPage() {
 
   return (
     <PageContainer>
-      <Header />
+      <DetailBar title= "펫스티벌 상세보기" />
       <Wrapper>
         <Paper
           sx={{
@@ -223,14 +223,14 @@ export default function PetstivalDetailPage() {
                     fontSize: '1.2rem' 
                   }}
                 >
-                  {item.price} 원
+                  {item.price.toLocaleString()} 원
                 </Typography>
               </RecommendationItem>
             ))}
           </Slider>
         </RecommendationsContainer>
       </Wrapper>
-      <Navbar selectedMenu="MyPage" />
+      <Navbar selectedMenu="Home" />
     </PageContainer>
   );
 }
