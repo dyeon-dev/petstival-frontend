@@ -246,7 +246,7 @@ function EditPetProfilePage() {
             onYesClick={handleDeletePetProfile}
           />
           <DefaultModal
-            title={`${modalType} 완료`}
+            title={`프로필 ${modalType} 완료`}
             content={`반려견 프로필이 ${modalType}되었어요.`}
             isOpen={isSuccessModalOpen}
             setIsOpen={() => setIsSuccessModalOpen(!isSuccessModalOpen)}
@@ -255,11 +255,11 @@ function EditPetProfilePage() {
             }}
           />
           <DefaultModal
-            title={`${modalType} 완료`}
+            title={`프로필 ${modalType} 실패`}
             content={`반려견 프로필 ${modalType}에 실패했어요.\n다시 시도해주세요.`}
             isOpen={isFailedModalOpen}
             setIsOpen={() => setIsFailedModalOpen(!isFailedModalOpen)}
-            onYesClick={() => setIsSuccessModalOpen(!isSuccessModalOpen)}
+            onYesClick={() => setIsFailedModalOpen(!isFailedModalOpen)}
           />
         </div>
       ) : (

@@ -47,7 +47,6 @@ function PetProfilePage() {
             petData={petData}
             onDeleteClick={() => {
               setIsConfirmModalOpen(true);
-              console.log(isConfirmModalOpen);
             }}
           />
         </div>
@@ -56,14 +55,14 @@ function PetProfilePage() {
         title={'반려견 프로필 삭제'}
         content={'정말 반려견 프로필을 삭제하시겠어요?'}
         isOpen={isConfirmModalOpen}
-        setIsOpen={() => setIsConfirmModalOpen(!setIsConfirmModalOpen)}
+        setIsOpen={() => setIsConfirmModalOpen(!isConfirmModalOpen)}
         onYesClick={handleDeletePetProfile}
       />
       <DefaultModal
         title={'삭제 완료'}
         content={'반려견 프로필 삭제가 완료되었어요.'}
         isOpen={isDeleteSuccess}
-        setIsOpen={() => setIsDeleteSuccess(!setIsDeleteSuccess)}
+        setIsOpen={() => setIsDeleteSuccess(!isDeleteSuccess)}
         onYesClick={() => {
           window.location.href = '/pet';
         }}
@@ -73,7 +72,7 @@ function PetProfilePage() {
         content={'반려견 프로필 삭제에 실패했어요.\n다시 시도해주세요.'}
         isOpen={isDeleteFailed}
         setIsOpen={() => setIsDeleteFailed(!isDeleteFailed)}
-        onYesClick={() => setIsDeleteSuccess(!setIsDeleteSuccess)}
+        onYesClick={() => setIsDeleteFailed(!isDeleteFailed)}
       />
     </div>
   );
