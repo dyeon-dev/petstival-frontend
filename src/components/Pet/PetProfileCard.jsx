@@ -18,7 +18,6 @@ function PetProfileCard({ petData }) {
     });
   }
 
-  console.log(petData);
   return (
     <div className={`${styles.container} drop-shadow-default`} onClick={handleCardClick}>
       <div className={`${styles.wrapper}`}>
