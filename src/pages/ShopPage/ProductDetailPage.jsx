@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useProductStore } from '../../stores/useProductStore';
+import { useAuthStore } from '../../stores/useAuthStore';
 import ItemSelectContainer from '../../components/ProductDetail/ItemSelectContainer';
 import Header from '../../components/Header/Header';
 import Navbar from '../../components/Navbar/Navbar';
@@ -13,7 +14,7 @@ const ProductDetailPage = () => {
   const { id } = useParams();
   const { fetchProducts, getProductById } = useProductStore();
   const [product, setProduct] = useState(null);
-
+  const {user} = useAuthStore();
   const navigate = useNavigate();
 
   // Zustand에서 제품 데이터 가져오기
@@ -33,11 +34,23 @@ const ProductDetailPage = () => {
 
   const handleAddToCart = () => {
     // 장바구니 페이지로 이동
-    navigate('/cart');
+    if(!user){
+      navigate('/login');
+    }
+    else {
+      navigate('/cart');
+    }
+    
   };
 
   const handleBuyNow = () => {
-    navigate(`/products/${id}/order`)
+    if(!user){
+      navigate('/login');
+    }
+    else {
+      navigate(`/products/${id}/order`)
+    }
+    
   };
 
   return (
