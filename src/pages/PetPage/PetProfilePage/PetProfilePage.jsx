@@ -14,7 +14,6 @@ function PetProfilePage() {
   const location = useLocation();
   const { petId } = useParams();
   const { petData } = location.state || {};
-  const { deleteProfileData } = usePetProfileSurvey(); // TODO 기능 분리 후 삭제
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [isDeleteSuccess, setIsDeleteSuccess] = useState(false);
   const [isDeleteFailed, setIsDeleteFailed] = useState(false);
