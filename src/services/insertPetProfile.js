@@ -21,7 +21,6 @@ async function insertPetProfile(petData) {
       profile_url: petData.profile_img_url,
       user_id: user_id,
     });
-    console.log(data);
     if (error) {
       console.log(error);
       throw error;
