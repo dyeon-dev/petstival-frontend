@@ -55,6 +55,8 @@ export default function OrderInfo() {
       delivery_addr_detail: detailAddress,
       total_price: totalPrice,
       total_count: quantity,
+      product_name: product.product_name,
+      image_url_1: product.image_url_1,
     };
 
     const { data: insertData, error: insertError } = await supabase.from('order').insert([dataToPost]).select();

@@ -62,8 +62,8 @@ export default function ProductRecommend() {
           boxShadow: '0px 0px 8px 0px rgba(51, 51, 51, 0.08)',
         }}
       >
-        <Grid container spacing={2}>
-          <Grid item onClick={() => navigate(`/products/${filteredProduct[0].product_id}`)}>
+        <Grid container spacing={2} onClick={() => navigate(`/products/${filteredProduct[0].product_id}`)}>
+          <Grid item>
             <ButtonBase sx={{ width: 100, height: 100 }}>
               <img src={filteredProduct[0].image_url_1} alt={filteredProduct[0].product_name} style={{ width: 100, height: 100 }} />
             </ButtonBase>
