@@ -57,7 +57,7 @@ function OrderDetailPage() {
       <Wrapper>
         <OrderId order_id={order_id} created_at={product.order.created_at} />
         <MyOrder />
-        <DeliveryInfo />
+        <DeliveryInfo delivery_name={product.order.delivery_name} delivery_tel={product.order.delivery_tel} delivery_addr={product.order.delivery_addr} delivery_addr_detail={product.order.delivery_addr_detail} />
       </Wrapper>
       <Navbar selectedMenu="MyPage" />
     </>
