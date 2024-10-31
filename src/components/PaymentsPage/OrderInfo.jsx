@@ -34,21 +34,21 @@ export default function OrderInfo() {
   const handlePayment = () => {
     navigate('/payment');
 
-    const postTestData = async () => {
-      const dataToPost = {
-        content: inputText,
-      };
+    // const postTestData = async () => {
+    //   const dataToPost = {
+    //     content: inputText,
+    //   };
       
-      // test table에 정보를 업데이트
-      const { data, error } = await supabase.from('order').upsert([dataToPost]);
+    //   // test table에 정보를 업데이트
+    //   const { data, error } = await supabase.from('order').upsert([dataToPost]);
   
-      if (error) {
-        console.error('Error posting data:', error);
-        return;
-      }
+    //   if (error) {
+    //     console.error('Error posting data:', error);
+    //     return;
+    //   }
   
-      console.log('Data posted successfully:', data);
-    };
+    //   console.log('Data posted successfully:', data);
+    // };
   
   };
 

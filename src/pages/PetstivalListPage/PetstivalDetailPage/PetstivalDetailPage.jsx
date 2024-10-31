@@ -203,7 +203,7 @@ export default function PetstivalDetailPage() {
               variant="body2"
               color="primary"
               style={{ cursor: 'pointer' }}
-              onClick={() => navigate('/products/festivals')}
+              onClick={() => navigate('/products/petstival')}
             >
               추천 상품 더 보기 &gt;
             </Typography>
