@@ -8,24 +8,6 @@ function usePetProfileSurvey() {
   const [step, setStep] = useState(1);
 
   /* 신규 반려견 프로필 등록 */
-  // 1-1. 반려견 등록 시 프로필을 초기화
-  function initProfileData() {
-    setPetProfileData({
-      pet_name: '',
-      know_birth: true,
-      birth_date: '',
-      birth_year: '',
-      birth_month: '',
-      breed: '',
-      gender: '',
-      neutered: true,
-      weight: '',
-      profile_img_url: '',
-    });
-
-    setStep(1);
-  }
-
   // 1-2. DB에 새로운 반려견 프로필을 저장
   async function postProfileData() {
     try {
@@ -65,25 +47,12 @@ function usePetProfileSurvey() {
     }
   }
 
-  /* 프로필 등록 설문 단계 핸들러 함수 */
-  function handleSurveyStep() {
-    if (step < 7) {
-      setStep(step + 1);
-      return;
-    }
-    if (step === 7) {
-      postProfileData();
-    }
-  }
-
   return {
     step, // 설문 진행도
     setStep, // 설문 진행도 변경 함수
     petProfileData, // 설문 데이터
     postProfileData, // 설문 데이터 생성 함수
     setPetProfileData, // 설문 데이터 상태 변경 함수
-    initProfileData, // 설문 데이터 초기화 함수
-    handleSurveyStep, // 설문 단계 핸들러 함수
     validateStep, // 설문 단계별 유효성 검사
   };
 }
