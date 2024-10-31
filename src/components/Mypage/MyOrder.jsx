@@ -43,7 +43,6 @@ export default function MyOrder() {
     }
   };
 
-  // Fetch the data once when the component mounts
   useEffect(() => {
     getSuccessData();
   }, []);
@@ -74,7 +73,7 @@ export default function MyOrder() {
               boxShadow: '0px 0px 8px 0px rgba(51, 51, 51, 0.08)',
             })}
           >
-            <Grid item container spacing={2} sx={{ color: 'text.secondary', marginLeft: '4px' }}>
+            <Grid item container spacing={2} sx={{ color: 'text.secondary', marginLeft: '4px', marginBottom: '6px' }}>
               <Typography variant="body2" component="div">
                 {new Date(successProduct[0].order.created_at)
                   .toLocaleString('ko-KR', {
