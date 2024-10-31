@@ -6,7 +6,6 @@ async function fetchPetProfile() {
   } = await supabase.auth.getSession();
 
   const user_id = session?.user?.id; // 세션의 uid 가져오기
-  console.log(user_id);
 
   // pet 테이블에서 현재 로그인한 유저의 반려견 정보를 불러옴
   try {
@@ -16,7 +15,6 @@ async function fetchPetProfile() {
       console.log(error);
       throw error;
     }
-    console.log(data);
     return data;
   } catch (error) {
     console.log(error);

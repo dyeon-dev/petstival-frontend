@@ -31,6 +31,13 @@
   font-weight: 500;
 }
 
+.errorMsg {
+  color: #ea4646;
+  font-size: 14px;
+  font-weight: 500;
+  margin-left: 4px;
+}
+
 .buttonWrapper {
   width: calc(100% - 64px);
   position: absolute;

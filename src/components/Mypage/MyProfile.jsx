@@ -7,15 +7,15 @@ import {useAuthStore} from '../../stores/useAuthStore';
 import {useNavigate} from 'react-router-dom';
 export default function MyProfile() {
   const { user } = useAuthStore();
-  const navigate = useNavigate();
-  // const storedUserId = JSON.parse(sessionStorage.getItem('userId'));
-  React.useEffect(() => {
-    if (!user) {
-      navigate('/login'); // user가 없는 경우 login 페이지로 리디렉션
-    }
-  }, [user, navigate]); // user 또는 navigate가 변경될 때만 실행
+  // const navigate = useNavigate();
+  // // const storedUserId = JSON.parse(sessionStorage.getItem('userId'));
+  // React.useEffect(() => {
+  //   if (!user) {
+  //     navigate('/login'); // user가 없는 경우 login 페이지로 리디렉션
+  //   }
+  // }, [user, navigate]); // user 또는 navigate가 변경될 때만 실행
 
-  if (!user) return null; // user가 없을 때는 null을 반환하여 컴포넌트 렌더링을 막음
+  // if (!user) return null; // user가 없을 때는 null을 반환하여 컴포넌트 렌더링을 막음
   return (
     <>
       <h3>나의 프로필</h3>
