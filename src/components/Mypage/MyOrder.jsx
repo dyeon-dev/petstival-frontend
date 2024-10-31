@@ -48,13 +48,6 @@ export default function MyOrder() {
     getSuccessData();
   }, []);
 
-  // Log successProduct whenever it changes
-  useEffect(() => {
-    if (successProduct) {
-      console.log('Success Product:', successProduct[0]);
-    }
-  }, [successProduct]);
-
   // 위치가 중요함...
   if (!successProduct) {
     return <p>Loading product data...</p>;
@@ -81,45 +74,45 @@ export default function MyOrder() {
               boxShadow: '0px 0px 8px 0px rgba(51, 51, 51, 0.08)',
             })}
           >
-            <Grid item container spacing={2} sx={{ color: 'text.secondary', marginLeft: '10px' }}>
+            <Grid item container spacing={2} sx={{ color: 'text.secondary', marginLeft: '4px' }}>
               <Typography variant="body2" component="div">
-                {/* {successProduct.created_at} &nbsp; */}
+                {new Date(successProduct[0].order.created_at)
+                  .toLocaleString('ko-KR', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false,
+                  })
+                  .replace(/\./g, '.')
+                  .replace(' ', '')}
+                &nbsp; &nbsp;
               </Typography>
               <Typography variant="body2" component="div">
                 결제 완료
               </Typography>
             </Grid>
-  
+
             <Grid container spacing={2}>
               <Grid item>
                 <ButtonBase sx={{ width: 100, height: 100 }}>
-                  <img
-                    src={successProduct[0].order.image_url_1}
-                    alt={successProduct[0].order.product_name}
-                    style={{ width: 100, height: 100 }}
-                  />
+                  <img src={successProduct[0].order.img_url_1} alt={successProduct[0].order.product_name} style={{ width: 100, height: 100 }} />
                 </ButtonBase>
               </Grid>
-  
+
               <Grid item xs={12} sm container sx={{ marginTop: '10px' }}>
                 <Grid item xs container direction="column" spacing={2}>
                   <Grid item xs>
-                    <Typography
-                      gutterBottom
-                      variant="subtitle1"
-                      component="div"
-                      sx={{ cursor: 'pointer', fontWeight: 'bold' }}
-                    >
+                    <Typography gutterBottom variant="subtitle1" component="div" sx={{ cursor: 'pointer', fontWeight: 'bold' }}>
                       {successProduct[0].order.product_name}
                     </Typography>
-  
+
                     <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                       {successProduct[0].order.total_count}개
                     </Typography>
-  
-                    <Typography sx={{ cursor: 'pointer', fontWeight: 'bold' }}>
-                      {successProduct[0].order.total_price}원
-                    </Typography>
+
+                    <Typography sx={{ cursor: 'pointer', fontWeight: 'bold' }}>{successProduct[0].order.total_price.toLocaleString()}원</Typography>
                   </Grid>
                 </Grid>
               </Grid>

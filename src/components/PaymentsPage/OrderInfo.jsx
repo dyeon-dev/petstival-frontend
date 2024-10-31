@@ -46,6 +46,8 @@ export default function OrderInfo() {
   };
 
   const handlePayment = async () => {
+    console.log(product.image_url_1);
+    console.log(product.product_name);
     // order table에 주문 데이터 삽입
     const dataToPost = {
       user_id: user.id,
@@ -56,7 +58,7 @@ export default function OrderInfo() {
       total_price: totalPrice,
       total_count: quantity,
       product_name: product.product_name,
-      image_url_1: product.image_url_1,
+      img_url_1: product.image_url_1,
     };
 
     const { data: insertData, error: insertError } = await supabase.from('order').insert([dataToPost]).select();
