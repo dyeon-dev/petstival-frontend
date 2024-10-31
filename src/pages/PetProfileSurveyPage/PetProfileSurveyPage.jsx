@@ -74,7 +74,7 @@ function PetProfileSurveyPage() {
               setIsNextButtonEnabled={setIsNextButtonEnabled}
             ></ProfileSurvey>
           ) : (
-            <div></div>
+            <></>
           )}
         </div>
       </div>
