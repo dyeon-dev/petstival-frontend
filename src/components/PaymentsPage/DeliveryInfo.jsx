@@ -18,7 +18,6 @@ export default function DeliveryInfo() {
   const [save, setSave] = useState(true);
   const { name, number, address, detailAddress, setName, setNumber, setAddress, setDetailAddress } = useDeliveryStore();
 
-
   // 모든 필드가 채워졌는지 확인
   const isFormComplete = name && number && address && detailAddress;
 

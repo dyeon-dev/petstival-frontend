@@ -11,10 +11,13 @@ import NumberPicker from '../ProductDetail/NumberPicker';
 import { useProductStore } from '../../stores/useProductStore';
 import ButtonLarge from '../../components/Common/Button/ButtonLarge';
 import useDeliveryStore from '../../stores/useDeliveryStore';
+import supabase from '../../services/supabaseClient';
+import {useAuthStore} from '../../stores/useAuthStore';
 
 export default function OrderInfo() {
   const navigate = useNavigate();
   const { id } = useParams();
+  const { user } = useAuthStore();
   const { fetchProducts, getProductById } = useProductStore();
   const [product, setProduct] = useState(null);
   const { quantity, totalPrice, setQuantity, setUnitPrice } = useTotalStore();
@@ -42,8 +45,26 @@ export default function OrderInfo() {
     setQuantity(newQuantity);
   };
 
-  const handlePayment = () => {
+  const handlePayment = async () => {
     navigate('/payment');
+
+    const dataToPost = {
+      user_id: user.id,
+      delivery_name: name,
+      delivery_tel: number,
+      delivery_addr: address,
+      delivery_addr_detail: detailAddress,
+      total_price: totalPrice,
+      total_count: quantity
+    };
+    
+    // order table에 주문 데이터 삽입
+    const { data, error } = await supabase.from('order').insert([dataToPost]);
+
+    if (error) {
+      console.error('Error posting data:', error);
+      return;
+    }
   };
 
   // 위치가 중요함...
