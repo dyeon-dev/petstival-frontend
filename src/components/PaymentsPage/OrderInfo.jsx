@@ -10,6 +10,7 @@ import useTotalStore from '../../stores/useTotalStore';
 import NumberPicker from '../ProductDetail/NumberPicker';
 import { useProductStore } from '../../stores/useProductStore';
 import ButtonLarge from '../../components/Common/Button/ButtonLarge';
+import useDeliveryStore from '../../stores/useDeliveryStore';
 
 export default function OrderInfo() {
   const navigate = useNavigate();
@@ -17,6 +18,10 @@ export default function OrderInfo() {
   const { fetchProducts, getProductById } = useProductStore();
   const [product, setProduct] = useState(null);
   const { quantity, totalPrice, setQuantity, setUnitPrice } = useTotalStore();
+  const { name, number, address, detailAddress } = useDeliveryStore();
+
+  // 모든 필드가 채워졌는지 확인
+  const isFormComplete = name && number && address && detailAddress;
 
   useEffect(() => {
     const loadProduct = async () => {
@@ -32,7 +37,7 @@ export default function OrderInfo() {
       setUnitPrice(product.price);
     }
   }, [product, setUnitPrice]);
-  
+
   const handleCountChange = (newQuantity) => {
     setQuantity(newQuantity);
   };
@@ -96,8 +101,14 @@ export default function OrderInfo() {
           </Grid>
         </Grid>
       </Paper>
-      <Button onClick={handlePayment} variant="contained" size="large" sx={{ width: '100%', borderRadius: '8px', backgroundColor: 'var(--primary-default)' }}>
-        결제하기
+      <Button 
+       onClick={handlePayment}
+        variant="contained" 
+        disabled={!isFormComplete} 
+        size="large" 
+        sx={{ width: '100%', borderRadius: '8px', backgroundColor: 'var(--primary-default)' }}
+      >
+        {isFormComplete ? '결제하기' : '배송지를 입력해주세요'}
       </Button>
     </div>
   );
