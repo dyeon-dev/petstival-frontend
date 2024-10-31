@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import updatePetProfile from '../services/updatePetProfile';
 import insertPetProfile from '../services/insertPetProfile';
-import deletePetProfile from '../services/deletePetProfile';
 
 /* 반려견 프로필 생성 및 DB 저장 */
 function usePetProfileSurvey() {
@@ -38,92 +37,6 @@ function usePetProfileSurvey() {
       return;
     }
     window.location.href = '/home';
-  }
-
-  /* 기존 반려견 프로필 업데이트 */
-  // 2-1. 기존 반려견 정보를 받아와 프로필 상태에 저장
-  function getPetProfileData(data) {
-    setPetProfileData({
-      pet_name: data.pet_name,
-      know_birth: data.know_birth,
-      birth_date: data.birth_date,
-      birth_year: Math.floor(data.birth_month / 12),
-      birth_month: data.birth_month % 12,
-      breed: data.breed,
-      gender: data.gender,
-      neutered: data.neutered,
-      weight: data.weight,
-      profile_img_url: data.profile_url,
-      user_id: data.user_id,
-    });
-  }
-
-  // 2-2. DB에 수정된 반려견 프로필 업데이트
-  async function updateProfileData(petId) {
-    // 반려견 프로필 정보 유효성 검사
-    const isValidated = validateEditFrom(petProfileData);
-    if (!isValidated) return;
-
-    // 반려견 프로필 정보 업데이트
-    try {
-      await updatePetProfile(petId, petProfileData);
-    } catch (error) {
-      window.alert('업로드에 실패했어요. 다시 시도해주세요.');
-      console.log(error);
-      return;
-    }
-    window.alert('프로필 정보 업데이트에 성공했어요.');
-    window.location.href = '/pet';
-  }
-
-  /* 반려견 프로필 삭제 */
-  // 3. 반려견 프로필 삭제
-  async function deleteProfileData(petId) {
-    // TODO alert 창을 모달로 변경
-    // '예'를 선택한 경우 deletePetProfile 실행, '아니오'를 선택한 경우 바로 return
-    const isDelete = window.confirm('정말 반려견 프로필 정보를 삭제하시겠어요?');
-    if (!isDelete) return;
-
-    try {
-      const response = await deletePetProfile(petId);
-    } catch (error) {
-      console.log(error);
-      window.alert('프로필 삭제에 실패했어요.');
-      return;
-    }
-    window.alert('프로필 정보가 삭제되었어요.');
-    window.location.href = '/pet';
-  }
-
-  // TODO alert -> 에러 메시지 상태 관리로 변경
-  /* 반려견 프로필 수정 폼 유효성 검사 */
-  function validateEditFrom(data) {
-    // 1. 이름이 빈 값인지 검사
-    if (!data.pet_name) {
-      alert('이름을 입력해주세요.');
-      return false;
-    }
-
-    // 2. 연, 개월 수 모두 0인지 검사
-    if (!data.know_birth && data.birth_year === 0 && data.birth_month === 0) {
-      alert('최소 1개월 이상의 나이를 입력해주세요.');
-      return false;
-    }
-
-    // 3. 견종이 빈 값인지 검사
-    if (!data.breed) {
-      alert('견종을 입력해주세요.');
-      return false;
-    }
-
-    // 4. 몸무게가 0인지 검사
-    if (data.weight === 0) {
-      alert('몸무게는 0으로 설정할 수 없어요.');
-      return false;
-    }
-
-    // 모든 유효성 검사를 통과한 경우
-    return true;
   }
 
   /* 반려견 프로필 등록 설문 유효성 검사 */
@@ -167,11 +80,8 @@ function usePetProfileSurvey() {
     step, // 설문 진행도
     setStep, // 설문 진행도 변경 함수
     petProfileData, // 설문 데이터
-    getPetProfileData, // 설문 데이터 상태 저장 함수
     postProfileData, // 설문 데이터 생성 함수
     setPetProfileData, // 설문 데이터 상태 변경 함수
-    updateProfileData, // 설문 데이터 업데이트 함수
-    deleteProfileData, // 반려견 프로필 정보 삭제 함수
     initProfileData, // 설문 데이터 초기화 함수
     handleSurveyStep, // 설문 단계 핸들러 함수
     validateStep, // 설문 단계별 유효성 검사
