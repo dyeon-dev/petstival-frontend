@@ -8,6 +8,7 @@ function SuccessPage() {
   const paymentKey = searchParams.get('paymentKey');
   const orderId = searchParams.get('orderId');
   const amount = searchParams.get('amount');
+  const order_id = searchParams.get('order_id');
 
   async function confirmPayment() {
     // TODO: API를 호출해서 서버에게 paymentKey, orderId, amount를 넘겨주세요.
@@ -78,7 +79,7 @@ function SuccessPage() {
               <Link to={`/home`} className="btn w-100">
                 홈으로 가기
               </Link>
-              <Link to={`/mypage/order/detail`} className="btn primary w-100">
+              <Link to={`/mypage/order/detail?order_id=${order_id}`} className="btn primary w-100">
                 주문 상세 페이지로 가기
               </Link>
             </div>
