@@ -22,7 +22,7 @@ function OauthPage() {
 
           if (error) {
             console.error('Error fetching user:', error.message);
-            window.alert('Failed to retrieve user information!', 'error');
+            // window.alert('Failed to retrieve user information!', 'error');
             navigate('/login');
             return;
           }
@@ -43,16 +43,16 @@ function OauthPage() {
             alert('로그인 완료');
           } else {
             navigate('/login');
-            window.alert('User data is not available!', 'error');
+            // window.alert('User data is not available!', 'error');
           }
         } else {
           navigate('/login');
-          window.alert('No access token found!', 'error');
+          // window.alert('No access token found!', 'error');
           console.error(error.message);
           
         }
       } catch (error) {
-        window.alert(`Error: ${error.message}`, 'error');
+        // window.alert(`Error: ${error.message}`, 'error');
       }
     };
 
