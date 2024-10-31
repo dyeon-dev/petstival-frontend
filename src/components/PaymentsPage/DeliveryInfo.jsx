@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import useDeliveryStore from '../../stores/useDeliveryStore';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -15,34 +16,14 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 export default function DeliveryInfo() {
   const [save, setSave] = useState(true);
-  const [name, setName] = useState(null);
-  const [number, setNumber] = useState(null);
-  const [address, setAddress] = useState(null);
-  const [detailAddress, setDetailAddress] = useState(null);
+  const { name, number, address, detailAddress, setName, setNumber, setAddress, setDetailAddress } = useDeliveryStore();
+
 
   // 모든 필드가 채워졌는지 확인
   const isFormComplete = name && number && address && detailAddress;
 
   const handleInfo = () => {
     setSave(false);
-    // const postTestData = async () => {
-    //   const dataToPost = {
-    //     name: name,
-    //     number: number,
-    //     address: address,
-    //     detailAddress: detailAddress,
-    //   };
-
-    //   // order table에 정보를 업데이트
-    //   const { data, error } = await supabase.from('order').upsert([dataToPost]);
-
-    //   if (error) {
-    //     console.error('Error posting data:', error);
-    //     return;
-    //   }
-
-    //   console.log('Data posted successfully:', data);
-    // };
   };
 
   return (

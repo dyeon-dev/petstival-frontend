@@ -16,6 +16,7 @@ export default function OrderInfo() {
   const { id } = useParams();
   const { fetchProducts, getProductById } = useProductStore();
   const [product, setProduct] = useState(null);
+  const { quantity, totalPrice, setQuantity, setUnitPrice } = useTotalStore();
 
   useEffect(() => {
     const loadProduct = async () => {
@@ -24,32 +25,20 @@ export default function OrderInfo() {
       setProduct(foundProduct);
     };
     loadProduct();
-  }, [fetchProducts, id]);
+  }, [fetchProducts, id, setUnitPrice]);
 
-  const { quantity, totalPrice, setQuantity } = useTotalStore();
+  useEffect(() => {
+    if (product) {
+      setUnitPrice(product.price);
+    }
+  }, [product, setUnitPrice]);
+  
   const handleCountChange = (newQuantity) => {
     setQuantity(newQuantity);
   };
 
   const handlePayment = () => {
     navigate('/payment');
-
-    // const postTestData = async () => {
-    //   const dataToPost = {
-    //     content: inputText,
-    //   };
-      
-    //   // test table에 정보를 업데이트
-    //   const { data, error } = await supabase.from('order').upsert([dataToPost]);
-  
-    //   if (error) {
-    //     console.error('Error posting data:', error);
-    //     return;
-    //   }
-  
-    //   console.log('Data posted successfully:', data);
-    // };
-  
   };
 
   // 위치가 중요함...
