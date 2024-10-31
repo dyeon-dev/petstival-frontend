@@ -12,7 +12,7 @@ import { useProductStore } from '../../stores/useProductStore';
 import ButtonLarge from '../../components/Common/Button/ButtonLarge';
 import useDeliveryStore from '../../stores/useDeliveryStore';
 import supabase from '../../services/supabaseClient';
-import {useAuthStore} from '../../stores/useAuthStore';
+import { useAuthStore } from '../../stores/useAuthStore';
 
 export default function OrderInfo() {
   const navigate = useNavigate();
@@ -56,33 +56,29 @@ export default function OrderInfo() {
       delivery_addr: address,
       delivery_addr_detail: detailAddress,
       total_price: totalPrice,
-      total_count: quantity
+      total_count: quantity,
     };
-    
-    const { data: insertData, error: insertError } = await supabase.from('order').insert([dataToPost]);
+
+    const { data: insertData, error: insertError } = await supabase.from('order').insert([dataToPost]).select();
 
     if (insertError) {
       console.error('Error posting data:', insertError);
       return;
     }
 
+    console.log('insertData: ', insertData);
 
-    // order table에서 orderData 가져오기
-    const { data: orderData, error: selectError } = await supabase.from('order').select();
-
-    if (selectError) {
-      console.error('Error fetching order data:', selectError);
-      return;
-    }
+    // insertData에서 order_id 가져오기
+    const newOrderId = insertData[0].order_id;
 
     // order_detail table에 주문 상세 데이터 삽입
     const orderDetailPost = {
-      order_id: orderData[0].order_id, // 예시로 첫 번째 데이터 사용
+      order_id: newOrderId,
       product_id: id,
-      count: orderData[0].total_count,
-      price: orderData[0].total_price,
+      count: quantity,
+      price: totalPrice,
     };
-    
+
     const { data: detailData, error: detailError } = await supabase.from('order_detail').insert([orderDetailPost]);
 
     if (detailError) {
@@ -146,11 +142,11 @@ export default function OrderInfo() {
           </Grid>
         </Grid>
       </Paper>
-      <Button 
-       onClick={handlePayment}
-        variant="contained" 
-        disabled={!isFormComplete} 
-        size="large" 
+      <Button
+        onClick={handlePayment}
+        variant="contained"
+        disabled={!isFormComplete}
+        size="large"
         sx={{ width: '100%', borderRadius: '8px', backgroundColor: 'var(--primary-default)' }}
       >
         {isFormComplete ? '결제하기' : '배송지를 입력해주세요'}
