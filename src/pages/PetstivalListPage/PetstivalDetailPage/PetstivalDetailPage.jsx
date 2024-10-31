@@ -64,11 +64,13 @@ const RecommendationItem = styled(Paper)`
 `;
 
 const RecommendationImage = styled.img`
-  width: 100%;
+  width: 150 px;
+  height: 150px;
   border-radius: 8px;
-  object-fit: contain;
-  height: 120px;
+  object-fit: cover;
   background-color: #f0f0f0;
+  margin-right: 16px;
+  margin-left: 125px;
 `;
 
 export default function PetstivalDetailPage() {
@@ -140,6 +142,8 @@ export default function PetstivalDetailPage() {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    arrows: false, // 화살표 제거
+    centerMode: false, // 양옆 회색 제거
   };
 
   return (
@@ -199,7 +203,7 @@ export default function PetstivalDetailPage() {
               variant="body2"
               color="primary"
               style={{ cursor: 'pointer' }}
-              onClick={() => navigate('/shop?tab=recommended')}
+              onClick={() => navigate('/products/festivals')}
             >
               추천 상품 더 보기 &gt;
             </Typography>
