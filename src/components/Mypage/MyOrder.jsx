@@ -84,8 +84,7 @@ export default function MyOrder() {
                     minute: '2-digit',
                     hour12: false,
                   })
-                  .replace(/\./g, '.')
-                  .replace(' ', '')}
+                  .replace(/\.$/, '')}
                 &nbsp; &nbsp;
               </Typography>
               <Typography variant="body2" component="div">
@@ -96,7 +95,11 @@ export default function MyOrder() {
             <Grid container spacing={2}>
               <Grid item>
                 <ButtonBase sx={{ width: 100, height: 100 }}>
-                  <img src={successProduct[successProduct.length - 1].order.img_url_1} alt={successProduct[successProduct.length - 1].order.product_name} style={{ width: 100, height: 100 }} />
+                  <img
+                    src={successProduct[successProduct.length - 1].order.img_url_1}
+                    alt={successProduct[successProduct.length - 1].order.product_name}
+                    style={{ width: 100, height: 100 }}
+                  />
                 </ButtonBase>
               </Grid>
 
@@ -111,7 +114,9 @@ export default function MyOrder() {
                       {successProduct[successProduct.length - 1].order.total_count}개
                     </Typography>
 
-                    <Typography sx={{ cursor: 'pointer', fontWeight: 'bold' }}>{successProduct[successProduct.length - 1].order.total_price.toLocaleString()}원</Typography>
+                    <Typography sx={{ cursor: 'pointer', fontWeight: 'bold' }}>
+                      {successProduct[successProduct.length - 1].order.total_price.toLocaleString()}원
+                    </Typography>
                   </Grid>
                 </Grid>
               </Grid>

@@ -6,23 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import DetailBar from '../../../stories/DetailBar';
 import supabase from '../../../services/supabaseClient';
 
-const Info = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-`;
-
-const Detail = styled.div`
-  color: var(--gray-gray-60, #838283);
-  font-family: Pretendard;
-  font-size: 17px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 18px;
-  cursor: pointer;
-`;
-
 const Wrapper = styled.section`
   margin-left: 24px;
   margin-right: 24px;
@@ -58,7 +41,11 @@ function OrderPage() {
   // 아이템 데이터를 날짜별로 그룹화하는 함수
   const groupItemsByDate = (items) => {
     return items.reduce((acc, item) => {
-      const date = item.order.created_at.split('T')[0] // 날짜만 추출
+      const date = new Date(item.order.created_at).toLocaleDateString('ko-KR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      }).replace(/\.$/, ''); // 날짜만 추출
       if (!acc[date]) {
         acc[date] = [];
       }
@@ -75,10 +62,7 @@ function OrderPage() {
       <Wrapper>
         {Object.keys(groupedItems).map((date) => (
           <div key={date}>
-            <Info>
               <h3>{date}</h3>
-              <Detail onClick={() => navigate('/mypage/order/detail')}>주문 상세 &gt;</Detail>
-            </Info>
             {groupedItems[date].map((item, index) => (
               <OrderList key={index} item={item} />
             ))}
