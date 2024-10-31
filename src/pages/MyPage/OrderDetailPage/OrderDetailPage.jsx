@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Navbar from '../../../components/Navbar/Navbar';
 import OrderId from "../../../components/Mypage/OrderDetailPage/OrderId";
-import MyOrder from '../../../components/Mypage/MyOrder';
+import ProductInfo from '../../../components/Mypage/OrderDetailPage/ProductInfo';
 import DeliveryInfo from "../../../components/Mypage/OrderDetailPage/DeliveryInfo";
 import DetailBar from "../../../stories/DetailBar";
 import { useSearchParams } from 'react-router-dom';
@@ -40,11 +40,11 @@ function OrderDetailPage() {
     getProductData();
   }, []);
 
-  useEffect(() => {
-    if (product) {
-      console.log("Success Product:", product);
-    }
-  }, [product]);
+  // useEffect(() => {
+  //   if (product) {
+  //     console.log("Success Product:", product);
+  //   }
+  // }, [product]);
 
   // 위치가 중요함...
   if (!product) {
@@ -56,7 +56,7 @@ function OrderDetailPage() {
       <DetailBar title="주문 상세" />
       <Wrapper>
         <OrderId order_id={order_id} created_at={product.order.created_at} />
-        <MyOrder />
+        <ProductInfo created_at={product.order.created_at} img_url_1={product.order.img_url_1} product_name={product.order.product_name} total_count={product.order.total_count} total_price={product.order.total_price} />
         <DeliveryInfo delivery_name={product.order.delivery_name} delivery_tel={product.order.delivery_tel} delivery_addr={product.order.delivery_addr} delivery_addr_detail={product.order.delivery_addr_detail} />
       </Wrapper>
       <Navbar selectedMenu="MyPage" />
