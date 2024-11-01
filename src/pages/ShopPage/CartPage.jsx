@@ -28,15 +28,33 @@ const CartPage = () => {
   // 아이템의 수량을 변경하는 함수
   const updateCartItem = useCartStore((state) => state.updateCartItem);
 
+  // const handleSelectAll = (e) => {
+  //   if (e.target.checked) {
+  //     setSelectedItemId(cartItems.map((item) => item.productId));
+  //     //setSelectedItemId(items.map((item) => item.id));
+  //   } else {
+  //     setSelectedItemId([]);
+  //   }
+  // };
+
+  // 전체 선택/해제 핸들러
   const handleSelectAll = (e) => {
     if (e.target.checked) {
-      setSelectedItemId(cartItems.map((item) => item.productId));
-      //setSelectedItemId(items.map((item) => item.id));
+      setSelectedItemId(cartItems.map((item) => item.productId)); // 모든 상품 ID를 추가
     } else {
-      setSelectedItemId([]);
+      setSelectedItemId([]); // 모든 선택 해제
     }
   };
 
+  // 개별 아이템 선택/해제 핸들러
+  const toggleSelectItem = (productId) => {
+    setSelectedItemId(
+      (prevSelected) =>
+        prevSelected.includes(productId)
+          ? prevSelected.filter((id) => id !== productId) // 선택 해제
+          : [...prevSelected, productId] // 선택 추가
+    );
+  };
   const handleQuantityChange = (productId, newQuantity) => {
     updateCartItem({ productId, quantity: newQuantity });
   };
@@ -46,12 +64,15 @@ const CartPage = () => {
   // };
 
   // 초기 렌더링 시 장바구니에 담겨 있는 모든 아이템을 선택한 상태로 렌더링
+  // useEffect(() => {
+  //   console.log('장바구니에 담긴 상품 정보 = ', cartItems);
+  //   cartItems.map((item) => {
+  //     setSelectedItemId(() => [...selectedItemId, item.productId]);
+  //   });
+  // }, []);
   useEffect(() => {
-    console.log('장바구니에 담긴 상품 정보 = ', cartItems);
-    cartItems.map((item) => {
-      setSelectedItemId(() => [...selectedItemId, item.productId]);
-    });
-  }, []);
+    setSelectedItemId(cartItems.map((item) => item.productId));
+  }, [cartItems]);
 
   /*   return (
     <div>
