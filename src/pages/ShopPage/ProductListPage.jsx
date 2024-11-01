@@ -7,6 +7,7 @@ import styles from './ProductListPage.module.css';
 import Header from '../../components/Header/Header';
 import Navbar from '../../components/Navbar/Navbar';
 import { useProductStore } from '../../stores/useProductStore';
+import { LinearProgress } from '@mui/material';
 
 const Wrapper = styled.section`
   padding: 24px;
@@ -51,6 +52,10 @@ const ProductListPage = () => {
     if (activeTab === '추천상품') return ![1, 2, 3, 4].includes(product.category_id); // 1,2,3,4에 포함되지 않는 제품 반환
     return false;
   });
+
+  if (!products) {
+    return <p>Loading product details...</p>;
+  }
 
   return (
     <>
