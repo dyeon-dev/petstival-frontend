@@ -33,17 +33,14 @@ export default function MyOrder() {
 
   const getSuccessData = async () => {
     // payment 테이블에서 payment_state가 success인 데이터만 order 테이블의 정보를 가져옴
-    const { data, error } = await supabase
-    .from('payment')
-    .select('order_id, order(*)')
-    .eq('payment_state', 'success');
-      
+    const { data, error } = await supabase.from('payment').select('order_id, order(*)').eq('payment_state', 'success');
+
     if (error) {
       console.error('Error fetching data:', error);
       return;
     }
 
-    const filteredData = data?.filter(item => item.order.user_id === user.id);
+    const filteredData = data?.filter((item) => item.order.user_id === user.id);
 
     if (filteredData) {
       setSuccessProduct(filteredData);
@@ -65,7 +62,7 @@ export default function MyOrder() {
         <>
           <Info>
             <h3>최근 구매 내역</h3>
-            <Detail onClick={() => navigate('/mypage/order')}>주문 상세 &gt;</Detail>
+            <Detail onClick={() => navigate('/mypage/order')}>주문 내역 보기 &gt;</Detail>
           </Info>
           <Paper
             sx={(theme) => ({
@@ -80,23 +77,39 @@ export default function MyOrder() {
               boxShadow: '0px 0px 8px 0px rgba(51, 51, 51, 0.08)',
             })}
           >
-            <Grid item container spacing={2} sx={{ color: 'text.secondary', marginLeft: '4px', marginBottom: '6px' }}>
-              <Typography variant="body2" component="div">
-                {new Date(successProduct[successProduct.length - 1].order.created_at)
-                  .toLocaleString('ko-KR', {
-                    year: 'numeric',
-                    month: '2-digit',
-                    day: '2-digit',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: false,
-                  })
-                  .replace(/\.$/, '')}
-                &nbsp; &nbsp;
-              </Typography>
-              <Typography variant="body2" component="div">
-                결제 완료
-              </Typography>
+            <Grid
+              item
+              container
+              sx={{ color: 'text.secondary', marginLeft: '4px', marginBottom: '6px', justifyContent: 'space-between', alignItems: 'center' }}
+            >
+              <Grid item>
+                <Typography variant="body2" component="div">
+                  {new Date(successProduct[successProduct.length - 1].order.created_at)
+                    .toLocaleString('ko-KR', {
+                      year: 'numeric',
+                      month: '2-digit',
+                      day: '2-digit',
+                      hour: '2-digit',
+                      minute: '2-digit',
+                      hour12: false,
+                    })
+                    .replace(/\.$/, '')}
+                  &nbsp; 결제 완료
+                </Typography>
+              </Grid>
+
+              <Grid item>
+                {successProduct[successProduct.length - 1].order.order_status === 'cancel' ? (
+                  <Typography sx={{ color: '#EA4646' }}>주문 취소</Typography>
+                ) : (
+                  <Typography
+                    onClick={() => navigate(`/mypage/order/detail?order_id=${successProduct[successProduct.length - 1].order_id}`)}
+                    sx={{ cursor: 'pointer' }}
+                  >
+                    주문 상세 &gt;
+                  </Typography>
+                )}
+              </Grid>
             </Grid>
 
             <Grid container spacing={2}>
