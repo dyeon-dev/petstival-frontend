@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './ShopTabBar.module.css';
 
 const ShopTabBar = ({ activeTab, onTabChange }) => {
-  const tabs = ['전체', '사료/간식', '위생/배변', '의류', '장난감'];
+  const tabs = ['전체', '추천상품', '사료/간식', '위생/배변', '의류', '장난감'];
 
   return (
     <div className={styles.shopTabBar}>
