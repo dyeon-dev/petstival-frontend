@@ -1,36 +1,31 @@
 import { create } from 'zustand';
-import supabase from '../services/supabaseClient';
+// import { selectCartData, insertCartData } from '../services/cartService';
 
 // useCartStore : 장바구니 제품 정보를 저장
 // useOrderItemStore : 주문할 제품 정보를 저장 및 주문하기 페이지로 전달
 // useTotalStore : 총 결제 금액을 계산 및 저장
 
+// TODO useCartStore 정보 DB에서 조회, 수정, 저장, 삭제하는 함수 구현
+// TODO useCartStore 정보를 DB에서 불러와서 초기화하는 initCartStore 구현
+// TODO 헤더 컴포넌트에 initCartStore 추가 및 뱃지에 cartItems.length 보이도록 수정
+// TODO useCartStore 정보를 로컬 스토리지에 저장하는 로직 추가
+// TODO useOrderItemStore 구현 및 공유 (@명지님)
+
 export const useCartStore = create((set, get) => ({
   cartItems: [], // 장바구니에 담긴 상품 정보를 저장
   cartTotal: 0, // 장바구니 총 금액 합계를 저장
 
-  /* ------- 장바구니에 새로운 상품 정보를 저장 ------- */
-  // addCartItem: ({ productId, unitPrice, quantity }) => {
-  //   set((state) => {
-  //     // 장바구니에 새로운 상품 정보를 저장
-  //     const newCartItem = {
-  //       productId, // 상품 아이디
-  //       unitPrice, // 상품 가격
-  //       quantity, // 상품 선택 개수
-  //       totalPrice: unitPrice * quantity, // 상품별 총 금액
-  //     };
+  // // TODO fetchCartItem 구현
+  // fetchCartStore: () => {
+  //   // 이미 useCartStore에 정보가 저장되어 있는 경우 DB의 정보를 불러오지 않음
+  //   if (cartItems.length) return;
 
-  //     // 장바구니 정보 업데이트
-  //     return {
-  //       cartItems: [...state.cartItems, newCartItem],
-  //       cartTotal: state.cartTotal + newCartItem.totalPrice,
-  //     };
-  //   });
-
-  //   // 업데이트된 상태를 즉시 반환
-  //   return get().cartItems;
+  //   const data = selectCartData();
+  //   set((state) => {});
   // },
-  addCartItem: ({ productId, unitPrice, quantity, productName, imageSrc }) => {
+
+  /* ------- 장바구니에 새로운 상품 정보를 저장 ------- */
+  addCartItem: ({ productId, unitPrice, quantity }) => {
     set((state) => {
       // 장바구니에 새로운 상품 정보를 저장
       const newCartItem = {
@@ -38,8 +33,6 @@ export const useCartStore = create((set, get) => ({
         unitPrice, // 상품 가격
         quantity, // 상품 선택 개수
         totalPrice: unitPrice * quantity, // 상품별 총 금액
-        productName, // 상품명 추가
-        imageSrc, // 상품 이미지 URL 추가
       };
 
       // 장바구니 정보 업데이트
@@ -54,32 +47,48 @@ export const useCartStore = create((set, get) => ({
   },
 
   /* ------- 장바구니에 담긴 아이템의 개수 정보를 업데이트 ------- */
-  updateCartItem: ({ productId, quantity }) =>
+  updateCartItem: ({ productId, quantity }) => {
     set((state) => {
-      const updatedCartItems = state.carts.map((item) =>
+      const updatedCartItems = state.cartItems.map((item) => {
+        console.table(item);
         // 장바구니에서 productId가 일치하는 아이템을 검색
-        item.productId === productId
-          ? {
-              ...item,
-              quantity, // 업데이트된 quantity 반영
-              totalPrice: item.unitPrice * quantity, // quantity에 따라 totalPrice를 재계산
-            }
-          : // 일치하지 않는 경우, 기존 아이템을 그대로 유지
-            item
-      );
+        if (item.productId === productId) {
+          console.log('이미 있는 아이템 수량 변경 ->', quantity);
+          return {
+            ...item,
+            quantity, // 업데이트된 quantity 반영
+            totalPrice: item.unitPrice * quantity, // quantity에 따라 totalPrice를 재계산}
+          };
+        } else {
+          return item;
+        }
+        // ? {
+        //     ...item,
+        //     quantity, // 업데이트된 quantity 반영
+        //     totalPrice: item.unitPrice * quantity, // quantity에 따라 totalPrice를 재계산
+        //   }
+        // : // 일치하지 않는 경우, 기존 아이템을 그대로 유지
+        //   item;
+      });
 
       // 총합을 다시 계산
       const newCartTotal = updatedCartItems.reduce((total, item) => total + item.totalPrice, 0);
 
       // 업데이트된 장바구니 정보 return
       return {
-        carts: updatedCartItems,
+        cartItems: updatedCartItems,
         cartTotal: newCartTotal,
       };
-    }),
+    });
+
+    // 업데이트된 상태를 즉시 반환
+    return get().cartItems;
+  },
 
   /* ------- 장바구니에 담긴 아이템을 삭제 ------- */
-  removeCartItem: (productId) =>
+  // TODO 단일 아이템 삭제 -> 아이템 아이디 배열을 받아서 해당하는 아이템을 모두 삭제하도록 로직 수정
+  // TODO productId -> 단일 id가 아닌 배열을 전달
+  removeCartItem: (productIdList) =>
     set((state) => {
       // carts에서 특정 productId를 제외한 아이템만 남김
       const updatedCartItems = state.carts.filter((item) => item.productId !== productId);
