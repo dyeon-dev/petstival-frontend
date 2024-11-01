@@ -4,6 +4,8 @@ import { useAuthStore } from '../../stores/useAuthStore';
 import styles from './Header.module.css';
 import Logo from '../../assets/logo/logo.svg?react';
 import ShoppingCartIcon from '../../assets/icons/cart.svg?react';
+import Badge from '@mui/material/Badge';
+import useCartStore from '../../stores/useTotalStore';
 
 function Header() {
   const navigate = useNavigate();
@@ -16,11 +18,14 @@ function Header() {
       navigate('/login'); // 유저가 없을 때 로그인 페이지로 이동
     }
   };
+  const items = useCartStore((state) => state.items); // items 배열을 상태에서 가져옵니다
 
   return (
     <div className={styles.headerLayout}>
       <Logo />
-      <ShoppingCartIcon onClick={handleCartClick} style={{ cursor: 'pointer' }} />
+      <Badge badgeContent={items.length} color="primary">
+        <ShoppingCartIcon />
+      </Badge>
     </div>
   );
 }
