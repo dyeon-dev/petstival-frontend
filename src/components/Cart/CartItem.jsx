@@ -2,6 +2,7 @@ import React from 'react';
 import NumberPicker from '../ProductDetail/NumberPicker';
 // import useTotalStore from '../../stores/useTotalStore';
 import { useCartStore } from '../../stores/useCartStore';
+import CartNumberPicker from '../ProductDetail/CartNumberPicker';
 
 const CartItem = ({ item, isSelected, onSelect }) => {
   // 수량 업데이트 함수 가져오기
@@ -32,7 +33,7 @@ const CartItem = ({ item, isSelected, onSelect }) => {
         <p>{(item.totalPrice ?? 0).toLocaleString()}원</p>
       </div>
       {/* 수량 조절 */}
-      <NumberPicker
+      <CartNumberPicker
         initialCount={item.quantity} // 현재 수량을 초기 값으로 전달
         onCountChange={handleQuantityChange} // 수량 변경 시 updateItemQuantity 호출
       />

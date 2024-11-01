@@ -27,7 +27,7 @@ const CartPage = () => {
   const [selectedItemId, setSelectedItemId] = useState([]);
   // 아이템의 수량을 변경하는 함수
   const updateCartItem = useCartStore((state) => state.updateCartItem);
-  const removeCartItem = useCartStore((state) => state.removeCartItems);
+  const removeCartItems = useCartStore((state) => state.removeCartItems);
 
   // const handleSelectAll = (e) => {
   //   if (e.target.checked) {
@@ -62,7 +62,8 @@ const CartPage = () => {
 
   // 선택된 항목 삭제 핸들러
   const handleDeleteSelected = () => {
-    selectedItemId.forEach((id) => removeCartItem(id));
+    // selectedItemId.forEach((id) => removeCartItem(id));
+    const updatedItems = removeCartItems(selectedItemId);
     setSelectedItemId([]); // 삭제 후 선택 상태 초기화
   };
 
@@ -78,6 +79,7 @@ const CartPage = () => {
   //   });
   // }, []);
   useEffect(() => {
+    console.log('cart page use effect =', cartItems);
     setSelectedItemId(cartItems.map((item) => item.productId));
   }, [cartItems]);
 

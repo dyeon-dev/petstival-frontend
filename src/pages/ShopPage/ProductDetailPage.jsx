@@ -64,8 +64,6 @@ const ProductDetailPage = () => {
           productId: product.product_id,
           unitPrice: product.price,
           quantity: cartQuantity,
-          productName: product.product_name, // 상품명 추가
-          imageSrc: product.image_url_1, // 상품 이미지 추가
         });
       }
       setIsConfirmModalOpen(true);
