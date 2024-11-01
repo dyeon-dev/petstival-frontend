@@ -41,7 +41,13 @@ export default function OrderList({ item }) {
           </Grid>
 
           <Grid item>
-            <Typography onClick={() => navigate(`/mypage/order/detail?order_id=${item.order_id}`)} sx={{ cursor: "pointer"}}>주문 상세 &gt;</Typography>
+            {item.order.order_status === 'cancel' ? (
+              <Typography sx={{ color: "#EA4646" }}>주문 취소</Typography>
+            ) : (
+              <Typography onClick={() => navigate(`/mypage/order/detail?order_id=${item.order_id}`)} sx={{ cursor: "pointer" }}>
+                주문 상세 &gt;
+              </Typography>
+            )}
           </Grid>
         </Grid>
 
