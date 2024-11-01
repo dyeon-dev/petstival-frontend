@@ -1,9 +1,9 @@
 import React from 'react';
-import useTotalStore from '../../stores/useTotalStore';
+// import useTotalStore from '../../stores/useTotalStore';
 import styles from './TotalAmount.module.css';
 
-const TotalAmount = () => {
-  const totalAmount = useTotalStore((state) => state.totalAmount) || 0;
+const TotalAmount = ({ totalAmount }) => {
+  // const totalAmount = useTotalStore((state) => state.totalAmount) || 0;
 
   return (
     <div className={styles.totalAmountContainer}>

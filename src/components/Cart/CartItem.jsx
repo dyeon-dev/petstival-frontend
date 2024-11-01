@@ -4,6 +4,7 @@ import useTotalStore from '../../stores/useTotalStore';
 
 const CartItem = ({ item, isSelected, onSelect }) => {
   // 수량 업데이트 함수 가져오기
+  // TODO useCartStore - updateCartItem을 참고하도록 수정
   const updateItemQuantity = useTotalStore((state) => state.updateItemQuantity);
 
   // 수량 변경 핸들러
