@@ -19,7 +19,7 @@ function PaymentsPage() {
         <DeliveryInfo />
         <OrderInfo />
       </Wrapper>
-      <Navbar />
+      <Navbar selectedMenu="Shop" />
     </>
   );
 }
