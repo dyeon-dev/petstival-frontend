@@ -10,12 +10,21 @@ import useTotalStore from '../../stores/useTotalStore';
 import NumberPicker from '../ProductDetail/NumberPicker';
 import { useProductStore } from '../../stores/useProductStore';
 import ButtonLarge from '../../components/Common/Button/ButtonLarge';
+import useDeliveryStore from '../../stores/useDeliveryStore';
+import supabase from '../../services/supabaseClient';
+import { useAuthStore } from '../../stores/useAuthStore';
 
 export default function OrderInfo() {
   const navigate = useNavigate();
   const { id } = useParams();
+  const { user } = useAuthStore();
   const { fetchProducts, getProductById } = useProductStore();
   const [product, setProduct] = useState(null);
+  const { quantity, totalPrice, setQuantity, setUnitPrice } = useTotalStore();
+  const { name, number, address, detailAddress } = useDeliveryStore();
+
+  // 모든 필드가 채워졌는지 확인
+  const isFormComplete = name && number && address && detailAddress;
 
   useEffect(() => {
     const loadProduct = async () => {
@@ -24,15 +33,60 @@ export default function OrderInfo() {
       setProduct(foundProduct);
     };
     loadProduct();
-  }, [fetchProducts, id]);
+  }, [fetchProducts, id, setUnitPrice]);
 
-  const { quantity, totalPrice, setQuantity } = useTotalStore();
+  useEffect(() => {
+    if (product) {
+      setUnitPrice(product.price);
+    }
+  }, [product, setUnitPrice]);
+
   const handleCountChange = (newQuantity) => {
     setQuantity(newQuantity);
   };
 
-  const handlePayment = () => {
-    navigate('/payment');
+  const handlePayment = async () => {
+    console.log(product.image_url_1);
+    console.log(product.product_name);
+    // order table에 주문 데이터 삽입
+    const dataToPost = {
+      user_id: user.id,
+      delivery_name: name,
+      delivery_tel: number,
+      delivery_addr: address,
+      delivery_addr_detail: detailAddress,
+      total_price: totalPrice,
+      total_count: quantity,
+      product_name: product.product_name,
+      img_url_1: product.image_url_1,
+    };
+
+    const { data: insertData, error: insertError } = await supabase.from('order').insert([dataToPost]).select();
+
+    if (insertError) {
+      console.error('Error posting data:', insertError);
+      return;
+    }
+
+    // insertData에서 order_id 가져오기
+    const newOrderId = insertData[0].order_id;
+
+    // order_detail table에 주문 상세 데이터 삽입
+    const orderDetailPost = {
+      order_id: newOrderId,
+      product_id: id,
+      count: quantity,
+      price: totalPrice,
+    };
+
+    const { data: detailData, error: detailError } = await supabase.from('order_detail').insert([orderDetailPost]);
+
+    if (detailError) {
+      console.error('Error posting data:', detailError);
+      return;
+    }
+
+    navigate(`/payment?order_id=${newOrderId}`);
   };
 
   // 위치가 중요함...
@@ -90,8 +144,14 @@ export default function OrderInfo() {
           </Grid>
         </Grid>
       </Paper>
-      <Button onClick={handlePayment} variant="contained" size="large" sx={{ width: '100%', borderRadius: '8px', backgroundColor: 'var(--primary-default)' }}>
-        결제하기
+      <Button
+        onClick={handlePayment}
+        variant="contained"
+        disabled={!isFormComplete}
+        size="large"
+        sx={{ width: '100%', borderRadius: '8px', backgroundColor: 'var(--primary-default)' }}
+      >
+        {isFormComplete ? '결제하기' : '배송지를 입력해주세요'}
       </Button>
     </div>
   );

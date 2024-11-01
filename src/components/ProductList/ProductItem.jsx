@@ -12,7 +12,7 @@ const ProductItem = ({ id, title, price, imageSrc }) => {
         <div className={styles.productTitle}>
           <h3>{truncatedTitle}</h3>
         </div>
-        <p className={styles.productPrice}>{price}원</p>
+        <p className={styles.productPrice}>{price.toLocaleString()}원</p>
       </div>
     </Link>
   );

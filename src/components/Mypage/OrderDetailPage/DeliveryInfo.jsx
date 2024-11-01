@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 
-export default function DeliveryInfo() {
+export default function DeliveryInfo(props) {
   return (
     <>
       <h3>배송지 정보</h3>
@@ -20,14 +20,14 @@ export default function DeliveryInfo() {
         })}
       >
         <Typography gutterBottom variant="subtitle3" component="div" sx={{ fontWeight: 'bold', marginLeft: '10px', marginBottom: '20px' }}>
-          김다연
+          {props.delivery_name}
         </Typography>
         <Grid item container spacing={2} sx={{ color: 'text.secondary', marginLeft: '10px', flexDirection: 'column'}}>
           <Typography variant="body2" component="div">
-            서울시 중구 마른내로 159-4
+            {props.delivery_addr} {props.delivery_addr_detail}
           </Typography>
           <Typography variant="body2" component="div">
-            010-1234-2134
+            {props.delivery_tel}
           </Typography>
         </Grid>
       </Paper>
