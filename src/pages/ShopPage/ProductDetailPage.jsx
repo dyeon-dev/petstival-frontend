@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useProductStore } from '../../stores/useProductStore';
 import { useAuthStore } from '../../stores/useAuthStore';
+import useTotalStore from '../../stores/useTotalStore'; // 장바구니 상태 가져오기
 import ItemSelectContainer from '../../components/ProductDetail/ItemSelectContainer';
 import Header from '../../components/Header/Header';
 import Navbar from '../../components/Navbar/Navbar';
@@ -10,18 +11,19 @@ import styles from './ProductDetailPage.module.css';
 import ButtonMedium from '../../components/Common/Button/ButtonMedium';
 
 const ProductDetailPage = () => {
-  // url에서 id 가져옴
   const { id } = useParams();
   const { fetchProducts, getProductById } = useProductStore();
   const [product, setProduct] = useState(null);
-  const {user} = useAuthStore();
+  const { user } = useAuthStore();
   const navigate = useNavigate();
 
-  // Zustand에서 제품 데이터 가져오기
+  // 장바구니 상태에 추가하는 함수
+  const addItemToCart = useTotalStore((state) => state.addItem);
+
   const loadProduct = async () => {
-    await fetchProducts(); // 비동기 함수로 제품 데이터 불러오기
+    await fetchProducts();
     const foundProduct = getProductById(id);
-    setProduct(foundProduct); // 제품을 상태에 저장
+    setProduct(foundProduct);
   };
 
   useEffect(() => {
@@ -33,55 +35,45 @@ const ProductDetailPage = () => {
   }
 
   const handleAddToCart = () => {
-    // 장바구니 페이지로 이동
-    if(!user){
+    if (!user) {
       navigate('/login');
+    } else {
+      addItemToCart({
+        id: product.product_id,
+        title: product.product_name,
+        price: product.price,
+        quantity: 1, // 기본 수량 설정, 필요에 따라 수정
+        imageSrc: product.image_url_1,
+      });
+      navigate('/cart'); // 장바구니 페이지로 이동
     }
-    else {
-      navigate('/cart');
-    }
-    
   };
 
   const handleBuyNow = () => {
-    if(!user){
+    if (!user) {
       navigate('/login');
+    } else {
+      navigate(`/products/${id}/order`);
     }
-    else {
-      navigate(`/products/${id}/order`)
-    }
-    
   };
 
   return (
     <>
-    <Header />
-    <div className={styles.detailContainer}>
-      {/* 제품 이미지 - 이미지 스토리지에 넣은 URL 사용 */}
-      <img
-        src={product.image_url_1}
-        alt={product.product_name}
-      //  className={styles.productDetailImage}
-      />
-      {/* 제품 제목, 설명, 가격 */}
-      <div className={styles.infoTextWrapper}>
-        <h2 className={styles.titleText}>{product.product_name}</h2>
-        <p className={styles.contentText}>
-          {product.contents}
-        </p>
-        <p className={styles.priceTextOrange}>{product.price.toLocaleString()}원</p>
+      <Header />
+      <div className={styles.detailContainer}>
+        <img src={product.image_url_1} alt={product.product_name} />
+        <div className={styles.infoTextWrapper}>
+          <h2 className={styles.titleText}>{product.product_name}</h2>
+          <p className={styles.contentText}>{product.contents}</p>
+          <p className={styles.priceTextOrange}>{product.price.toLocaleString()}원</p>
+        </div>
+        <ItemSelectContainer price={product.price} />
+        <div className={styles.buttonWrapper}>
+          <ButtonMedium children={'장바구니 담기'} sub={'secondary'} onClick={handleAddToCart} />
+          <ButtonMedium children={'구매하기'} sub={'primary'} onClick={handleBuyNow} />
+        </div>
       </div>
-      {/* 수량 선택 및 가격 표시 컴포넌트 삽입 */}
-      <ItemSelectContainer price={product.price} />
-      {/* 버튼 영역 */}
-      <div className={styles.buttonWrapper}>
-      <ButtonMedium children={'장바구니 담기'} sub={'secondary'} onClick={handleAddToCart} />
-      <ButtonMedium children={'구매하기'} sub={'primary'} onClick={handleBuyNow} />
-        {/* <button onClick={handleAddToCart}>장바구니</button>
-        <button onClick={handleBuyNow}>구매하기</button> */}
-      </div>
-    </div>
-    <Navbar selectedMenu="Shop" />
+      <Navbar selectedMenu="Shop" />
     </>
   );
 };

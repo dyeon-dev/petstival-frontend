@@ -1,6 +1,5 @@
 // 장바구니 페이지
 import React, { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
 import useTotalStore from '../../stores/useTotalStore';
 import CartItem from '../../components/Cart/CartItem';
 import TotalAmount from '../../components/Cart/TotalAmount';
@@ -9,14 +8,18 @@ import styles from './CartPage.module.css';
 import ButtonLarge from '../../components/Common/Button/ButtonLarge';
 
 const CartPage = () => {
-  const navigate = useNavigate();
-  const items = useTotalStore((state) => state.items);
-  const selectedItemIds = useTotalStore((state) => state.selectedItemIds);
+  const items = useTotalStore((state) => state.items) || [];
+  const selectedItemIds = useTotalStore((state) => state.selectedItemIds) || [];
   const updateItemQuantity = useTotalStore((state) => state.updateItemQuantity);
   const setSelectedItemIds = useTotalStore((state) => state.setSelectedItemIds);
   const toggleSelectItem = useTotalStore((state) => state.toggleSelectItem);
+  const calculateTotalAmount = useTotalStore((state) => state.calculateTotalAmount); // 함수 가져오기
   const removeAllItems = useTotalStore((state) => state.removeAllItems);
 
+  // useMemo로 총 금액 계산
+  const totalAmount = useMemo(() => calculateTotalAmount(), [items, selectedItemIds]);
+
+  // 핸들러 함수들
   const handleSelectAll = (e) => {
     if (e.target.checked) {
       setSelectedItemIds(items.map((item) => item.id));
@@ -69,9 +72,12 @@ const CartPage = () => {
             ))
           )}
         </div>
-        <TotalAmount items={items} selectedItemIds={selectedItemIds} />
+        <div className={styles.totalContainer}>
+          <h2 className={styles.totalPrice}>총 결제 금액</h2>
+          <span className={styles.totalamounttext}>{totalAmount.toLocaleString()}원</span>
+        </div>
       </div>
-      <ButtonLarge children={'구매하기'} sub={'primary'} onClick={handleBuyNow} />
+      <ButtonLarge children={'구매하기'} sub={'primary'} onClick={handleBuyNow} disabled={false} />
     </div>
   );
 };

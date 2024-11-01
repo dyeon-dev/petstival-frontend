@@ -18,7 +18,7 @@ function Header() {
       navigate('/login'); // 유저가 없을 때 로그인 페이지로 이동
     }
   };
-  const items = useCartStore((state) => state.items); // items 배열을 상태에서 가져옵니다
+  const items = useCartStore((state) => state.items) || []; // items가 undefined일 경우 빈 배열로 초기화
 
   return (
     <div className={styles.headerLayout}>
