@@ -45,8 +45,6 @@ export default function OrderInfo() {
   };
 
   const handlePayment = async () => {
-    console.log(product.image_url_1);
-    console.log(product.product_name);
     // order table에 주문 데이터 삽입
     const dataToPost = {
       user_id: user.id,
