@@ -1,18 +1,34 @@
-import { useSearchParams } from "react-router-dom";
+import { useEffect } from 'react';
+import { useSearchParams, Link } from 'react-router-dom';
+import supabase from '../../services/supabaseClient';
 
 function FailPage() {
   const [searchParams] = useSearchParams();
-  const errorCode = searchParams.get("code");
-  const errorMessage = searchParams.get("message");
+  const errorCode = searchParams.get('code');
+  const errorMessage = searchParams.get('message');
+  const errorOrderId = searchParams.get('orderId');
+
+  useEffect(() => {
+    const updatePaymentState = async () => {
+      // errorCode에 따라 payment_state 설정
+      const newState = errorCode === 'ALREADY_PROCESSED_PAYMENT' ? 'success' : 'fail';
+
+      // payment table에 payment_state 정보를 fail로 업데이트
+      const { data, error } = await supabase.from('payment').update({ payment_state: newState }).eq('orderId', errorOrderId);
+
+      if (error) {
+        console.error('Error posting data:', error);
+        return;
+      }
+    };
+
+    updatePaymentState();
+  }, [errorOrderId]); // errorOrderId가 변경될 때마다 실행
 
   return (
     <div className="wrapper w-100">
       <div className="flex-column align-center w-100 max-w-540">
-        <img
-          src="https://static.toss.im/lotties/error-spot-apng.png"
-          width="120"
-          height="120"
-        />
+        <img src="https://static.toss.im/lotties/error-spot-apng.png" width="120" height="120" />
         <h2 className="title">결제를 실패했어요</h2>
         <div className="response-section w-100">
           <div className="flex justify-between">
@@ -30,36 +46,13 @@ function FailPage() {
         </div>
 
         <div className="w-100 button-group">
-          <a
-            className="btn"
-            href="https://developers.tosspayments.com/sandbox"
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            다시 테스트하기
-          </a>
-          <div className="flex" style={{ gap: "16px" }}>
-            <a
-              className="btn w-100"
-              href="https://docs.tosspayments.com/reference/error-codes"
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              에러코드 문서보기
-            </a>
-            <a
-              className="btn w-100"
-              href="https://techchat.tosspayments.com"
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              실시간 문의하기
-            </a>
-          </div>
+          <Link to={`/products`} className="btn w-100">
+            쇼핑 페이지로 가기
+          </Link>
         </div>
       </div>
     </div>
   );
 }
 
-export default FailPage
+export default FailPage;

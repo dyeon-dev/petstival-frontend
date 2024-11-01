@@ -89,7 +89,7 @@ function PetProfileSurveyPage() {
         isOpen={isSuccessModalOpen}
         setIsOpen={() => setIsSuccessModalOpen(!isSuccessModalOpen)}
         onYesClick={() => {
-          window.location.href = '/home';
+          window.location.href = '/';
         }}
       />
       <DefaultModal

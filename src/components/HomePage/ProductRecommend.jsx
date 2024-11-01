@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
@@ -6,6 +6,7 @@ import ButtonBase from '@mui/material/ButtonBase';
 import image1 from '../../assets/info_image.png';
 import styled from 'styled-components';
 import { useNavigate } from "react-router-dom";
+import { useProductStore } from '../../stores/useProductStore';
 
 const Info = styled.div`
   display: flex;
@@ -23,17 +24,33 @@ const Detail = styled.div`
   cursor: pointer;
 `;
 
-export default function RecommendCommerce() {
+export default function ProductRecommend() {
   const navigate = useNavigate();
+  const { products, fetchProducts } = useProductStore();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetchProducts();
+    };
+    fetchData();
+  }, [fetchProducts]);
+
+  const filteredProduct = products.filter((product) =>
+    product.product_id === "59c0c21e-b22d-4f79-9347-87bdbee66275"
+  );
+
+  if (filteredProduct.length === 0) {
+    return <p>Loading product data...</p>;
+  }
 
   return (
     <>
       <Info>
         <h3>펫스티벌 추천 상품</h3>
-        <Detail onClick={() => navigate('/products')}>자세히 보기 &gt;</Detail>
+        <Detail onClick={() => navigate('/products/petstival')}>추천 상품 더보기 &gt;</Detail>
       </Info>
       <Paper
-        sx={(theme) => ({
+        sx={{
           p: 2,
           margin: 'auto',
           marginBottom: '15px',
@@ -43,27 +60,26 @@ export default function RecommendCommerce() {
           borderRadius: "8px",
           backgroundColor: '#fff',
           boxShadow: '0px 0px 8px 0px rgba(51, 51, 51, 0.08)',
-        })}
+        }}
       >
-        <Grid container spacing={2}>
+        <Grid container spacing={2} onClick={() => navigate(`/products/${filteredProduct[0].product_id}`)}>
           <Grid item>
             <ButtonBase sx={{ width: 100, height: 100 }}>
-              <img alt="강아지와 함께하는 피크닉 세트" src={image1} />
+              <img src={filteredProduct[0].image_url_1} alt={filteredProduct[0].product_name} style={{ width: 100, height: 100 }} />
             </ButtonBase>
           </Grid>
-
           <Grid item xs={12} sm container sx={{ marginTop: '10px' }}>
             <Grid item xs container direction="column" spacing={2}>
               <Grid item xs>
                 <Typography gutterBottom variant="subtitle1" component="div" sx={{ cursor: 'pointer', fontWeight: 'bold' }}>
-                  강아지와 함께하는 피크닉 세트
+                  {filteredProduct[0].product_name}
                 </Typography>
-
                 <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                댕댕이와 피크닉에 꼭 필요한 피크닉 매트 + 텀블러 + 신발 세트
+                  {filteredProduct[0].content}
                 </Typography>
-
-                <Typography sx={{ cursor: 'pointer', color: 'var(--secondary-orange-default)', fontWeight: 'bold' }}>39,800원</Typography>
+                <Typography sx={{ cursor: 'pointer', color: 'var(--secondary-orange-default)', fontWeight: 'bold' }}>
+                  {filteredProduct[0].price.toLocaleString()}원
+                </Typography>
               </Grid>
             </Grid>
           </Grid>
