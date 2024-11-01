@@ -25,14 +25,15 @@ export const useCartStore = create((set, get) => ({
   // },
 
   /* ------- 장바구니에 새로운 상품 정보를 저장 ------- */
-  addCartItem: ({ productId, unitPrice, quantity }) => {
+  addCartItem: ({ productId, unitPrice, quantity, productName = '', imageSrc = '' }) => {
     set((state) => {
-      // 장바구니에 새로운 상품 정보를 저장
       const newCartItem = {
-        productId, // 상품 아이디
-        unitPrice, // 상품 가격
-        quantity, // 상품 선택 개수
-        totalPrice: unitPrice * quantity, // 상품별 총 금액
+        productId,
+        unitPrice,
+        quantity,
+        totalPrice: unitPrice * quantity,
+        productName,
+        imageSrc,
       };
 
       // 장바구니 정보 업데이트
