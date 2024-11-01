@@ -35,10 +35,7 @@ function SuccessPage() {
         // 결제 성공 비즈니스 로직을 구현
         setIsConfirmed(true);
         // payment table에 payment_state 정보를 success로 업데이트
-        const { data, error } = await supabase
-        .from('payment')
-        .update({ payment_state: 'success' })
-        .eq('orderId', orderId)
+        const { data, error } = await supabase.from('payment').update({ payment_state: 'success' }).eq('orderId', orderId);
 
         if (error) {
           console.error('Error posting data:', error);
@@ -76,7 +73,7 @@ function SuccessPage() {
 
           <div className="w-100 button-group">
             <div className="flex" style={{ gap: '16px' }}>
-              <Link to={`/home`} className="btn w-100">
+              <Link to={`/`} className="btn w-100">
                 홈으로 가기
               </Link>
               <Link to={`/mypage/order/detail?order_id=${order_id}`} className="btn primary w-100">
