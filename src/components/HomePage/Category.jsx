@@ -7,15 +7,20 @@ import Food from '../../assets/icons/category/foods.svg?react';
 import Clean from '../../assets/icons/category/clean.svg?react';
 import Outdoor from '../../assets/icons/category/outdoor.svg?react';
 import Toy from '../../assets/icons/category/toy.svg?react';
+
 export default function Category() {
   const navigate = useNavigate();
+
+  const handleNavigate = (category) => {
+    navigate(`/products?category=${encodeURIComponent(category)}`);
+  };
 
   return (
     <>
       <h3>카테고리</h3>
 
       <Paper
-        sx={(theme) => ({
+        sx={{
           p: 2,
           margin: 'auto',
           marginBottom: '15px',
@@ -25,10 +30,10 @@ export default function Category() {
           borderRadius: '8px',
           backgroundColor: '#fff',
           boxShadow: '0px 0px 8px 0px rgba(51, 51, 51, 0.08)',
-        })}
+        }}
       >
         <Grid container spacing={10}>
-          <Grid item>
+          <Grid item onClick={() => handleNavigate('사료/간식')}>
             <Grid item xs container direction="column" alignItems="center">
               <Food />
               <Typography variant="button" sx={{ display: 'block' }}>
@@ -37,7 +42,7 @@ export default function Category() {
             </Grid>
           </Grid>
 
-          <Grid item>
+          <Grid item onClick={() => handleNavigate('위생/배변')}>
             <Grid item xs container direction="column" alignItems="center">
               <Clean />
               <Typography variant="button" sx={{ display: 'block' }}>
@@ -46,7 +51,7 @@ export default function Category() {
             </Grid>
           </Grid>
 
-          <Grid item>
+          <Grid item onClick={() => handleNavigate('의류')}>
             <Grid item xs container direction="column" alignItems="center">
               <Outdoor />
               <Typography variant="button" sx={{ display: 'block' }}>
@@ -55,7 +60,7 @@ export default function Category() {
             </Grid>
           </Grid>
 
-          <Grid item>
+          <Grid item onClick={() => handleNavigate('장난감')}>
             <Grid item xs container direction="column" alignItems="center">
               <Toy />
               <Typography variant="button" sx={{ display: 'block' }}>
