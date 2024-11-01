@@ -103,9 +103,9 @@ const CartPage = () => {
           {cartItems.length === 0 ? (
             <p>장바구니에 제품이 없습니다.</p>
           ) : (
-            cartItems.map((item) => (
+            cartItems.map((item, index) => (
               <CartItem
-                key={item.productId}
+                key={index}
                 item={item}
                 isSelected={selectedItemId.includes(item.productId)}
                 onSelect={() => toggleSelectItem(item.productId)}
