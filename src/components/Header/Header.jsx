@@ -25,7 +25,6 @@ function Header() {
     <div className={styles.headerLayout}>
       <Logo onClick={() => navigate('/')} />
       {/* <ShoppingCartIcon onClick={handleCartClick} style={{ cursor: 'pointer' }} /> */}
-      <Logo />
       <Badge badgeContent={items.length} color="primary" onClick={handleCartClick} style={{ cursor: 'pointer' }}>
         <ShoppingCartIcon />
       </Badge>
