@@ -1,13 +1,3 @@
-/* NOTE Medium 사이즈 버튼 Wrapper CSS 속성 예시 */
-.buttonMediumWrapper {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
-  align-items: center;
-  gap: 8px;
-}
-
 .container {
   position: relative;
   width: 100%;

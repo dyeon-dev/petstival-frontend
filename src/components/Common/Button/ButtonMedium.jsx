@@ -13,11 +13,16 @@ const Button = styled.button`
   &:active {
     background-color: ${({ $sub }) => ($sub === 'secondary' ? 'var(--primary-medium)' : 'var(--primary-darken)')};
   }
+
+  &:disabled {
+    background-color: var(--gray-20);
+    color: var(--gray-60);
+  }
 `;
 
-function ButtonMedium({ children, sub, onClick }) {
+function ButtonMedium({ children, sub, disabled, onClick }) {
   return (
-    <Button onClick={onClick} $sub={sub}>
+    <Button onClick={onClick} disabled={disabled} $sub={sub}>
       {children}
     </Button>
   );
