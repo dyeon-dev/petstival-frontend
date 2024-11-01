@@ -116,7 +116,8 @@
 import { create } from 'zustand';
 
 const useTotalStore = create((set, get) => ({
-  items: [], // 장바구니 아이템 배열 추가
+  items: [], // 장바구니 아이템 배열
+  selectedItemIds: [], // 선택된 아이템 ID 관리
   quantity: 1,
   unitPrice: 0,
   totalPrice: 0,
@@ -138,15 +139,35 @@ const useTotalStore = create((set, get) => ({
   // 아이템 추가 및 수량 반영
   addItem: (item) =>
     set((state) => {
-      const updatedItems = [...state.items, item];
+      const existingItemIndex = state.items.findIndex((i) => i.id === item.id);
+      let updatedItems;
+
+      if (existingItemIndex !== -1) {
+        updatedItems = state.items.map((i, index) => (index === existingItemIndex ? { ...i, quantity: i.quantity + item.quantity } : i));
+      } else {
+        updatedItems = [...state.items, item];
+      }
+
       return {
         items: updatedItems,
         totalPrice: get().calculateTotalAmount(updatedItems),
       };
     }),
 
-  // 총 결제 금액 계산 메서드 추가
+  // 총 결제 금액 계산 메서드
   calculateTotalAmount: (items = get().items) => items.reduce((total, item) => total + item.unitPrice * item.quantity, 0),
+
+  // 전체 선택/해제
+  setSelectedItemIds: (ids) => set({ selectedItemIds: ids }),
+
+  // 선택한 아이템 토글
+  toggleSelectItem: (id) =>
+    set((state) => {
+      const isSelected = state.selectedItemIds.includes(id);
+      return {
+        selectedItemIds: isSelected ? state.selectedItemIds.filter((itemId) => itemId !== id) : [...state.selectedItemIds, id],
+      };
+    }),
 }));
 
 export default useTotalStore;
