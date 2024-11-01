@@ -48,7 +48,7 @@ function OauthPage() {
         return;
       } else {
         // 최초 로그인이 아닌 경우 홈 페이지로 이동
-        setNextPage('/home');
+        setNextPage('/');
         setIsSuccessModalOpen(true);
         return;
       }
