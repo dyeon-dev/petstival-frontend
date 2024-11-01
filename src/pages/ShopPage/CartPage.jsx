@@ -1,11 +1,12 @@
 // 장바구니 페이지
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import useTotalStore from '../../stores/useTotalStore';
 import CartItem from '../../components/Cart/CartItem';
 import TotalAmount from '../../components/Cart/TotalAmount';
 import DetailBar from '../../stories/DetailBar';
 import styles from './CartPage.module.css';
 import ButtonLarge from '../../components/Common/Button/ButtonLarge';
+import { useCartStore } from '../../stores/useCartStore';
 
 /* 장바구니 페이지 요구사항
 1. 장바구니는 기본적으로 모두 체크되어 있는 상태이다.
@@ -19,17 +20,17 @@ import ButtonLarge from '../../components/Common/Button/ButtonLarge';
 */
 
 const CartPage = () => {
-  const items = useTotalStore((state) => state.items);
-  const selectedItemIds = useTotalStore((state) => state.selectedItemIds);
-  const updateItemQuantity = useTotalStore((state) => state.updateItemQuantity);
-  const setSelectedItemIds = useTotalStore((state) => state.setSelectedItemIds); // 여기서 가져옴
-  const toggleSelectItem = useTotalStore((state) => state.toggleSelectItem); // 여기서 가져옴
+  // useCartStore에서 장바구니에 담겨 있는 아이템 정보를 불러옴
+  const cartItems = useCartStore((state) => state.cartItems);
+  const cartTotal = useCartStore((state) => state.cartTotal);
+  // 선택된 아이템의 아이디를 저장
+  const [selectedItemId, setSelectedItemId] = useState([]);
 
   const handleSelectAll = (e) => {
     if (e.target.checked) {
-      setSelectedItemIds(items.map((item) => item.id));
+      setSelectedItemId(items.map((item) => item.id));
     } else {
-      setSelectedItemIds([]);
+      setSelectedItemId([]);
     }
   };
 
@@ -37,27 +38,35 @@ const CartPage = () => {
     updateItemQuantity(uniqueId, newQuantity);
   };
 
+  // 초기 렌더링 시 장바구니에 담겨 있는 모든 아이템을 선택한 상태로 렌더링
+  useEffect(() => {
+    console.log('장바구니에 담긴 상품 정보 = ', cartItems);
+    cartItems.map((item) => {
+      setSelectedItemId(() => [...selectedItemId, item.productId]);
+    });
+  }, []);
+
   return (
     <div>
-      <DetailBar title="장바구니" />
+      {/* <DetailBar title="장바구니" />
       <div className={styles.orderItemList}>
         <div className={styles.selectAllContainer}>
           <div className={styles.selectAll}>
-            <input type="checkbox" id="select-all" checked={selectedItemIds.length === items.length} onChange={handleSelectAll} />
+            <input type="checkbox" id="select-all" checked={selectedItemId.length === items.length} onChange={handleSelectAll} />
             <label htmlFor="select-all">
-              전체 선택 ({selectedItemIds.length}/{items.length})
+              전체 선택 ({selectedItemId.length}/{cartItems.length})
             </label>
           </div>
         </div>
         <div className={styles.itemList}>
-          {items.length === 0 ? (
+          {cartItems.length === 0 ? (
             <p>장바구니에 제품이 없습니다.</p>
           ) : (
-            items.map((item) => (
+            cartItems.map((item) => (
               <CartItem
                 key={item.id}
                 item={item}
-                isSelected={selectedItemIds.includes(item.id)}
+                isSelected={selectedItemId.includes(item.id)} // id를 index로 변경
                 onSelect={() => toggleSelectItem(item.id)}
                 onQuantityChange={(newQuantity) => handleQuantityChange(item.id, newQuantity)}
               />
@@ -65,10 +74,10 @@ const CartPage = () => {
           )}
         </div>
         <div className={styles.totalContainer}>
-          <TotalAmount items={items} />
+          <TotalAmount items={cartTotal} />
         </div>
       </div>
-      <ButtonLarge children={'구매하기'} sub={'primary'} />
+      <ButtonLarge children={'구매하기'} sub={'primary'} /> */}
     </div>
   );
 };

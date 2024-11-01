@@ -9,6 +9,7 @@ import Header from '../../components/Header/Header';
 import Navbar from '../../components/Navbar/Navbar';
 import styles from './ProductDetailPage.module.css';
 import ButtonMedium from '../../components/Common/Button/ButtonMedium';
+import { useCartStore } from '../../stores/useCartStore';
 
 const ProductDetailPage = () => {
   const { id } = useParams();
@@ -16,15 +17,18 @@ const ProductDetailPage = () => {
   const [product, setProduct] = useState(null);
   const { user } = useAuthStore();
   const navigate = useNavigate();
-
-  // 장바구니 상태에 추가하는 함수
-  const addItemToCart = useTotalStore((state) => state.addItem);
-
+  // 장바구니 store에 선택한 상품을 추가하는 함수
+  const addCartItem = useCartStore((state) => state.addCartItem);
   const loadProduct = async () => {
     await fetchProducts();
     const foundProduct = getProductById(id);
     setProduct(foundProduct);
   };
+
+  const cartItems = useCartStore((state) => state.cartItems);
+
+  // ItemSelectedContainer에서 변경되는 수량 정보를 저장하는 상태 변수
+  const [cartQuantity, setCartQuantity] = useState(1);
 
   useEffect(() => {
     loadProduct();
@@ -38,13 +42,12 @@ const ProductDetailPage = () => {
     if (!user) {
       navigate('/login');
     } else {
-      addItemToCart({
-        id: product.product_id,
-        title: product.product_name,
-        price: product.price,
-        quantity: 1, // 기본 수량 설정, 필요에 따라 수정
-        imageSrc: product.image_url_1,
+      const updatedCartItems = addCartItem({
+        productId: product.product_id,
+        unitPrice: product.price,
+        quantity: cartQuantity,
       });
+      console.log(updatedCartItems);
       navigate('/cart'); // 장바구니 페이지로 이동
     }
   };
@@ -67,7 +70,7 @@ const ProductDetailPage = () => {
           <p className={styles.contentText}>{product.contents}</p>
           <p className={styles.priceTextOrange}>{product.price.toLocaleString()}원</p>
         </div>
-        <ItemSelectContainer price={product.price} />
+        <ItemSelectContainer price={product.price} setCartQuantity={setCartQuantity} />
         <div className={styles.buttonWrapper}>
           <ButtonMedium children={'장바구니 담기'} sub={'secondary'} onClick={handleAddToCart} />
           <ButtonMedium children={'구매하기'} sub={'primary'} onClick={handleBuyNow} />
