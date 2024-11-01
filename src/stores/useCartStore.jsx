@@ -10,7 +10,27 @@ export const useCartStore = create((set, get) => ({
   cartTotal: 0, // 장바구니 총 금액 합계를 저장
 
   /* ------- 장바구니에 새로운 상품 정보를 저장 ------- */
-  addCartItem: ({ productId, unitPrice, quantity }) => {
+  // addCartItem: ({ productId, unitPrice, quantity }) => {
+  //   set((state) => {
+  //     // 장바구니에 새로운 상품 정보를 저장
+  //     const newCartItem = {
+  //       productId, // 상품 아이디
+  //       unitPrice, // 상품 가격
+  //       quantity, // 상품 선택 개수
+  //       totalPrice: unitPrice * quantity, // 상품별 총 금액
+  //     };
+
+  //     // 장바구니 정보 업데이트
+  //     return {
+  //       cartItems: [...state.cartItems, newCartItem],
+  //       cartTotal: state.cartTotal + newCartItem.totalPrice,
+  //     };
+  //   });
+
+  //   // 업데이트된 상태를 즉시 반환
+  //   return get().cartItems;
+  // },
+  addCartItem: ({ productId, unitPrice, quantity, productName, imageSrc }) => {
     set((state) => {
       // 장바구니에 새로운 상품 정보를 저장
       const newCartItem = {
@@ -18,6 +38,8 @@ export const useCartStore = create((set, get) => ({
         unitPrice, // 상품 가격
         quantity, // 상품 선택 개수
         totalPrice: unitPrice * quantity, // 상품별 총 금액
+        productName, // 상품명 추가
+        imageSrc, // 상품 이미지 URL 추가
       };
 
       // 장바구니 정보 업데이트

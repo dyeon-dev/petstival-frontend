@@ -38,6 +38,19 @@ const ProductDetailPage = () => {
     return <p>Loading product details...</p>;
   }
 
+  // const handleAddToCart = () => {
+  //   if (!user) {
+  //     navigate('/login');
+  //   } else {
+  //     const updatedCartItems = addCartItem({
+  //       productId: product.product_id,
+  //       unitPrice: product.price,
+  //       quantity: cartQuantity,
+  //     });
+  //     console.log(updatedCartItems);
+  //     navigate('/cart'); // 장바구니 페이지로 이동
+  //   }
+  // };
   const handleAddToCart = () => {
     if (!user) {
       navigate('/login');
@@ -46,6 +59,8 @@ const ProductDetailPage = () => {
         productId: product.product_id,
         unitPrice: product.price,
         quantity: cartQuantity,
+        productName: product.product_name, // 상품명 추가
+        imageSrc: product.image_url_1, // 상품 이미지 추가
       });
       console.log(updatedCartItems);
       navigate('/cart'); // 장바구니 페이지로 이동
