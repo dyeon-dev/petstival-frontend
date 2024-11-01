@@ -7,6 +7,7 @@ import MyAccount from '../../components/Mypage/MyAccount';
 import Navbar from '../../components/Navbar/Navbar';
 import {useAuthStore} from '../../stores/useAuthStore';
 import {useNavigate} from 'react-router-dom';
+import styles from './MyPage.module.css';
 const Wrapper = styled.section`
   margin-left: 24px;
   margin-right: 24px;
@@ -25,13 +26,20 @@ function MyPage() {
   if (!user) return null; // user가 없을 때는 null을 반환하여 컴포넌트 렌더링을 막음
   return (
     <>
+    <div className={styles.container}>
       <Header />
+      <div className={styles.wrapper}>
       <Wrapper>
         <MyProfile />
         <MyOrder />
         <MyAccount />
       </Wrapper>
+      </div>
+    
       <Navbar selectedMenu="MyPage" />
+      </div>
+      
+     
     </>
   );
 }
