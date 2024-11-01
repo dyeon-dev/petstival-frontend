@@ -23,7 +23,7 @@ function Header() {
 
   return (
     <div className={styles.headerLayout}>
-      <Logo />
+      <Logo onClick={() => navigate('/')} />
       <Badge badgeContent={items.length} color="primary" onClick={handleCartClick} style={{ cursor: 'pointer' }}>
         <ShoppingCartIcon />
       </Badge>

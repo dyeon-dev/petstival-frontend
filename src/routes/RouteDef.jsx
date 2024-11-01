@@ -16,6 +16,8 @@ import PetProfilePage from '../pages/PetPage/PetProfilePage/PetProfilePage';
 import EditPetProfilePage from '../pages/PetPage/EditPetProfilePage/EditPetProfilePage';
 import ProductListPage from '../pages/ShopPage/ProductListPage';
 import ProductDetailPage from '../pages/ShopPage/ProductDetailPage';
+import PetstivalShopPage from '../pages/PetstivalShopPage/PetstivalShopPage';
+import { element } from 'prop-types';
 import CartPage from '../pages/ShopPage/CartPage';
 
 // 페이지 URL 및 렌더링할 페이지 컴포넌트 정보를 저장하는 객체
@@ -25,7 +27,7 @@ export const Screens = {
     element: <LoginPage />,
   },
   Home: {
-    path: '/home',
+    path: '/',
     element: <HomePage />,
   },
   PetstivalList: {
@@ -91,6 +93,10 @@ export const Screens = {
   Payments: {
     path: '/products/:id/order',
     element: <PaymentsPage />,
+  },
+  PetstivalProducts: {
+    path: '/products/petstival',
+    element: <PetstivalShopPage />,
   },
   cart: {
     path: '/cart',
