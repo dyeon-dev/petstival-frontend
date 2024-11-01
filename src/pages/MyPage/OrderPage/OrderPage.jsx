@@ -5,6 +5,7 @@ import Navbar from '../../../components/Navbar/Navbar';
 import { useNavigate } from 'react-router-dom';
 import DetailBar from '../../../stories/DetailBar';
 import supabase from '../../../services/supabaseClient';
+import { useAuthStore } from '../../../stores/useAuthStore';
 
 const Wrapper = styled.section`
   margin-left: 24px;
@@ -14,6 +15,7 @@ const Wrapper = styled.section`
 function OrderPage() {
   const navigate = useNavigate();
   const [successProduct, setSuccessProduct] = useState(null);
+  const user = useAuthStore((state) => state.user);
 
   const getSuccessData = async () => {
     // payment 테이블에서 payment_state가 success인 데이터만 order 테이블의 정보를 가져옴
@@ -24,8 +26,10 @@ function OrderPage() {
       return;
     }
 
-    if (data) {
-      setSuccessProduct(data);
+    const filteredData = data?.filter((item) => item.order.user_id === user.id);
+
+    if (filteredData) {
+      setSuccessProduct(filteredData);
     }
   };
 
@@ -55,23 +59,31 @@ function OrderPage() {
       return acc;
     }, {});
   };
-  const groupedItems = groupItemsByDate(successProduct);
+
+  let groupedItems = {};
+  if (successProduct[successProduct.length - 1].order !== null && successProduct.length > 0) {
+    groupedItems = groupItemsByDate(successProduct);
+  }
 
   return (
     <>
-      <DetailBar title="주문 내역" />
+      {successProduct && successProduct.length > 0 && (
+        <>
+          <DetailBar title="주문 내역" />
 
-      <Wrapper>
-        {Object.keys(groupedItems).map((date) => (
-          <div key={date}>
-            <h3>{date}</h3>
-            {groupedItems[date].map((item, index) => (
-              <OrderList key={index} item={item} />
+          <Wrapper>
+            {Object.keys(groupedItems).map((date) => (
+              <div key={date}>
+                <h3>{date}</h3>
+                {groupedItems[date].map((item, index) => (
+                  <OrderList key={index} item={item} />
+                ))}
+              </div>
             ))}
-          </div>
-        ))}
-      </Wrapper>
-      <Navbar selectedMenu="MyPage" />
+          </Wrapper>
+          <Navbar selectedMenu="MyPage" />
+        </>
+      )}
     </>
   );
 }

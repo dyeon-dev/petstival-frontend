@@ -7,6 +7,7 @@ import image1 from '../../assets/info_image.png';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import supabase from '../../services/supabaseClient';
+import { useAuthStore } from '../../stores/useAuthStore';
 
 const Info = styled.div`
   display: flex;
@@ -28,18 +29,24 @@ const Detail = styled.div`
 export default function MyOrder() {
   const navigate = useNavigate();
   const [successProduct, setSuccessProduct] = useState(null);
+  const user = useAuthStore((state) => state.user);
 
   const getSuccessData = async () => {
     // payment 테이블에서 payment_state가 success인 데이터만 order 테이블의 정보를 가져옴
-    const { data, error } = await supabase.from('payment').select('order_id, order(*)').eq('payment_state', 'success');
-
+    const { data, error } = await supabase
+    .from('payment')
+    .select('order_id, order(*)')
+    .eq('payment_state', 'success');
+      
     if (error) {
       console.error('Error fetching data:', error);
       return;
     }
 
-    if (data) {
-      setSuccessProduct(data);
+    const filteredData = data?.filter(item => item.order.user_id === user.id);
+
+    if (filteredData) {
+      setSuccessProduct(filteredData);
     }
   };
 
