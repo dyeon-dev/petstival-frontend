@@ -79,6 +79,24 @@ export const useCartStore = create((set, get) => ({
   },
 
   /* ------- 장바구니에 담긴 아이템을 삭제 ------- */
+  // removeCartItems: (productIdList) => {
+  //   set((state) => {
+  //     // 장바구니에서 선택한 상품 목록을 제외한 아이템만 남김
+  //     const updatedCartItems = state.cartItems.filter((item) => !productIdList.includes(item.productId));
+
+  //     // 총합을 다시 계산
+  //     const newCartTotal = updatedCartItems.reduce((total, item) => total + item.totalPrice, 0);
+
+  //     // 업데이트된 장바구니 정보 return
+  //     return {
+  //       carts: updatedCartItems,
+  //       cartTotal: newCartTotal,
+  //     };
+  //   });
+
+  //   // 업데이트된 상태를 즉시 반환
+  //   return get().cartItems;
+  // },
   removeCartItems: (productIdList) => {
     set((state) => {
       // 장바구니에서 선택한 상품 목록을 제외한 아이템만 남김
@@ -89,12 +107,9 @@ export const useCartStore = create((set, get) => ({
 
       // 업데이트된 장바구니 정보 return
       return {
-        carts: updatedCartItems,
+        cartItems: updatedCartItems,
         cartTotal: newCartTotal,
       };
     });
-
-    // 업데이트된 상태를 즉시 반환
-    return get().cartItems;
   },
 }));

@@ -27,6 +27,7 @@ const CartPage = () => {
   const [selectedItemId, setSelectedItemId] = useState([]);
   // 아이템의 수량을 변경하는 함수
   const updateCartItem = useCartStore((state) => state.updateCartItem);
+  const removeCartItem = useCartStore((state) => state.removeCartItems);
 
   // const handleSelectAll = (e) => {
   //   if (e.target.checked) {
@@ -57,6 +58,12 @@ const CartPage = () => {
   };
   const handleQuantityChange = (productId, newQuantity) => {
     updateCartItem({ productId, quantity: newQuantity });
+  };
+
+  // 선택된 항목 삭제 핸들러
+  const handleDeleteSelected = () => {
+    selectedItemId.forEach((id) => removeCartItem(id));
+    setSelectedItemId([]); // 삭제 후 선택 상태 초기화
   };
 
   // const handleQuantityChange = (uniqueId, newQuantity) => {
@@ -118,6 +125,10 @@ const CartPage = () => {
             <label htmlFor="select-all">
               전체 선택 ({selectedItemId.length}/{cartItems.length})
             </label>
+            {/* 삭제 버튼 추가 */}
+            <button className={styles.deleteButton} onClick={handleDeleteSelected}>
+              선택 삭제
+            </button>
           </div>
         </div>
         <div className={styles.itemList}>
