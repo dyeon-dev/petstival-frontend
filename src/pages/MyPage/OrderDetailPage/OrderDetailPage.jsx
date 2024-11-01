@@ -8,7 +8,7 @@ import DetailBar from '../../../stories/DetailBar';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import supabase from '../../../services/supabaseClient';
 import { Button } from '@mui/material';
-import DefaultModal from '../../../components/Common/Modal/DefaultModal';
+import YesNoModal from '../../../components/Common/Modal/DefaultModal';
 
 const Wrapper = styled.section`
   margin-left: 24px;
@@ -19,6 +19,7 @@ function OrderDetailPage() {
   const [searchParams] = useSearchParams();
   const order_id = searchParams.get('order_id');
   const [product, setProduct] = useState(null);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
   const getProductData = async () => {
     // payment 테이블에서 payment_state가 success이고 order_id가 일치하는 데이터만 가져옴
@@ -36,7 +37,11 @@ function OrderDetailPage() {
   const navigate = useNavigate();
 
   async function handleCancel() {
+    setIsConfirmModalOpen(true);
+    cancelOrder();
+  }
 
+  async function cancelOrder() {
     try {
       const { error } = await supabase
         .from('order')
@@ -48,8 +53,6 @@ function OrderDetailPage() {
         return;
       }
 
-      // 주문 삭제 후 페이지 이동
-      navigate('/mypage/order/detail');
     } catch (error) {
       console.error('Unexpected error:', error);
     }
@@ -96,6 +99,15 @@ function OrderDetailPage() {
         >
           주문 취소하기
         </Button>
+        <YesNoModal
+          title={`주문 취소 확인`}
+          content={`정말 주문 취소 하시겠어요?`}
+          isOpen={isConfirmModalOpen}
+          setIsOpen={() => setIsConfirmModalOpen(!isConfirmModalOpen)}
+          onYesClick={() => {
+            window.location.href = '/mypage/order';
+          }}
+        />
       </Wrapper>
       <Navbar selectedMenu="MyPage" />
     </>
