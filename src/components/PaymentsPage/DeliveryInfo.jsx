@@ -38,7 +38,7 @@ export default function DeliveryInfo() {
             extraAddr += data.bname;
           }
           if (data.buildingName !== '' && data.apartment === 'Y') {
-            extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+            extraAddr += extraAddr !== '' ? ', ' + data.buildingName : data.buildingName;
           }
           if (extraAddr !== '') {
             extraAddr = ` (${extraAddr})`;
@@ -72,39 +72,29 @@ export default function DeliveryInfo() {
               <Typography>배송지 정보 추가하기</Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <TextField
-                sx={{ mb: 1 }}
-                fullWidth
-                required
-                id="outlined-required"
-                label="이름을 입력해주세요"
-                onChange={(e) => setName(e.target.value)}
-              />
-              <TextField
-                sx={{ mb: 1 }}
-                fullWidth
-                required
-                id="outlined-required"
-                label="전화번호를 입력해주세요"
-                onChange={(e) => setNumber(e.target.value)}
-              />
+              <TextField sx={{ mb: 1 }} fullWidth required id="outlined-required" label="이름을 입력해주세요" onChange={(e) => setName(e.target.value)} />
+              <TextField sx={{ mb: 1 }} fullWidth required id="outlined-required" label="전화번호를 입력해주세요" onChange={(e) => setNumber(e.target.value)} />
 
               <Grid container spacing={1} sx={{ mb: 1 }}>
                 <Grid item xs={9}>
                   <TextField
                     fullWidth
                     required
-                    id="outlined-required"
+                    id="outlined-read-only-input"
                     label="도로명 주소를 입력해주세요"
+                    defaultValue="도로명 주소"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
+                    slotProps={{
+                      input: {
+                        readOnly: true,
+                      },
+                    }}
                   />
                 </Grid>
                 <Grid item xs={3}>
                   <Button variant="outlined" onClick={handleAddressSearch} sx={{ height: '100%' }}>
-                    주소 
-                    <br></br>
-                    검색
+                    주소 검색
                   </Button>
                 </Grid>
               </Grid>
