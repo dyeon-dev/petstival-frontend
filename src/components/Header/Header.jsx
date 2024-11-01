@@ -18,6 +18,7 @@ function Header() {
       navigate('/login'); // 유저가 없을 때 로그인 페이지로 이동
     }
   };
+
   const items = useCartStore((state) => state.items) || []; // items가 undefined일 경우 빈 배열로 초기화
 
   return (
@@ -25,7 +26,7 @@ function Header() {
       <Logo onClick={() => navigate('/')} />
       {/* <ShoppingCartIcon onClick={handleCartClick} style={{ cursor: 'pointer' }} /> */}
       <Logo />
-      <Badge badgeContent={items.length} color="primary">
+      <Badge badgeContent={items.length} color="primary" onClick={handleCartClick} style={{ cursor: 'pointer' }}>
         <ShoppingCartIcon />
       </Badge>
     </div>
