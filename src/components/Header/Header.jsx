@@ -20,7 +20,7 @@ function Header() {
   return (
     <div className={styles.headerLayout}>
       <Logo />
-      <ShoppingCartIcon onClick={handleCartClick} style={{ cursor: 'pointer' }} />
+      {/* <ShoppingCartIcon onClick={handleCartClick} style={{ cursor: 'pointer' }} /> */}
     </div>
   );
 }
