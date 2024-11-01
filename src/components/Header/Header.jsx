@@ -5,11 +5,12 @@ import styles from './Header.module.css';
 import Logo from '../../assets/logo/logo.svg?react';
 import ShoppingCartIcon from '../../assets/icons/cart.svg?react';
 import Badge from '@mui/material/Badge';
-import useCartStore from '../../stores/useTotalStore';
+import { useCartStore } from '../../stores/useCartStore';
 
 function Header() {
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
+  const cartItems = useCartStore((state) => state.cartItems) || []; // items가 undefined일 경우 빈 배열로 초기화
 
   const handleCartClick = () => {
     if (user) {
@@ -19,13 +20,10 @@ function Header() {
     }
   };
 
-  const items = useCartStore((state) => state.items) || []; // items가 undefined일 경우 빈 배열로 초기화
-
   return (
     <div className={styles.headerLayout}>
       <Logo onClick={() => navigate('/')} />
-      {/* <ShoppingCartIcon onClick={handleCartClick} style={{ cursor: 'pointer' }} /> */}
-      <Badge badgeContent={items.length} color="primary" onClick={handleCartClick} style={{ cursor: 'pointer' }}>
+      <Badge badgeContent={cartItems.length} color="primary" onClick={handleCartClick} style={{ cursor: 'pointer' }}>
         <ShoppingCartIcon />
       </Badge>
     </div>
