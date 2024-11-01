@@ -25,7 +25,7 @@ const ItemSelectContainer = ({ price, setCartQuantity }) => {
   return (
     <div className={styles.itemSelectContainer}>
       <p className={styles.quantityLabel}>구매 수량</p>
-      <NumberPicker onCountChange={handleCountChange} initialCount={quantity} />
+      <NumberPicker onCountChange={handleCountChange} />
       <PriceDisplay price={totalPrice} />
     </div>
   );

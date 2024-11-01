@@ -5,6 +5,7 @@ import { create } from 'zustand';
 // useOrderItemStore : 주문할 제품 정보를 저장 및 주문하기 페이지로 전달
 // useTotalStore : 총 결제 금액을 계산 및 저장
 
+// [x] removeCartItem -> removeCartItems로 변경, id 배열을 받아서 해당하는 상품을 장바구니에서 삭제하도록 수정
 // TODO useCartStore 정보 DB에서 조회, 수정, 저장, 삭제하는 함수 구현
 // TODO useCartStore 정보를 DB에서 불러와서 초기화하는 initCartStore 구현
 // TODO 헤더 컴포넌트에 initCartStore 추가 및 뱃지에 cartItems.length 보이도록 수정
@@ -51,10 +52,8 @@ export const useCartStore = create((set, get) => ({
   updateCartItem: ({ productId, quantity }) => {
     set((state) => {
       const updatedCartItems = state.cartItems.map((item) => {
-        console.table(item);
         // 장바구니에서 productId가 일치하는 아이템을 검색
         if (item.productId === productId) {
-          console.log('이미 있는 아이템 수량 변경 ->', quantity);
           return {
             ...item,
             quantity, // 업데이트된 quantity 반영
@@ -63,13 +62,6 @@ export const useCartStore = create((set, get) => ({
         } else {
           return item;
         }
-        // ? {
-        //     ...item,
-        //     quantity, // 업데이트된 quantity 반영
-        //     totalPrice: item.unitPrice * quantity, // quantity에 따라 totalPrice를 재계산
-        //   }
-        // : // 일치하지 않는 경우, 기존 아이템을 그대로 유지
-        //   item;
       });
 
       // 총합을 다시 계산
@@ -87,12 +79,10 @@ export const useCartStore = create((set, get) => ({
   },
 
   /* ------- 장바구니에 담긴 아이템을 삭제 ------- */
-  // TODO 단일 아이템 삭제 -> 아이템 아이디 배열을 받아서 해당하는 아이템을 모두 삭제하도록 로직 수정
-  // TODO productId -> 단일 id가 아닌 배열을 전달
-  removeCartItem: (productIdList) =>
+  removeCartItems: (productIdList) => {
     set((state) => {
-      // carts에서 특정 productId를 제외한 아이템만 남김
-      const updatedCartItems = state.carts.filter((item) => item.productId !== productId);
+      // 장바구니에서 선택한 상품 목록을 제외한 아이템만 남김
+      const updatedCartItems = state.cartItems.filter((item) => !productIdList.includes(item.productId));
 
       // 총합을 다시 계산
       const newCartTotal = updatedCartItems.reduce((total, item) => total + item.totalPrice, 0);
@@ -102,5 +92,9 @@ export const useCartStore = create((set, get) => ({
         carts: updatedCartItems,
         cartTotal: newCartTotal,
       };
-    }),
+    });
+
+    // 업데이트된 상태를 즉시 반환
+    return get().cartItems;
+  },
 }));
