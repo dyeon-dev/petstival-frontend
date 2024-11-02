@@ -23,100 +23,47 @@ const CartPage = () => {
   // useCartStore에서 장바구니에 담겨 있는 아이템 정보를 불러옴
   const cartItems = useCartStore((state) => state.cartItems);
   const cartTotal = useCartStore((state) => state.cartTotal);
-  // 선택된 아이템의 아이디를 저장
-  const [selectedItemId, setSelectedItemId] = useState([]);
-  // 아이템의 수량을 변경하는 함수
   const updateCartItem = useCartStore((state) => state.updateCartItem);
   const removeCartItems = useCartStore((state) => state.removeCartItems);
 
-  // const handleSelectAll = (e) => {
-  //   if (e.target.checked) {
-  //     setSelectedItemId(cartItems.map((item) => item.productId));
-  //     //setSelectedItemId(items.map((item) => item.id));
-  //   } else {
-  //     setSelectedItemId([]);
-  //   }
-  // };
+  const [selectedItemId, setSelectedItemId] = useState([]);
+  const [isInitialized, setIsInitialized] = useState(false); // 초기화를 한 번만 수행하도록 상태 추가
 
   // 전체 선택/해제 핸들러
   const handleSelectAll = (e) => {
     if (e.target.checked) {
-      setSelectedItemId(cartItems.map((item) => item.productId)); // 모든 상품 ID를 추가
+      setSelectedItemId(cartItems.map((item) => item.productId));
     } else {
-      setSelectedItemId([]); // 모든 선택 해제
+      setSelectedItemId([]);
     }
   };
 
-  // 개별 아이템 선택/해제 핸들러
   const toggleSelectItem = (productId) => {
-    setSelectedItemId(
-      (prevSelected) =>
-        prevSelected.includes(productId)
-          ? prevSelected.filter((id) => id !== productId) // 선택 해제
-          : [...prevSelected, productId] // 선택 추가
-    );
+    setSelectedItemId((prevSelected) => (prevSelected.includes(productId) ? prevSelected.filter((id) => id !== productId) : [...prevSelected, productId]));
   };
+
   const handleQuantityChange = (productId, newQuantity) => {
     updateCartItem({ productId, quantity: newQuantity });
   };
 
-  // 선택된 항목 삭제 핸들러
   const handleDeleteSelected = () => {
-    // selectedItemId.forEach((id) => removeCartItem(id));
-    const updatedItems = removeCartItems(selectedItemId);
-    setSelectedItemId([]); // 삭제 후 선택 상태 초기화
+    removeCartItems(selectedItemId);
+    setSelectedItemId([]);
   };
 
-  // const handleQuantityChange = (uniqueId, newQuantity) => {
-  //   updateItemQuantity(uniqueId, newQuantity);
-  // };
+  const selectedTotal = useMemo(() => {
+    return cartItems.filter((item) => selectedItemId.includes(item.productId)).reduce((total, item) => total + item.totalPrice, 0);
+  }, [cartItems, selectedItemId]);
 
-  // 초기 렌더링 시 장바구니에 담겨 있는 모든 아이템을 선택한 상태로 렌더링
-  // useEffect(() => {
-  //   console.log('장바구니에 담긴 상품 정보 = ', cartItems);
-  //   cartItems.map((item) => {
-  //     setSelectedItemId(() => [...selectedItemId, item.productId]);
-  //   });
-  // }, []);
   useEffect(() => {
-    console.log('cart page use effect =', cartItems);
-    setSelectedItemId(cartItems.map((item) => item.productId));
-  }, [cartItems]);
+    // 페이지 첫 로드 시 한 번만 전체 선택 상태로 초기화
+    if (!isInitialized && cartItems.length > 0) {
+      console.log('cart page use effect =', cartItems);
+      setSelectedItemId(cartItems.map((item) => item.productId));
+      setIsInitialized(true);
+    }
+  }, [cartItems, isInitialized]);
 
-  /*   return (
-    <div>
-      {<DetailBar title="장바구니" />
-      <div className={styles.orderItemList}>
-        <div className={styles.selectAllContainer}>
-          <div className={styles.selectAll}>
-            <input type="checkbox" id="select-all" checked={selectedItemId.length === items.length} onChange={handleSelectAll} />
-            <label htmlFor="select-all">
-              전체 선택 ({selectedItemId.length}/{cartItems.length})
-            </label>
-          </div>
-        </div>
-        <div className={styles.itemList}>
-          {cartItems.length === 0 ? (
-            <p>장바구니에 제품이 없습니다.</p>
-          ) : (
-            cartItems.map((item) => (
-              <CartItem
-                key={item.id}
-                item={item}
-                isSelected={selectedItemId.includes(item.id)} // id를 index로 변경
-                onSelect={() => toggleSelectItem(item.id)}
-                onQuantityChange={(newQuantity) => handleQuantityChange(item.id, newQuantity)}
-              />
-            ))
-          )}
-        </div>
-        <div className={styles.totalContainer}>
-          <TotalAmount items={cartTotal} />
-        </div>
-      </div>
-      <ButtonLarge children={'구매하기'} sub={'primary'} />
-  );
-};*/
   return (
     <>
       <DetailBar title="장바구니" />
@@ -148,7 +95,9 @@ const CartPage = () => {
             ))
           )}
         </div>
-        <div className={styles.totalContainer}>{/* <TotalAmount total={cartTotal} /> */}</div>
+        <div className={styles.totalContainer}>
+          <p>총 금액: {selectedTotal.toLocaleString()}원</p>
+        </div>
       </div>
       <ButtonLarge children={'구매하기'} sub={'primary'} disabled={false} />
     </>
