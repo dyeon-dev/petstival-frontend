@@ -91,7 +91,7 @@ export const Screens = {
     element: <ProductDetailPage />,
   },
   Payments: {
-    path: '/products/:id/order',
+    path: '/order',
     element: <PaymentsPage />,
   },
   PetstivalProducts: {
