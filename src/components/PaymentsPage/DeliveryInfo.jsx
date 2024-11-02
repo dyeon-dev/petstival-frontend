@@ -72,8 +72,24 @@ export default function DeliveryInfo() {
               <Typography>배송지 정보 추가하기</Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <TextField sx={{ mb: 1 }} fullWidth required id="outlined-required" label="이름을 입력해주세요" onChange={(e) => setName(e.target.value)} />
-              <TextField sx={{ mb: 1 }} fullWidth required id="outlined-required" label="전화번호를 입력해주세요" onChange={(e) => setNumber(e.target.value)} />
+              <TextField
+                sx={{ mb: 1 }}
+                fullWidth
+                required
+                id="outlined-required"
+                label="이름을 입력해주세요"
+                value={name} // defaultValue 제거
+                onChange={(e) => setName(e.target.value)}
+              />
+              <TextField
+                sx={{ mb: 1 }}
+                fullWidth
+                required
+                id="outlined-required"
+                label="전화번호를 입력해주세요"
+                value={number} // defaultValue 제거
+                onChange={(e) => setNumber(e.target.value)}
+              />
 
               <Grid container spacing={1} sx={{ mb: 1 }}>
                 <Grid item xs={9}>
@@ -82,13 +98,10 @@ export default function DeliveryInfo() {
                     required
                     id="outlined-read-only-input"
                     label="도로명 주소를 입력해주세요"
-                    defaultValue="도로명 주소"
-                    value={address}
+                    value={address} // defaultValue 제거
                     onChange={(e) => setAddress(e.target.value)}
-                    slotProps={{
-                      input: {
-                        readOnly: true,
-                      },
+                    InputProps={{
+                      readOnly: true,
                     }}
                   />
                 </Grid>
@@ -105,6 +118,7 @@ export default function DeliveryInfo() {
                 required
                 id="outlined-required"
                 label="세부주소를 입력해주세요"
+                value={detailAddress} // defaultValue 제거
                 onChange={(e) => setDetailAddress(e.target.value)}
               />
 
