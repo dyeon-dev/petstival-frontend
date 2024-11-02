@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { deleteCartItem, insertCartData, selectCartData, updateCartData } from '../services/cartService';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
 // useCartStore : 장바구니 제품 정보를 저장
 // useOrderItemStore : 주문할 제품 정보를 저장 및 주문하기 페이지로 전달
@@ -12,6 +12,7 @@ import { persist } from 'zustand/middleware';
 // [x] useCartStore 정보를 DB에서 불러와서 초기화하는 fetchCartItems 구현
 // [x] 헤더 컴포넌트, 장바구니 페이지에 fetchCartItems 추가
 // [x] useCartStore 정보를 세션 스토리지에 저장
+// [x] 세션 스토리지 clear 구현
 // [ ] useOrderItemStore 구현 및 공유 (@명지님)
 
 export const useCartStore = create(
@@ -125,7 +126,15 @@ export const useCartStore = create(
         // 업데이트된 상태를 즉시 반환
         return get().cartItems;
       },
+
+      /* ------- 로그아웃, 회원탈퇴 시 장바구니 정보 초기화 ------- */
+      clearCart: () =>
+        set({
+          cartItems: [],
+          cartTotal: 0, // 유저 정보 초기화 및 인증 상태 초기화
+        }),
     }),
+
     {
       name: 'cart-storage',
       storage: createJSONStorage(() => sessionStorage), // sessionStorage를 사용
