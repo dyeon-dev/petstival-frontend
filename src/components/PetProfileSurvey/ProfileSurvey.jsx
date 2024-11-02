@@ -1,4 +1,3 @@
-
 import styles from './ProfileSurvey.module.css';
 import Input from '../Common/Input/Input';
 import RadioGroup from './RadioGroup';
@@ -10,7 +9,7 @@ import supabase from '../../services/supabaseClient';
 
 function ProfileSurvey({ step, petProfileData, setPetProfileData, validateStep, setIsNextButtonEnabled }) {
   const [suggestions, setSuggestions] = useState([]); // 자동완성 견종 추천 목록
-  const [inputValue, setInputValue] = useState(""); // 사용자가 입력하는 텍스트
+  const [inputValue, setInputValue] = useState(''); // 사용자가 입력하는 텍스트
   const [isAutoSearch, setIsAutoSearch] = useState(false);
   const [focusIndex, setFocusIndex] = useState(-1);
   const listRef = useRef(null);
@@ -22,23 +21,20 @@ function ProfileSurvey({ step, petProfileData, setPetProfileData, validateStep, 
   }, [step, petProfileData, setIsNextButtonEnabled]);
 
   const fetchBreeds = async (query) => {
-    console.log("Fetching breeds for query:", query);
-    const { data, error } = await supabase
-      .from('breeds')
-      .select('name')
-      .ilike('name', `%${query}%`);
+    // console.log('Fetching breeds for query:', query);
+    const { data, error } = await supabase.from('breeds').select('name').ilike('name', `%${query}%`);
 
     if (error) {
-      console.error("Error fetching breeds:", error);
+      console.error('Error fetching breeds:', error);
     } else {
-      console.log("Fetched breeds:", data);
-      setSuggestions(data.map(breed => breed.name));
+      // console.log('Fetched breeds:', data);
+      setSuggestions(data.map((breed) => breed.name));
     }
   };
 
   // 디바운싱을 사용해 Supabase에서 견종 목록을 가져오는 useEffect
   useEffect(() => {
-    if (inputValue.trim() === "") {
+    if (inputValue.trim() === '') {
       setSuggestions([]);
       return;
     }
@@ -103,8 +99,8 @@ function ProfileSurvey({ step, petProfileData, setPetProfileData, validateStep, 
 
   return (
     <>
-          {/* 1. 반려견 이름 입력 */}
-          {step === 1 && (
+      {/* 1. 반려견 이름 입력 */}
+      {step === 1 && (
         <Input
           type="text"
           value={petProfileData.pet_name}
@@ -185,7 +181,7 @@ function ProfileSurvey({ step, petProfileData, setPetProfileData, validateStep, 
             onKeyUp={handleKeyUp}
           />
           {suggestions.length > 0 && (
-            <ul className={`${styles.suggestionsList}`} ref={listRef}>
+            <ul className={`${styles.suggestionsList} drop-shadow-default`} ref={listRef}>
               {suggestions.map((breed, index) => (
                 <li
                   key={index}
@@ -235,8 +231,8 @@ function ProfileSurvey({ step, petProfileData, setPetProfileData, validateStep, 
           />
         </div>
       )}
-            {/* 6. 몸무게 입력 */}
-            {step === 6 && (
+      {/* 6. 몸무게 입력 */}
+      {step === 6 && (
         <InputNumber
           type="number"
           value={petProfileData.weight}
