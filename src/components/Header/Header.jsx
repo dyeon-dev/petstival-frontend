@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../stores/useAuthStore';
 import styles from './Header.module.css';
@@ -11,6 +11,7 @@ function Header() {
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
   const cartItems = useCartStore((state) => state.cartItems) || []; // items가 undefined일 경우 빈 배열로 초기화
+  const fetchCartItems = useCartStore((state) => state.fetchCartItems);
 
   const handleCartClick = () => {
     if (user) {
@@ -19,6 +20,11 @@ function Header() {
       navigate('/login'); // 유저가 없을 때 로그인 페이지로 이동
     }
   };
+
+  // 장바구니 뱃지 최신화를 위해 헤더 컴포넌트가 렌더링될 때 장바구니 정보를 fetch
+  useEffect(() => {
+    fetchCartItems();
+  }, []);
 
   return (
     <div className={styles.headerLayout}>

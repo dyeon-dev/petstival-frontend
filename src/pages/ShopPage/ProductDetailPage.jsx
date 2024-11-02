@@ -10,18 +10,21 @@ import styles from './ProductDetailPage.module.css';
 import ButtonMedium from '../../components/Common/Button/ButtonMedium';
 import { useCartStore } from '../../stores/useCartStore';
 import YesNoModal from '../../components/Common/Modal/YesNoModal';
+import DefaultModal from '../../components/Common/Modal/DefaultModal';
 
 // TODO 장바구니에 아이템 담은 후 장바구니 페이지로 이동? y/n 모달, 실패 모달(defaultModal) 띄우기
 // [x] 장바구니 담기 버튼 클릭 시 addCartItem 실행
 // [x] 이미 아이템이 cartStore에 있는 경우 updateCartItem을 실행하는 로직 추가
-// [ ] DB 저장 await, DB 저장이 완료되면 setModalOpen(true)
-// [ ] YesNoModal의 Y 버튼 클릭 시 장바구니 페이지로 이동
+// [x] YesNoModal의 Y 버튼 클릭 시 장바구니 페이지로 이동
+// [x] DB 저장 await, DB 저장이 완료되면 setModalOpen(true)
+// [x] DB 저장에 실패하면 setIsFailedModalOpen(true)
 
 const ProductDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [isFailedModalOpen, setIsFailedModalOpen] = useState(false);
 
   const { user } = useAuthStore();
   const { fetchProducts, getProductById } = useProductStore();
@@ -29,14 +32,13 @@ const ProductDetailPage = () => {
   const addCartItem = useCartStore((state) => state.addCartItem); // 장바구니 store에 선택한 상품을 추가하는 함수
   const updateCartItem = useCartStore((state) => state.updateCartItem); // 장바구니 store에 선택한 상품을 추가하는 함수
 
+  const [cartQuantity, setCartQuantity] = useState(1); // ItemSelectedContainer에서 변경되는 수량 정보를 저장하는 상태 변수
+
   const loadProduct = async () => {
     await fetchProducts();
     const foundProduct = getProductById(id);
     setProduct(foundProduct);
   };
-
-  // ItemSelectedContainer에서 변경되는 수량 정보를 저장하는 상태 변수
-  const [cartQuantity, setCartQuantity] = useState(1);
 
   useEffect(() => {
     loadProduct();
@@ -46,25 +48,35 @@ const ProductDetailPage = () => {
     return <p>Loading product details...</p>;
   }
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (!user) {
       navigate('/login');
     } else {
       // cartStore에 이미 해당 상품이 담겨있는지 검사
       const prevItem = cartItems.find((item) => item.productId === product.product_id);
 
-      // 이미 상품이 담겨있는 경우 수량만 업데이트
+      // 이미 장바구니에 아이템이 있는 경우 수량만 업데이트
       if (prevItem) {
-        updateCartItem({
+        const isUpdated = await updateCartItem({
           productId: prevItem.productId,
-          quantity: prevItem.quantity + cartQuantity, // 상품 수량 업데이트
+          quantity: prevItem.quantity + cartQuantity,
         });
+        // 장바구니 정보 업데이트에 실패한 경우 실패 모달 open
+        if (!isUpdated) {
+          setIsFailedModalOpen(true);
+          return;
+        }
       } else {
-        addCartItem({
+        const isUpdated = await addCartItem({
           productId: product.product_id,
           unitPrice: product.price,
           quantity: cartQuantity,
         });
+        // 장바구니 정보 업데이트에 실패한 경우 실패 모달 open
+        if (!isUpdated) {
+          setIsFailedModalOpen(true);
+          return;
+        }
       }
       setIsConfirmModalOpen(true);
     }
@@ -101,6 +113,13 @@ const ProductDetailPage = () => {
         isOpen={isConfirmModalOpen}
         setIsOpen={() => setIsConfirmModalOpen(!isConfirmModalOpen)}
         onYesClick={() => navigate('/cart')}
+      />
+      <DefaultModal
+        title={'장바구니 담기 실패'}
+        content={'장바구니에 담기지 않았어요.\n다시 시도해주세요.'}
+        isOpen={isFailedModalOpen}
+        setIsOpen={setIsFailedModalOpen}
+        onYesClick={null}
       />
     </>
   );
