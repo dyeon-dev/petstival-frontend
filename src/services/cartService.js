@@ -9,6 +9,7 @@ const getUserId = async () => {
 /* ------- DB에서 cart 테이블의 정보를 불러옴 ------- */
 export const selectCartData = async () => {
   const userId = await getUserId();
+  if (!userId) return; // 로그인 정보가 없으면 DB를 조회하지 않고 종료
 
   try {
     const { data, error } = await supabase.from('cart').select().eq('user_id', userId);
