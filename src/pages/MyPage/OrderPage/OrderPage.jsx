@@ -21,18 +21,6 @@ const OrderCard = styled.div`
   margin-bottom: 20px;
 `;
 
-const ReorderButton = styled.button`
-  position: absolute;
-  bottom: 26px;
-  right: 16px;
-  padding: 8px 16px;
-  background-color: #007BFF;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-`;
-
 function OrderPage() {
   const navigate = useNavigate();
   const [successProduct, setSuccessProduct] = useState(null);
@@ -42,7 +30,8 @@ function OrderPage() {
     try {
       const { data, error } = await supabase
         .from('payment')
-        .select(`
+        .select(
+          `
           order_id,
           order (
             order_id,
@@ -54,15 +43,16 @@ function OrderPage() {
             user_id,
             delivery_tel,
             delivery_addr_detail,
-            product_name,
+            order_title,
             img_url_1,
             order_status,
             order_detail (product_id)
           )
-        `)
+        `
+        )
         .eq('payment_state', 'success');
 
-      console.log("Fetched Data:", data);
+      console.log('Fetched Data:', data);
       if (error) throw error;
 
       const filteredData = data?.filter((item) => item.order.user_id === user.id);
@@ -105,21 +95,6 @@ function OrderPage() {
     groupedItems = groupItemsByDate(successProduct);
   }
 
-  const handleReorder = (item) => {
-    const productId = item.order.order_detail[0].product_id;
-    navigate(`/products/${productId}/order`, {
-      state: {
-        delivery_name: item.order.delivery_name || "",
-        delivery_tel: item.order.delivery_tel || "",
-        delivery_addr: item.order.delivery_addr || "",
-        delivery_addr_detail: item.order.delivery_addr_detail || "",
-        total_count: item.order.total_count || 1,
-        total_price: item.order.total_price || 0,
-        product_price: item.order.total_price / item.order.total_count || 0,
-      },
-    });
-  };
-
   return (
     <>
       <DetailBar title="주문 내역" />
@@ -128,14 +103,7 @@ function OrderPage() {
           <div key={date}>
             <h3>{date}</h3>
             {groupedItems[date].map((item, index) => (
-              <OrderCard key={index}>
-                <OrderList item={item} />
-                {item.order.order_status === 'cancel' && (
-                  <ReorderButton onClick={() => handleReorder(item)}>
-                    재주문하기
-                  </ReorderButton>
-                )}
-              </OrderCard>
+              <OrderList key={index} item={item} />
             ))}
           </div>
         ))}
