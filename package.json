@@ -23,6 +23,7 @@
     "@tosspayments/tosspayments-sdk": "^2.3.2",
     "axios": "^1.7.7",
     "dayjs": "^1.11.13",
+    "html5-qrcode": "^2.3.8",
     "jwt-decode": "^4.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -68,6 +69,7 @@
     "storybook": "^8.3.5",
     "supabase": "^1.204.3",
     "vite": "^5.4.8",
+    "vite-plugin-qrcode": "^0.2.3",
     "vite-plugin-svgr": "^4.2.0"
   }
 }
