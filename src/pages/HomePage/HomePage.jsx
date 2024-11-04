@@ -5,7 +5,7 @@ import PopularPetstival from '../../components/HomePage/PopularPetstival';
 import ProductRecommend from '../../components/HomePage/ProductRecommend';
 import Category from '../../components/HomePage/Category';
 import Navbar from '../../components/Navbar/Navbar';
-import MainPopup from "../../components/HomePage/MainPopup";
+import MainPopup from "../../components/HomePage/MainPopup";
 
 const Wrapper = styled.section`
   margin-left: 24px;
