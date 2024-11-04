@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import Navbar from '../../components/Navbar/Navbar';
-import DeliveryInfo from "../../components/PaymentsPage/DeliveryInfo";
-import DetailBar from "../../stories/DetailBar";
+import DeliveryInfo from '../../components/PaymentsPage/DeliveryInfo';
+import DetailBar from '../../stories/DetailBar';
 import OrderInfo from '../../components/PaymentsPage/OrderInfo';
 import { useLocation } from 'react-router-dom';
 import useDeliveryStore from '../../stores/useDeliveryStore';
@@ -16,10 +16,10 @@ const Wrapper = styled.section`
 function PaymentsPage() {
   const location = useLocation();
   const {
-    delivery_name = "",       // 기본값 설정
-    delivery_tel = "",
-    delivery_addr = "",
-    delivery_addr_detail = "",
+    delivery_name = '', // 기본값 설정
+    delivery_tel = '',
+    delivery_addr = '',
+    delivery_addr_detail = '',
     total_count = 1,
     total_price = 0,
     product_price = 0,
@@ -29,13 +29,6 @@ function PaymentsPage() {
   const { setQuantity, setUnitPrice } = useTotalStore();
 
   useEffect(() => {
-    console.log("Setting delivery information:", {
-      delivery_name,
-      delivery_tel,
-      delivery_addr,
-      delivery_addr_detail,
-    });
-
     if (location.state) {
       setName(delivery_name);
       setNumber(delivery_tel);
