@@ -93,6 +93,7 @@ const ProductDetailPage = () => {
           productId: product.product_id,
           unitPrice: product.price,
           quantity: cartQuantity,
+          totalPrice: product.price * cartQuantity,
         },
       ]);
       navigate(`/order`); // router를 '/order' 로 설정
