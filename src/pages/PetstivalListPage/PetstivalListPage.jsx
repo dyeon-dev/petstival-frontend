@@ -26,21 +26,7 @@ export default function PetstivalListPage() {
   const [userId, setUserId] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // 로그인된 사용자 ID 가져오기
-    const fetchUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        setUserId(user.id); // 실제 user_id 설정
-      } else {
-        console.error("User is not logged in");
-        navigate('/login'); // 로그인 페이지로 리디렉션
-      }
-    };
-    fetchUser();
-  }, []);
-
-  // 펫스티벌 데이터 가져오기 및 날짜별 정렬
+  // 펫스티벌 데이터 가져오기 및 참여 상태 확인
   const getData = async () => {
     try {
       const { data, error } = await supabase.from('festivals').select();
@@ -50,22 +36,23 @@ export default function PetstivalListPage() {
       setData(sortedData);
 
       // 참여 상태 확인
-      const status = {};
-      for (const festival of data) {
-        const { data: participationData } = await supabase
-          .from('user_festival')
-          .select('verified')
-          .eq('user_id', userId)
-          .eq('fetstivals_id', festival.id)
-          .maybeSingle();
+      if (userId) {
+        const status = {};
+        for (const festival of data) {
+          const { data: participationData } = await supabase
+            .from('user_festival')
+            .select('verified')
+            .eq('user_id', userId)
+            .eq('fetstivals_id', festival.id)
+            .maybeSingle();
 
-        status[festival.id] = participationData
-          ? { isParticipating: true, verified: participationData.verified }
-          : { isParticipating: false, verified: false };
+          status[festival.id] = participationData
+            ? { isParticipating: true, verified: participationData.verified }
+            : { isParticipating: false, verified: false };
+        }
+        setParticipationStatus(status);
       }
-      setParticipationStatus(status);
     } catch (error) {
-      console.error('Error fetching data:', error);
       setError('Error fetching data');
     } finally {
       setLoading(false);
@@ -73,9 +60,14 @@ export default function PetstivalListPage() {
   };
 
   useEffect(() => {
-    if (userId) {
-      getData();
-    }
+    const fetchUserId = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        setUserId(user.id);
+      }
+    };
+    fetchUserId();
+    getData();
   }, [userId]);
 
   const today = new Date();
@@ -95,37 +87,40 @@ export default function PetstivalListPage() {
 
   // 페스티벌 참여 및 취소 함수
   const handleParticipation = async (festivalId) => {
+    if (!userId) {
+      navigate('/login'); // 로그인되지 않은 경우에만 로그인 페이지로 리디렉션
+      return;
+    }
+
     const currentStatus = participationStatus[festivalId] || { isParticipating: false, verified: false };
 
     try {
       if (currentStatus.isParticipating) {
-        // 참여 취소
         const { error } = await supabase
           .from('user_festival')
           .delete()
           .eq('user_id', userId)
           .eq('fetstivals_id', festivalId);
-          
+
         if (error) throw error;
         setParticipationStatus((prev) => ({
           ...prev,
-          [festivalId]: { isParticipating: false, verified: false }
+          [festivalId]: { isParticipating: false, verified: false },
         }));
       } else {
-        // 참여 신청
         const { error } = await supabase
           .from('user_festival')
           .insert({
             user_id: userId,
             fetstivals_id: festivalId,
             verified: false,
-            verified_at: new Date().toISOString()
+            verified_at: new Date().toISOString(),
           });
-          
+
         if (error) throw error;
         setParticipationStatus((prev) => ({
           ...prev,
-          [festivalId]: { isParticipating: true, verified: false }
+          [festivalId]: { isParticipating: true, verified: false },
         }));
       }
     } catch (error) {
@@ -139,7 +134,7 @@ export default function PetstivalListPage() {
       <Wrapper>
         {error && <p style={{ color: 'red' }}>오류: {error}</p>}
         {loading ? (
-          <LinearProgress /> // 로딩 중일 때 Progress Bar 표시
+          <LinearProgress />
         ) : (
           <ImageList cols={1}>
             {data.map((item) => {
