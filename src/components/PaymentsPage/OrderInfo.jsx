@@ -22,11 +22,7 @@ export default function OrderInfo() {
   const orderTotal = useOrderItemStore((state) => state.orderTotal);
   const [isLoaded, setIsLoaded] = useState(false);
   /**
-   * [x] 결제 완료 시 장바구니 store 정보 비우기 + DB에서 삭제
-   * [ ] 주문 취소 시 로직 수정 (재주문 정보 useOrderItemStore에 저장, router를 /order로 수정)
    * [ ] useTotalStore 파일 및 관련 코드 삭제
-   * [x] 결제 페이지로 주문 이름, 주문자 이름, 주문자 이메일 정보 보내기
-   * [x] 주문 total 가격 수정 -> 지금 전체 가격이 아니고 특정 아이템 가격이 보이는 듯
    */
 
   // 모든 필드가 채워졌는지 확인

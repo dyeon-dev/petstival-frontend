@@ -6,15 +6,6 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 // useOrderItemStore : 주문할 제품 정보를 저장 및 주문하기 페이지로 전달
 // useTotalStore : 총 결제 금액을 계산 및 저장
 
-// [x] removeCartItem -> removeCartItems로 변경, id 배열을 받아서 해당하는 상품을 장바구니에서 삭제하도록 수정
-// [x] 뱃지에 cartItems.length 보이도록 수정
-// [x] useCartStore 정보 DB에서 조회, 수정, 저장, 삭제하는 함수 구현
-// [x] useCartStore 정보를 DB에서 불러와서 초기화하는 fetchCartItems 구현
-// [x] 헤더 컴포넌트, 장바구니 페이지에 fetchCartItems 추가
-// [x] useCartStore 정보를 세션 스토리지에 저장
-// [x] 세션 스토리지 clear 구현
-// [x] useOrderItemStore 구현
-
 export const useCartStore = create(
   persist(
     (set, get) => ({

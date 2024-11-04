@@ -4,12 +4,10 @@ import PriceDisplay from './PriceDisplay';
 import styles from './ItemSelectContainer.module.css';
 import useTotalStore from '../../stores/useTotalStore';
 
-// TODO setCartQuantity -> 나중에 setQuantity 바꾸고 나서 setQuantity로 수정하기
 const ItemSelectContainer = ({ price, setCartQuantity }) => {
   //const numericPrice = parseInt(price.replace(/,/g, ''), 10);
 
   // 전역 상태 및 상태 업데이트 함수 가져오기
-  // TODO useOrderItemStore 구현하고 나서 useTotalStore 없애기
   const { quantity, setQuantity, totalPrice, setUnitPrice } = useTotalStore();
 
   // price 값이 변경될 때 unitPrice를 설정

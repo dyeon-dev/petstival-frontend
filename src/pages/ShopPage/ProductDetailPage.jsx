@@ -13,14 +13,6 @@ import YesNoModal from '../../components/Common/Modal/YesNoModal';
 import DefaultModal from '../../components/Common/Modal/DefaultModal';
 import { useOrderItemStore } from '../../stores/useOrderItemStore';
 
-// TODO 장바구니에 아이템 담은 후 장바구니 페이지로 이동? y/n 모달, 실패 모달(defaultModal) 띄우기
-// [x] 장바구니 담기 버튼 클릭 시 addCartItem 실행
-// [x] 이미 아이템이 cartStore에 있는 경우 updateCartItem을 실행하는 로직 추가
-// [x] YesNoModal의 Y 버튼 클릭 시 장바구니 페이지로 이동
-// [x] DB 저장 await, DB 저장이 완료되면 setModalOpen(true)
-// [x] DB 저장에 실패하면 setIsFailedModalOpen(true)
-// [ ] 구매하기 버튼 클릭 시 useOrderItemStore에 상품 정보 저장
-
 const ProductDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
