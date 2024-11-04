@@ -19,6 +19,7 @@ import ProductDetailPage from '../pages/ShopPage/ProductDetailPage';
 import PetstivalShopPage from '../pages/PetstivalShopPage/PetstivalShopPage';
 import QRScannerPage from '../pages/QRScanner/QRScannerPage';
 import { element } from 'prop-types';
+import CartPage from '../pages/ShopPage/CartPage';
 
 // 페이지 URL 및 렌더링할 페이지 컴포넌트 정보를 저장하는 객체
 export const Screens = {
@@ -91,12 +92,16 @@ export const Screens = {
     element: <ProductDetailPage />,
   },
   Payments: {
-    path: '/products/:id/order',
+    path: '/order',
     element: <PaymentsPage />,
   },
   PetstivalProducts: {
     path: '/products/petstival',
     element: <PetstivalShopPage />,
+  },
+  cart: {
+    path: '/cart',
+    element: <CartPage />,
   },
   QRScanner: {
     path: '/qrscanner',

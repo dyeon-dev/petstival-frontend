@@ -3,7 +3,6 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import ButtonBase from '@mui/material/ButtonBase';
-import image1 from '../../assets/info_image.png';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import supabase from '../../services/supabaseClient';
@@ -117,7 +116,7 @@ export default function MyOrder() {
                 <ButtonBase sx={{ width: 100, height: 100 }}>
                   <img
                     src={successProduct[successProduct.length - 1].order.img_url_1}
-                    alt={successProduct[successProduct.length - 1].order.product_name}
+                    alt={successProduct[successProduct.length - 1].order.order_title}
                     style={{ width: 100, height: 100 }}
                   />
                 </ButtonBase>
@@ -127,7 +126,7 @@ export default function MyOrder() {
                 <Grid item xs container direction="column" spacing={2}>
                   <Grid item xs>
                     <Typography gutterBottom variant="subtitle1" component="div" sx={{ cursor: 'pointer', fontWeight: 'bold' }}>
-                      {successProduct[successProduct.length - 1].order.product_name}
+                      {successProduct[successProduct.length - 1].order.order_title}
                     </Typography>
 
                     <Typography variant="body2" sx={{ color: 'text.secondary' }}>
