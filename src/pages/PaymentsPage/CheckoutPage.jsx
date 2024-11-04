@@ -19,7 +19,7 @@ function CheckoutPage() {
   const [searchParams] = useSearchParams();
   const order_id = searchParams.get('order_id');
   const location = useLocation();
-  const { orderName, customerName, customerEmail } = location.state || {};
+  const { orderName, customerName, customerEmail, customerNumber } = location.state || {};
 
   // const { totalPrice } = useTotalStore(); // Zustand 스토어에서 total 가져오기
   const { orderTotal } = useOrderItemStore(); // orderTotalStore에서 total 가져오기
@@ -108,9 +108,9 @@ function CheckoutPage() {
                 await widgets?.requestPayment({
                   orderId: orderId,
                   orderName: orderName, // 주문 정보
-                  customerName: customerName, // 사용자 이름
-                  customerEmail: customerEmail,
-                  customerMobilePhone: '01012341234',
+                  customerName: customerName, // 주문자 배송지 이름
+                  customerEmail: customerEmail, // 사용자 이메일
+                  customerMobilePhone: customerNumber, // 주문자 배송지 전화번호
                   successUrl: window.location.origin + '/success' + window.location.search,
                   failUrl: window.location.origin + '/fail' + window.location.search,
                 });

@@ -92,7 +92,7 @@ export default function OrderInfo() {
 
     navigate(`/payment?order_id=${newOrderId}`, {
       // CheckoutPage로 주문 정보 전달
-      state: { orderName: orderTitle, customerName: user.name, customerEmail: user.email },
+      state: { orderName: orderTitle, customerName: name, customerEmail: user.email, customerNumber: number },
     });
   };
 
