@@ -7,9 +7,20 @@ import Category from '../../components/HomePage/Category';
 import Navbar from '../../components/Navbar/Navbar';
 import MainPopup from '../../components/HomePage/MainPopup';
 
+const Container = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100svh;
+`;
+
 const Wrapper = styled.section`
-  margin-left: 24px;
-  margin-right: 24px;
+  /* padding: 40px 0; */
+  overflow-y: auto;
+  height: 100%;
+  margin: 0 24px;
 `;
 
 function HomePage() {
@@ -33,13 +44,15 @@ function HomePage() {
 
   return (
     <div>
-      <Header />
-      <Wrapper>
-        <PopularPetstival />
-        <ProductRecommend />
-        <Category />
-      </Wrapper>
-      <Navbar selectedMenu="Home" />
+      <Container>
+        <Header />
+        <Wrapper>
+          <PopularPetstival />
+          <ProductRecommend />
+          <Category />
+        </Wrapper>
+        <Navbar selectedMenu="Home" />
+      </Container>
       {/* 팝업창 */}
       {showMainPop && <MainPopup setShowMainPop={setShowMainPop}></MainPopup>}
     </div>
