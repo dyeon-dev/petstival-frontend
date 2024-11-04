@@ -5,7 +5,7 @@ import PopularPetstival from '../../components/HomePage/PopularPetstival';
 import ProductRecommend from '../../components/HomePage/ProductRecommend';
 import Category from '../../components/HomePage/Category';
 import Navbar from '../../components/Navbar/Navbar';
-import MainPopup from "../../components/HomePage/MainPopup";
+import MainPopup from '../../components/HomePage/MainPopup';
 
 const Wrapper = styled.section`
   margin-left: 24px;
@@ -14,17 +14,17 @@ const Wrapper = styled.section`
 
 function HomePage() {
   const [showMainPop, setShowMainPop] = useState(false);
-  const HOME_VISITED = localStorage.getItem("homeVisited");  // localStorage에 homeVisited 조회
-  
+  const HOME_VISITED = localStorage.getItem('homeVisited'); // localStorage에 homeVisited 조회
+
   useEffect(() => {
     const today = new Date();
     const handleMainPop = () => {
       if (HOME_VISITED && HOME_VISITED > today) {
-      // 현재 date가 localStorage의 시간보다 크면 return
+        // 현재 date가 localStorage의 시간보다 크면 return
         return;
       }
-       if (!HOME_VISITED || HOME_VISITED < today) {
-      // 저장된 date가 없거나 today보다 작다면 popup 노출
+      if (!HOME_VISITED || HOME_VISITED < today) {
+        // 저장된 date가 없거나 today보다 작다면 popup 노출
         setShowMainPop(true);
       }
     };
