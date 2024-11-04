@@ -17,10 +17,10 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.section`
-  /* padding: 40px 0; */
   overflow-y: auto;
   height: 100%;
-  margin: 0 24px;
+  padding: 0 24px;
+  padding-bottom: 24px;
 `;
 
 function HomePage() {
