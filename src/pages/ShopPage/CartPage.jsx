@@ -7,6 +7,9 @@ import DetailBar from '../../stories/DetailBar';
 import styles from './CartPage.module.css';
 import ButtonLarge from '../../components/Common/Button/ButtonLarge';
 import { useCartStore } from '../../stores/useCartStore';
+import { useOrderItemStore } from '../../stores/useOrderItemStore';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { navigate } from '@storybook/addon-links';
 
 /* 장바구니 페이지 요구사항
 1. 장바구니는 기본적으로 모두 체크되어 있는 상태이다.
@@ -21,11 +24,12 @@ import { useCartStore } from '../../stores/useCartStore';
 
 const CartPage = () => {
   // useCartStore에서 장바구니에 담겨 있는 아이템 정보를 불러옴
+  const navigate = useNavigate();
   const cartItems = useCartStore((state) => state.cartItems);
   const cartTotal = useCartStore((state) => state.cartTotal);
   const updateCartItem = useCartStore((state) => state.updateCartItem);
   const removeCartItems = useCartStore((state) => state.removeCartItems);
-
+  const addOrderItem = useOrderItemStore((state) => state.addOrderItem);
   const [selectedItemId, setSelectedItemId] = useState([]);
   const [isInitialized, setIsInitialized] = useState(false); // 초기화를 한 번만 수행하도록 상태 추가
 
@@ -64,6 +68,11 @@ const CartPage = () => {
     }
   }, [cartItems, isInitialized]);
 
+  const handleOrderButtonClick = () => {
+    const orderItems = addOrderItem(cartItems);
+    navigate('/order');
+  };
+
   return (
     <>
       <DetailBar title="장바구니" />
@@ -99,7 +108,7 @@ const CartPage = () => {
           <p>총 금액: {selectedTotal.toLocaleString()}원</p>
         </div>
       </div>
-      <ButtonLarge children={'구매하기'} sub={'primary'} disabled={false} />
+      <ButtonLarge children={'구매하기'} sub={'primary'} disabled={false} onClick={handleOrderButtonClick} />
     </>
   );
 };

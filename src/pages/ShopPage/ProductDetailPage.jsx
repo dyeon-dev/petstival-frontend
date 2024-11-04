@@ -11,18 +11,13 @@ import ButtonMedium from '../../components/Common/Button/ButtonMedium';
 import { useCartStore } from '../../stores/useCartStore';
 import YesNoModal from '../../components/Common/Modal/YesNoModal';
 import DefaultModal from '../../components/Common/Modal/DefaultModal';
-
-// TODO 장바구니에 아이템 담은 후 장바구니 페이지로 이동? y/n 모달, 실패 모달(defaultModal) 띄우기
-// [x] 장바구니 담기 버튼 클릭 시 addCartItem 실행
-// [x] 이미 아이템이 cartStore에 있는 경우 updateCartItem을 실행하는 로직 추가
-// [x] YesNoModal의 Y 버튼 클릭 시 장바구니 페이지로 이동
-// [x] DB 저장 await, DB 저장이 완료되면 setModalOpen(true)
-// [x] DB 저장에 실패하면 setIsFailedModalOpen(true)
+import { useOrderItemStore } from '../../stores/useOrderItemStore';
 
 const ProductDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
+  const [cartQuantity, setCartQuantity] = useState(1); // ItemSelectedContainer에서 변경되는 수량 정보를 저장하는 상태 변수
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [isFailedModalOpen, setIsFailedModalOpen] = useState(false);
 
@@ -31,8 +26,7 @@ const ProductDetailPage = () => {
   const cartItems = useCartStore((state) => state.cartItems); // 장바구니에 store에 담겨 있는 아이템 정보
   const addCartItem = useCartStore((state) => state.addCartItem); // 장바구니 store에 선택한 상품을 추가하는 함수
   const updateCartItem = useCartStore((state) => state.updateCartItem); // 장바구니 store에 선택한 상품을 추가하는 함수
-
-  const [cartQuantity, setCartQuantity] = useState(1); // ItemSelectedContainer에서 변경되는 수량 정보를 저장하는 상태 변수
+  const addOrderItem = useOrderItemStore((state) => state.addOrderItem); // 주문 상품 store에 선택한 상품을 추가하는 함수
 
   const loadProduct = async () => {
     await fetchProducts();
@@ -86,7 +80,15 @@ const ProductDetailPage = () => {
     if (!user) {
       navigate('/login');
     } else {
-      navigate(`/products/${id}/order`);
+      addOrderItem([
+        {
+          productId: product.product_id,
+          unitPrice: product.price,
+          quantity: cartQuantity,
+          totalPrice: product.price * cartQuantity,
+        },
+      ]);
+      navigate(`/order`); // router를 '/order' 로 설정
     }
   };
 
