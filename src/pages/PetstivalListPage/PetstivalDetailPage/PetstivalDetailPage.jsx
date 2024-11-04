@@ -91,26 +91,10 @@ export default function PetstivalDetailPage() {
   const [recommendations, setRecommendations] = useState([]);
   const [isParticipating, setIsParticipating] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
-  const [userId, setUserId] = useState(null); // 동적 user ID 상태
-
-  // 로그인된 사용자 ID 가져오기
-  useEffect(() => {
-    const fetchUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        setUserId(user.id); // 실제 user_id 설정
-      } else {
-        console.error("User is not logged in");
-        navigate('/login'); // 로그인 페이지로 리디렉션 (예시)
-      }
-    };
-    fetchUser();
-  }, []);
+  const [userId, setUserId] = useState(null);
 
   // 페스티벌 데이터와 참여 상태 확인
   useEffect(() => {
-    if (!userId) return; // userId가 없으면 데이터 로드 중단
-
     const fetchFestival = async () => {
       try {
         const { data, error } = await supabase
@@ -123,22 +107,24 @@ export default function PetstivalDetailPage() {
         if (!data) throw new Error("Festival data not found.");
         setFestival(data);
 
-        // 참여 상태 확인
-        const { data: participationData, error: participationError } = await supabase
-          .from('user_festival')
-          .select('verified')
-          .eq('user_id', userId)               // 로그인된 사용자 ID 확인
-          .eq('fetstivals_id', parseInt(id))    // 페이지의 id를 fetstivals_id로 사용
-          .maybeSingle();                      // maybeSingle()을 사용하여 데이터가 없는 경우 null 반환
+        // 참여 상태 확인 (로그인된 경우에만 실행)
+        if (userId) {
+          const { data: participationData, error: participationError } = await supabase
+            .from('user_festival')
+            .select('verified')
+            .eq('user_id', userId)
+            .eq('fetstivals_id', parseInt(id))
+            .maybeSingle();
 
-        if (participationError) {
-          console.error("Error checking participation status:", participationError);
-        } else if (participationData) {
-          setIsParticipating(true);
-          setIsVerified(participationData.verified);
-        } else {
-          setIsParticipating(false);
-          setIsVerified(false); // 참여 데이터가 없는 경우 초기 상태로 설정
+          if (participationError) {
+            console.error("Error checking participation status:", participationError);
+          } else if (participationData) {
+            setIsParticipating(true);
+            setIsVerified(participationData.verified);
+          } else {
+            setIsParticipating(false);
+            setIsVerified(false);
+          }
         }
 
         // 추천 상품 로드
@@ -159,40 +145,59 @@ export default function PetstivalDetailPage() {
         setLoading(false);
       }
     };
-    fetchFestival();
+
+    // 로그인된 사용자 ID 가져오기 및 페스티벌 데이터 로드
+    const fetchUserIdAndFestival = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        setUserId(user.id); // 실제 user_id 설정
+      }
+      fetchFestival();
+    };
+
+    fetchUserIdAndFestival();
   }, [id, userId]);
 
   // 참여 및 취소 처리 함수
   const handleParticipation = async () => {
-    if (isParticipating) {
-      // 참여 취소
-      const { error } = await supabase
-        .from('user_festival')
-        .delete()
-        .eq('user_id', userId)             // 로그인된 사용자 ID 사용
-        .eq('fetstivals_id', parseInt(id)); // 페이지의 id를 fetstivals_id로 사용
+    if (!userId) {
+      navigate('/login'); // 로그인되지 않은 경우에만 로그인 페이지로 리디렉션
+      return;
+    }
+
+    try {
+      if (isParticipating) {
+        // 참여 취소
+        const { error } = await supabase
+          .from('user_festival')
+          .delete()
+          .eq('user_id', userId)
+          .eq('fetstivals_id', parseInt(id));
         
-      if (error) {
-        console.error('참여 취소 중 오류 발생:', error);
+        if (error) {
+          console.error('참여 취소 중 오류 발생:', error);
+        } else {
+          setIsParticipating(false);
+        }
       } else {
-        setIsParticipating(false);
-      }
-    } else {
-      // 참여 신청
-      const { error } = await supabase
-        .from('user_festival')
-        .insert({
-          user_id: userId,                       // 로그인된 사용자 ID
-          fetstivals_id: parseInt(id),           // fetstivals_id에 페이지 ID 사용
-          verified: false,                       // 기본값 false 설정
-          verified_at: new Date().toISOString()  // 현재 시간으로 설정
-        });
+        // 참여 신청
+        const { error } = await supabase
+          .from('user_festival')
+          .insert({
+            user_id: userId,
+            fetstivals_id: parseInt(id),
+            verified: false,
+            verified_at: new Date().toISOString(),
+          });
         
-      if (error) {
-        console.error('참여 신청 중 오류 발생:', error);
-      } else {
-        setIsParticipating(true);
+        if (error) {
+          console.error('참여 신청 중 오류 발생:', error);
+        } else {
+          setIsParticipating(true);
+        }
       }
+    } catch (error) {
+      console.error('참여 처리 중 오류 발생:', error);
     }
   };
 
