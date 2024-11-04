@@ -13,7 +13,7 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 // [x] 헤더 컴포넌트, 장바구니 페이지에 fetchCartItems 추가
 // [x] useCartStore 정보를 세션 스토리지에 저장
 // [x] 세션 스토리지 clear 구현
-// [ ] useOrderItemStore 구현 및 공유 (@명지님)
+// [x] useOrderItemStore 구현
 
 export const useCartStore = create(
   persist(
@@ -128,11 +128,13 @@ export const useCartStore = create(
       },
 
       /* ------- 로그아웃, 회원탈퇴 시 장바구니 정보 초기화 ------- */
-      clearCart: () =>
+      clearCart: () => {
         set({
           cartItems: [],
           cartTotal: 0, // 유저 정보 초기화 및 인증 상태 초기화
-        }),
+        });
+        sessionStorage.removeItem('cart-storage'); // 세션 스토리지의 장바구니 정보도 초기화
+      },
     }),
 
     {
