@@ -12,6 +12,7 @@ import PetProfileGray from '../../assets/icons/profile-pet-gray.svg?react';
 import NoPetsCard from '../../components/Pet/NoPetsCard';
 import { useNavigate } from 'react-router-dom';
 import TabBar from '../../components/Pet/TabBar';
+import PetstivalItem from '../../components/Pet/Petstival';
 
 function PetPage() {
   const [petsData, setPetsData] = useState(null);
@@ -54,8 +55,17 @@ function PetPage() {
     try {
       const { data, error } = await supabase.from('user_festival').select('*, festivals(*)').eq('user_id', userId);
 
+      // if (error) throw error;
+      // setUserFestivals(data.map((item) => item.festivals));
       if (error) throw error;
-      setUserFestivals(data.map((item) => item.festivals));
+      setUserFestivals(
+        data.map((item) => ({
+          id: item.festivals.id,
+          title: item.festivals.title,
+          startdate: item.festivals.startdate,
+          isVerified: item.verified,
+        }))
+      );
     } catch (error) {
       console.error('오류 발생:', error);
     }
@@ -74,6 +84,12 @@ function PetPage() {
       loadUserFestivals(userId);
     }
   }, [activeTab, userId]);
+
+  // 인증 버튼 클릭 핸들러
+  const handleVerify = (festivalId) => {
+    // 인증 로직을 구현하면 수정할 부분
+    console.log(`페스티벌 ${festivalId} 인증 요청`);
+  };
 
   return (
     <div className={`${styles.container}`}>
@@ -107,13 +123,14 @@ function PetPage() {
               <p>참여한 펫스티벌이 없습니다.</p>
             ) : (
               userFestivals.map((festival) => (
-                <div key={festival.id} className={styles.festivalItem}>
-                  <h3>{festival.title}</h3>
-                  <p>
-                    {festival.startdate}
-                    {/* - {festival.enddate} */}
-                  </p>
-                </div>
+                <PetstivalItem
+                  key={festival.id}
+                  id={festival.id}
+                  title={festival.title}
+                  startdate={festival.startdate}
+                  isVerified={festival.isVerified}
+                  onVerify={() => handleVerify(festival.id)}
+                />
               ))
             )}
           </div>
