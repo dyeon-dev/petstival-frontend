@@ -7,6 +7,7 @@ import PetProfileCard from '../../components/Pet/PetProfileCard';
 import PlusIcon from '../../assets/icons/plus.svg?react';
 import CircularProgress from '@mui/material/CircularProgress';
 import fetchPetProfile from '../../services/fetchPetProfile';
+import supabase from '../../services/supabaseClient';
 import PetProfileGray from '../../assets/icons/profile-pet-gray.svg?react';
 import NoPetsCard from '../../components/Pet/NoPetsCard';
 import { useNavigate } from 'react-router-dom';
@@ -14,7 +15,9 @@ import TabBar from '../../components/Pet/TabBar';
 
 function PetPage() {
   const [petsData, setPetsData] = useState(null);
+  const [userFestivals, setUserFestivals] = useState([]); // 참여한 펫스티벌 상태 추가
   const userName = useAuthStore((state) => state.user?.name);
+  const userId = useAuthStore((state) => state.user?.id);
   const [activeTab, setActiveTab] = useState('반려견'); // 초기 탭을 '반려견'으로 설정
 
   const navigate = useNavigate();
@@ -46,20 +49,31 @@ function PetPage() {
     }
   }
 
+  // 참여한 펫스티벌 정보를 불러오는 함수
+  async function loadUserFestivals(userId) {
+    try {
+      const { data, error } = await supabase.from('user_festival').select('*, festivals(*)').eq('user_id', userId);
+
+      if (error) throw error;
+      setUserFestivals(data.map((item) => item.festivals));
+    } catch (error) {
+      console.error('오류 발생:', error);
+    }
+  }
+
   // 페이지 첫 로드 시에만 반려견 데이터를 불러옴
   useEffect(() => {
     loadPetsData();
   }, []);
 
-  // 탭 변경 시 반려견 탭일 때만 데이터를 다시 불러옴
+  // 탭 변경 시 데이터를 불러옴
   useEffect(() => {
     if (activeTab === '반려견') {
       loadPetsData();
+    } else if (activeTab === '펫스티벌' && userId) {
+      loadUserFestivals(userId);
     }
-    // elif (activeTab === '펫스티벌') {
-    //   // 펫스티벌 데이터 불러오기
-    // }
-  }, [activeTab]);
+  }, [activeTab, userId]);
 
   return (
     <div className={`${styles.container}`}>
@@ -89,6 +103,19 @@ function PetPage() {
         {activeTab === '펫스티벌' && (
           <div className={`${styles.cardWrapper}`}>
             <div className={`${styles.title}`}>내가 참여한 펫스티벌</div>
+            {userFestivals.length === 0 ? (
+              <p>참여한 펫스티벌이 없습니다.</p>
+            ) : (
+              userFestivals.map((festival) => (
+                <div key={festival.id} className={styles.festivalItem}>
+                  <h3>{festival.title}</h3>
+                  <p>
+                    {festival.startdate}
+                    {/* - {festival.enddate} */}
+                  </p>
+                </div>
+              ))
+            )}
           </div>
         )}
       </div>
