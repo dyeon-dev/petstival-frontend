@@ -1,4 +1,5 @@
 import styles from './MainPopup.module.css';
+import QR from '../../assets/images/QR.svg?react';
 
 export default function MainPopup({ setShowMainPop }) {
   const closePop = () => {
@@ -23,9 +24,11 @@ export default function MainPopup({ setShowMainPop }) {
     <div className={styles.popupWrapper} onClick={handleClickOutside}>
       {/* 팝업 내부 클릭이 래퍼로 버블링되는 것을 방지하여 팝업이 내부를 클릭할 때 열린 상태를 유지 */}
       <div className={styles.mainPopup} onClick={(e) => e.stopPropagation()}>
-        <h1>팝업입니다.</h1>
-        <button onClick={closeTodayPop}>오늘 하루 열지 않기</button>
-        <button onClick={closePop}>닫기</button>
+        <QR className={styles.qr} />
+        <div className={styles.close}>
+          <button onClick={closeTodayPop}>X 오늘 하루 열지 않기</button>
+          <button onClick={closePop}>닫기</button>
+        </div>
       </div>
     </div>
   );
