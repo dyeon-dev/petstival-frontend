@@ -50,8 +50,8 @@ function OrderPage() {
           )
         `
         )
-        .eq('payment_state', 'success');
-
+        .eq('payment_state', 'success')
+        .order('created_at', { ascending: false });
       console.log('Fetched Data:', data);
       if (error) throw error;
 
