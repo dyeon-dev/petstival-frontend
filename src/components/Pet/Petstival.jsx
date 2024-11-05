@@ -11,7 +11,10 @@ function PetstivalItem({ id, title, startdate, isVerified, onVerify }) {
   const handleTitleClick = () => {
     navigate(`/petstival/${id}`);
   };
-
+  const handleQRAuth = () => {
+    navigate('/qrscanner')
+  };
+  
   return (
     <div className={styles.festivalItem}>
       <div className={styles.info}>
@@ -27,7 +30,7 @@ function PetstivalItem({ id, title, startdate, isVerified, onVerify }) {
             인증 완료
           </Button>
         ) : (
-          <Button variant="outlined" color="primary" onClick={onVerify}>
+          <Button variant="outlined" color="primary" onClick={handleQRAuth}>
             인증하기
           </Button>
         )}
