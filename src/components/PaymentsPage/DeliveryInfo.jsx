@@ -162,11 +162,7 @@ export default function DeliveryInfo() {
               </Typography>
             </Grid>
 
-            <Button
-              variant="outlined"
-              onClick={handleEditInfo}
-              sx={{ mt: 2, width: '100%', borderRadius: '8px' }}
-            >
+            <Button variant="outlined" onClick={handleEditInfo} sx={{ mt: 2, width: '100%', borderRadius: '8px' }}>
               배송지 변경하기
             </Button>
           </>
