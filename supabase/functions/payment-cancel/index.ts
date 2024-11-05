@@ -1,38 +1,33 @@
-import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import "jsr:@supabase/functions-js/edge-runtime.d.ts"
 import { corsHeaders } from '../_shared/cors.ts';
 
 const widgetSecretKey = Deno.env.get('WIDGET_SECRET_KEY');
+console.log(widgetSecretKey)
+
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders })
   }
 
-  if (req.method === "POST" && req.url === 'https://hfnchwvpqruwmlehusbs.supabase.co/functions/v1/payment') {
-    const { paymentKey, orderId, amount } = await req.json();
+  if (req.method === "POST" && req.url === 'https://hfnchwvpqruwmlehusbs.supabase.co/functions/v1/payment-cancel') {
+    const { paymentKey } = await req.json();
     const encryptedSecretKey = "Basic " + btoa(widgetSecretKey + ":");
 
     try {
-      const response = await fetch("https://api.tosspayments.com/v1/payments/confirm", {
+      const response = await fetch(`https://api.tosspayments.com/v1/payments/${paymentKey}/cancel`, {
         method: "POST",
         headers: {
           Authorization: encryptedSecretKey,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ orderId, amount, paymentKey }),
+        body: {"cancelReason":"고객 변심"},
       });
 
         // data.json()으로 받아서 비동기 처리를 해줘야 한다.
         const data = await response.json();
         console.log(data);
         
-        // 결제 성공 비즈니스 로직을 구현
-
-        // 결제 상태 확인
-      if (!data.mId) { // 결제 성공 여부 확인
-        const errorInfo = { code: data.code || "UNKNOWN_ERROR", message: data.message || "An error occurred" }; // 에러 정보 객체 생성
-        throw { ...errorInfo }; // 사용자 정의 에러 객체 던지기
-      }
       return new Response(JSON.stringify(data), {
         status: 200,
         headers: {

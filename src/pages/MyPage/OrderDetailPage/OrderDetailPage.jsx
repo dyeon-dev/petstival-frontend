@@ -9,6 +9,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import supabase from '../../../services/supabaseClient';
 import { Button } from '@mui/material';
 import YesNoModal from '../../../components/Common/Modal/DefaultModal';
+import { LinearProgress } from '@mui/material';
 
 const Wrapper = styled.section`
   margin-left: 24px;
@@ -43,15 +44,13 @@ function OrderDetailPage() {
   const getOrderItemData = async () => {
     const { data, error } = await supabase
       .from('order_detail')
-      .select(
-        `
-    *,
-    product (
-      product_name,
-      image_url_1
-    )
-  `
-      )
+      .select(`
+        *,
+        product (
+          product_name,
+          image_url_1
+        )
+      `)
       .eq('order_id', order_id);
 
     if (error) {
@@ -67,7 +66,8 @@ function OrderDetailPage() {
   async function cancelOrder() {
     try {
       const { error } = await supabase.from('order').update({ order_status: 'cancel' }).eq('order_id', order_id);
-
+      //window.location.href = '/mypage/order';
+      cancelPayment();
       if (error) {
         console.error('Error deleting order:', error);
         return;
@@ -77,9 +77,21 @@ function OrderDetailPage() {
     }
   }
 
+  async function cancelPayment() {
+    console.log("cancel")
+    const response = await fetch('https://hfnchwvpqruwmlehusbs.supabase.co/functions/v1/payment-cancel', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        paymentKey
+      }),
+    });
+  }
+
   async function handleCancel() {
     setIsConfirmModalOpen(true);
-    cancelOrder();
   }
 
   useEffect(() => {
@@ -88,7 +100,7 @@ function OrderDetailPage() {
   }, []);
 
   if (!product) {
-    return <p>Loading product data...</p>;
+    return <LinearProgress />;
   }
 
   return (
@@ -101,7 +113,7 @@ function OrderDetailPage() {
           {orderItem.map((item) => {
             return (
               <ProductInfo
-                key={item.product_id}  // Unique key added for each ProductInfo component
+                key={item.product_id}
                 created_at={item.created_at}
                 img_url_1={item.product.image_url_1}
                 product_name={item.product.product_name}
@@ -130,9 +142,7 @@ function OrderDetailPage() {
           content={`정말 주문 취소 하시겠어요?`}
           isOpen={isConfirmModalOpen}
           setIsOpen={() => setIsConfirmModalOpen(!isConfirmModalOpen)}
-          onYesClick={() => {
-            window.location.href = '/mypage/order';
-          }}
+          onYesClick={() => cancelOrder()}
         />
       </Wrapper>
       <Navbar selectedMenu="MyPage" />
