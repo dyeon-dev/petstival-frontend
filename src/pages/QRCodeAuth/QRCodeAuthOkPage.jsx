@@ -1,5 +1,5 @@
 import styles from './QRCodeAuthOkPage.module.css';
-import QRCodeOkLogo from '../../assets/icons/qr_ok_logo.svg?react';
+import QRCodeOkLogo from '../../assets/icons/QR_ok_logo.svg?react';
 import { useNavigate } from 'react-router-dom';
 const QRCodeAuthOkPage = () =>{
     const navigate = useNavigate();
