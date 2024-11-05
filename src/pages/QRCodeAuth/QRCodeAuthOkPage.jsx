@@ -14,7 +14,7 @@ const QRCodeAuthOkPage = () =>{
              <h1>참여 인증이 완료되었어요.</h1>
              <p>참여 인증 뱃지를 발급했어요!<br/>펫스티벌 페이지에서 확인할 수 있어요.</p>
             </div>
-            
+        
             <button className={styles.returnButton} onClick={handleGoBack}>
                 돌아가기
             </button>
