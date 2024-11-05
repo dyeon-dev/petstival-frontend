@@ -8,7 +8,7 @@ Deno.serve(async (req) => {
     return new Response('ok', { headers: corsHeaders })
   }
 
-  if (req.method === "POST" && req.url === 'https://hfnchwvpqruwmlehusbs.supabase.co/functions/v1/payment-cancel') {
+  if (req.method === "POST" && req.url === 'http://edge-runtime.supabase.com/payment-cancel') {
     const { paymentKey } = await req.json();
     const encryptedSecretKey = "Basic " + btoa(widgetSecretKey + ":");
 
@@ -19,7 +19,9 @@ Deno.serve(async (req) => {
           Authorization: encryptedSecretKey,
           "Content-Type": "application/json",
         },
-        body: {"cancelReason":"고객 변심"},
+        body: JSON.stringify({
+          cancelReason: "고객 변심"
+        }),
       });
 
         // data.json()으로 받아서 비동기 처리를 해줘야 한다.

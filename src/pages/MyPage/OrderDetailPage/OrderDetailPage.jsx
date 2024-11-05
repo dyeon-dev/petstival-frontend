@@ -37,7 +37,7 @@ function OrderDetailPage() {
     }
 
     if (data) {
-      console.log('Fetched product data:', data)
+      console.log('Fetched product data:', data);
       setProduct(data);
     }
   };
@@ -45,13 +45,15 @@ function OrderDetailPage() {
   const getOrderItemData = async () => {
     const { data, error } = await supabase
       .from('order_detail')
-      .select(`
+      .select(
+        `
         *,
         product (
           product_name,
           image_url_1
         )
-      `)
+      `
+      )
       .eq('order_id', order_id);
 
     if (error) {
@@ -85,7 +87,7 @@ function OrderDetailPage() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        paymentKey
+        paymentKey: product.payment_key,
       }),
     });
   }
