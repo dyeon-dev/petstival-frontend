@@ -12,7 +12,7 @@ const QrScanner = () => {
         const html5QrCode = new Html5Qrcode("qr-reader");
 
         const config = {
-            fps: 10,
+            fps: 0.5,
             qrbox: { width: 250, height: 250 },
         };
 
@@ -52,7 +52,7 @@ const QrScanner = () => {
 
     return (
         <div>
-            <h2>QR 코드 스캐너</h2>
+        
             <div id="qr-reader" ref={qrCodeRef} style={{ width: "100%" }}></div>
         </div>
     );
