@@ -37,7 +37,6 @@ function OrderDetailPage() {
     }
 
     if (data) {
-      console.log('Fetched product data:', data);
       setProduct(data);
     }
   };
@@ -69,7 +68,6 @@ function OrderDetailPage() {
   async function cancelOrder() {
     try {
       const { error } = await supabase.from('order').update({ order_status: 'cancel' }).eq('order_id', order_id);
-      //window.location.href = '/mypage/order';
       cancelPayment();
       if (error) {
         console.error('Error deleting order:', error);
@@ -92,6 +90,7 @@ function OrderDetailPage() {
     });
     const data = await response.json();
     console.log(data);
+    window.location.href = '/mypage/order';
   }
 
   async function handleCancel() {
