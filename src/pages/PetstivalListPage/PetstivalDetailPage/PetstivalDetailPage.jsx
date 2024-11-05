@@ -15,6 +15,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import formatDate from '../../../utils/formatDate';
 import YesNoModal from '../../../components/Common/Modal/YesNoModal';
+import Typography from '@mui/material/Typography';
 
 const PageContainer = styled.div`
   width: 100%;
@@ -23,6 +24,8 @@ const PageContainer = styled.div`
   flex-direction: column;
   background-color: #f5f5f5;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 `;
 
 const Wrapper = styled.section`
@@ -75,6 +78,7 @@ const RecommendationItem = styled.div`
   gap: 20px;
   cursor: pointer;
   box-shadow: 0px 0px 8px rgba(51, 51, 51, 0.08);
+  cursor: pointer;
 `;
 
 const RecommendationImage = styled.img`
@@ -110,6 +114,7 @@ const ContentText = styled.div`
   font-weight: 500;
   line-height: 1.4;
   color: var(--gray-60);
+
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: normal;
@@ -123,6 +128,13 @@ const PriceText = styled.div`
   font-size: 18px;
   font-weight: 700;
   color: var(--secondary-orange-default);
+`;
+
+const DateAndButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
 `;
 
 const Button = styled.button`
@@ -355,14 +367,16 @@ export default function PetstivalDetailPage() {
           </RecommendationsHeader>
           <Slider {...sliderSettings}>
             {recommendations.map((item) => (
-              <RecommendationItem key={item.product_id} onClick={() => navigate(`/products/${item.product_id}`)}>
-                <RecommendationImage src={item.image_url_1 || noImage} alt={item.product_name} />
-                <ContentWrapper>
-                  <TitleText>{item.product_name}</TitleText>
-                  <ContentText>{item.contents}</ContentText>
-                  <PriceText>{item.price.toLocaleString()} 원</PriceText>
-                </ContentWrapper>
-              </RecommendationItem>
+              <>
+                <RecommendationItem key={item.product_id} onClick={() => navigate(`/products/${item.product_id}`)}>
+                  <RecommendationImage src={item.image_url_1 || noImage} alt={item.product_name} />
+                  <ContentWrapper>
+                    <TitleText>{item.product_name}</TitleText>
+                    <ContentText>{item.contents}</ContentText>
+                    <PriceText>{item.price.toLocaleString()} 원</PriceText>
+                  </ContentWrapper>
+                </RecommendationItem>
+              </>
             ))}
           </Slider>
         </RecommendationsContainer>
