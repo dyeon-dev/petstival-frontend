@@ -5,16 +5,16 @@ import styles from './PestivalItem.module.css';
 import badgeUnverified from '../../assets/icons/petstival_nonauth.svg';
 import badgeVerified from '../../assets/icons/petstival_auth.svg';
 
-function PetstivalItem({ id, title, startdate, isVerified, onVerify }) {
+function PetstivalItem({ id, title, isVerified, verifiedAt }) {
   const navigate = useNavigate();
 
   const handleTitleClick = () => {
     navigate(`/petstival/${id}`);
   };
   const handleQRAuth = () => {
-    navigate('/qrscanner')
+    navigate('/qrscanner');
   };
-  
+
   return (
     <div className={styles.festivalItem}>
       <div className={styles.info}>
@@ -22,7 +22,7 @@ function PetstivalItem({ id, title, startdate, isVerified, onVerify }) {
         <h3 onClick={handleTitleClick} className={styles.title}>
           {title}
         </h3>
-        <p>{isVerified ? startdate : '아직 참여 인증 전이에요.'}</p>
+        <p>{isVerified ? `${verifiedAt}` : '아직 참여 인증 전이에요.'}</p>{' '}
       </div>
       <div className={styles.verification}>
         {isVerified ? (
