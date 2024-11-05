@@ -27,7 +27,7 @@ function OrderDetailPage() {
     // payment 테이블에서 payment_state가 success이고 order_id가 일치하는 데이터만 가져옴
     const { data, error } = await supabase
       .from('payment')
-      .select('order_id, order(*)')
+      .select('order_id, payment_key, order(*)')
       .eq('payment_state', 'success')
       .eq('order_id', order_id)
       .single();
@@ -37,6 +37,7 @@ function OrderDetailPage() {
     }
 
     if (data) {
+      console.log('Fetched product data:', data)
       setProduct(data);
     }
   };
@@ -78,7 +79,6 @@ function OrderDetailPage() {
   }
 
   async function cancelPayment() {
-    console.log("cancel")
     const response = await fetch('https://hfnchwvpqruwmlehusbs.supabase.co/functions/v1/payment-cancel', {
       method: 'POST',
       headers: {

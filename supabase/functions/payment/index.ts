@@ -8,7 +8,7 @@ Deno.serve(async (req) => {
     return new Response('ok', { headers: corsHeaders })
   }
 
-  if (req.method === "POST" && req.url === 'https://hfnchwvpqruwmlehusbs.supabase.co/functions/v1/payment') {
+  if (req.method === "POST" &&  req.url === "http://edge-runtime.supabase.com/payment") {
     const { paymentKey, orderId, amount } = await req.json();
     const encryptedSecretKey = "Basic " + btoa(widgetSecretKey + ":");
 
