@@ -84,9 +84,12 @@ export default function PetstivalListPage() {
             .eq('fetstivals_id', festival.id)
             .maybeSingle();
 
-        status[festival.id] = participationData ? { isParticipating: true, verified: participationData.verified } : { isParticipating: false, verified: false };
+          status[festival.id] = participationData
+            ? { isParticipating: true, verified: participationData.verified }
+            : { isParticipating: false, verified: false };
+        }
+        setParticipationStatus(status);
       }
-      setParticipationStatus(status);
     } catch (error) {
       setError('Error fetching data');
     } finally {
@@ -96,7 +99,9 @@ export default function PetstivalListPage() {
 
   useEffect(() => {
     const fetchUserId = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (user) {
         setUserId(user.id);
       }
