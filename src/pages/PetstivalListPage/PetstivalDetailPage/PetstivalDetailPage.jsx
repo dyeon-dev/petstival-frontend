@@ -185,8 +185,6 @@ export default function PetstivalDetailPage() {
 
   // 페스티벌 데이터와 참여 상태 확인
   useEffect(() => {
-    if (!userId) return; // userId가 없으면 데이터 로드 중단
-
     const fetchFestival = async () => {
       try {
         const { data, error } = await supabase.from('festivals').select('*, category_id, homepage_url').eq('id', id).single();
@@ -231,7 +229,19 @@ export default function PetstivalDetailPage() {
         setLoading(false);
       }
     };
-    fetchFestival();
+
+    // 로그인된 사용자 ID 가져오기 및 페스티벌 데이터 로드
+    const fetchUserIdAndFestival = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user) {
+        setUserId(user.id); // 실제 user_id 설정
+      }
+      fetchFestival();
+    };
+
+    fetchUserIdAndFestival();
   }, [id, userId]);
 
   // 참여 및 취소 처리 함수

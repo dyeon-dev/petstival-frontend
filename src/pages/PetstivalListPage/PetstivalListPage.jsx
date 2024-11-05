@@ -74,20 +74,20 @@ export default function PetstivalListPage() {
       setData(sortedData);
 
       // 참여 상태 확인
-      const status = {};
-      for (const festival of data) {
-        const { data: participationData } = await supabase
-          .from('user_festival')
-          .select('verified')
-          .eq('user_id', userId)
-          .eq('fetstivals_id', festival.id)
-          .maybeSingle();
+      if (userId) {
+        const status = {};
+        for (const festival of data) {
+          const { data: participationData } = await supabase
+            .from('user_festival')
+            .select('verified')
+            .eq('user_id', userId)
+            .eq('fetstivals_id', festival.id)
+            .maybeSingle();
 
         status[festival.id] = participationData ? { isParticipating: true, verified: participationData.verified } : { isParticipating: false, verified: false };
       }
       setParticipationStatus(status);
     } catch (error) {
-      console.error('Error fetching data:', error);
       setError('Error fetching data');
     } finally {
       setLoading(false);
@@ -95,9 +95,14 @@ export default function PetstivalListPage() {
   };
 
   useEffect(() => {
-    if (userId) {
-      getData();
-    }
+    const fetchUserId = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        setUserId(user.id);
+      }
+    };
+    fetchUserId();
+    getData();
   }, [userId]);
 
   const today = new Date();
@@ -117,6 +122,11 @@ export default function PetstivalListPage() {
 
   // 페스티벌 참여 및 취소 함수
   const handleParticipation = async (festivalId) => {
+    if (!userId) {
+      navigate('/login'); // 로그인되지 않은 경우에만 로그인 페이지로 리디렉션
+      return;
+    }
+
     const currentStatus = participationStatus[festivalId] || { isParticipating: false, verified: false };
 
     try {
@@ -142,6 +152,7 @@ export default function PetstivalListPage() {
         setParticipationStatus((prev) => ({
           ...prev,
           [festivalId]: { isParticipating: true, verified: false },
+          [festivalId]: { isParticipating: true, verified: false },
         }));
       }
     } catch (error) {
@@ -155,7 +166,7 @@ export default function PetstivalListPage() {
       <Wrapper>
         {error && <p style={{ color: 'red' }}>오류: {error}</p>}
         {loading ? (
-          <LinearProgress /> // 로딩 중일 때 Progress Bar 표시
+          <LinearProgress />
         ) : (
           <ImageListWrapper>
             {data.map((item) => {
