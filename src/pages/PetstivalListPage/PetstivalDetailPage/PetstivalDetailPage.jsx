@@ -5,7 +5,6 @@ import Slider from 'react-slick';
 import DetailBar from '../../../stories/DetailBar';
 import Navbar from '../../../components/Navbar/Navbar';
 import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import supabase from '../../../services/supabaseClient';
@@ -15,8 +14,9 @@ import ShowMoreButton from '../../../components/Common/Button/ShowMoreButton';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import formatDate from '../../../utils/formatDate';
+import YesNoModal from '../../../components/Common/Modal/YesNoModal';
+import DefaultModal from '../../../components/Common/Modal/DefaultModal';
 
-// 스타일 정의
 const PageContainer = styled.div`
   width: 100%;
   height: 100%;
@@ -24,8 +24,6 @@ const PageContainer = styled.div`
   flex-direction: column;
   background-color: #f5f5f5;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
 `;
 
 const Wrapper = styled.section`
@@ -78,7 +76,6 @@ const RecommendationItem = styled.div`
   gap: 20px;
   cursor: pointer;
   box-shadow: 0px 0px 8px rgba(51, 51, 51, 0.08);
-  cursor: pointer;
 `;
 
 const RecommendationImage = styled.img`
@@ -114,7 +111,6 @@ const ContentText = styled.div`
   font-weight: 500;
   line-height: 1.4;
   color: var(--gray-60);
-
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: normal;
@@ -128,13 +124,6 @@ const PriceText = styled.div`
   font-size: 18px;
   font-weight: 700;
   color: var(--secondary-orange-default);
-`;
-
-const DateAndButtonContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 8px;
 `;
 
 const Button = styled.button`
@@ -166,22 +155,15 @@ export default function PetstivalDetailPage() {
   const [isParticipating, setIsParticipating] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
   const [userId, setUserId] = useState(null); // 동적 user ID 상태
-
-  // 로그인된 사용자 ID 가져오기
-  useEffect(() => {
-    const fetchUser = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      if (user) {
-        setUserId(user.id); // 실제 user_id 설정
-      } else {
-        console.error('User is not logged in');
-        navigate('/login'); // 로그인 페이지로 리디렉션 (예시)
-      }
-    };
-    fetchUser();
-  }, []);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false); // YesNoModal 열림 상태
+  const [showResultModal, setShowResultModal] = useState(false); // DefaultModal 열림 상태
+  const [modalContent, setModalContent] = useState(''); // DefaultModal 및 YesNoModal의 메시지
+  const [modalTitle, setModalTitle] = useState(''); // DefaultModal 및 YesNoModal의 제목
+  const [onConfirm, setOnConfirm] = useState(null); // YesNoModal에서 확인 클릭 시 실행할 함수
+  const [isYesNoModalOpen, setIsYesNoModalOpen] = useState(false); // YesNoModal 열림 상태
+  const [isDefaultModalOpen, setIsDefaultModalOpen] = useState(false); // DefaultModal 열림 상태
+  const [modalMessage, setModalMessage] = useState(''); // DefaultModal에 표시할 메시지
+  
 
   // 페스티벌 데이터와 참여 상태 확인
   useEffect(() => {
@@ -192,24 +174,6 @@ export default function PetstivalDetailPage() {
         if (error) throw error;
         if (!data) throw new Error('Festival data not found.');
         setFestival(data);
-
-        // 참여 상태 확인
-        const { data: participationData, error: participationError } = await supabase
-          .from('user_festival')
-          .select('verified')
-          .eq('user_id', userId) // 로그인된 사용자 ID 확인
-          .eq('fetstivals_id', parseInt(id)) // 페이지의 id를 fetstivals_id로 사용
-          .maybeSingle(); // maybeSingle()을 사용하여 데이터가 없는 경우 null 반환
-
-        if (participationError) {
-          console.error('Error checking participation status:', participationError);
-        } else if (participationData) {
-          setIsParticipating(true);
-          setIsVerified(participationData.verified);
-        } else {
-          setIsParticipating(false);
-          setIsVerified(false); // 참여 데이터가 없는 경우 초기 상태로 설정
-        }
 
         // 추천 상품 로드
         if (data?.category_id) {
@@ -222,58 +186,77 @@ export default function PetstivalDetailPage() {
           if (productsError) throw productsError;
           setRecommendations(products);
         }
-      } catch (error) {
-        console.error('Error fetching festival or product data:', error);
+
+        // 로그인된 사용자 ID와 참여 상태 확인
+        const { data: userData } = await supabase.auth.getUser();
+        if (userData?.user) {
+          setUserId(userData.user.id);
+
+          const { data: participationData, error: participationError } = await supabase
+            .from('user_festival')
+            .select('verified')
+            .eq('user_id', userData.user.id)
+            .eq('fetstivals_id', parseInt(id))
+            .maybeSingle();
+
+          if (participationError) {
+            console.error('Error checking participation status:', participationError);
+          } else if (participationData) {
+            setIsParticipating(true);
+            setIsVerified(participationData.verified);
+          }
+        }
+      } catch (fetchError) {
+        console.error('Error fetching festival or product data:', fetchError);
         setError('축제 데이터를 가져오는 중 오류 발생');
       } finally {
         setLoading(false);
       }
     };
 
-    // 로그인된 사용자 ID 가져오기 및 페스티벌 데이터 로드
-    const fetchUserIdAndFestival = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      if (user) {
-        setUserId(user.id); // 실제 user_id 설정
-      }
-      fetchFestival();
-    };
+    fetchFestival();
+  }, [id]);
 
-    fetchUserIdAndFestival();
-  }, [id, userId]);
-
-  // 참여 및 취소 처리 함수
+  // 참여 신청 또는 취소 처리 함수
   const handleParticipation = async () => {
-    if (isParticipating) {
-      // 참여 취소
-      const { error } = await supabase
-        .from('user_festival')
-        .delete()
-        .eq('user_id', userId) // 로그인된 사용자 ID 사용
-        .eq('fetstivals_id', parseInt(id)); // 페이지의 id를 fetstivals_id로 사용
-
-      if (error) {
-        console.error('참여 취소 중 오류 발생:', error);
-      } else {
-        setIsParticipating(false);
-      }
-    } else {
-      // 참여 신청
-      const { error } = await supabase.from('user_festival').insert({
-        user_id: userId, // 로그인된 사용자 ID
-        fetstivals_id: parseInt(id), // fetstivals_id에 페이지 ID 사용
-        verified: false, // 기본값 false 설정
-        verified_at: new Date().toISOString(), // 현재 시간으로 설정
-      });
-
-      if (error) {
-        console.error('참여 신청 중 오류 발생:', error);
-      } else {
-        setIsParticipating(true);
-      }
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      navigate('/login'); // 로그인 페이지로 리디렉션
+      return;
     }
+    setUserId(user.id);
+    setIsYesNoModalOpen(true);
+  };
+
+  const confirmParticipationChange = async () => {
+    try {
+      if (isParticipating) {
+        // 참여 취소
+        const { error } = await supabase
+          .from('user_festival')
+          .delete()
+          .eq('user_id', userId)
+          .eq('fetstivals_id', parseInt(id));
+        if (error) throw error;
+        setIsParticipating(false);
+        setModalMessage('신청이 취소되었습니다.');
+      } else {
+        // 참여 신청
+        const { error } = await supabase.from('user_festival').insert({
+          user_id: userId,
+          fetstivals_id: parseInt(id),
+          verified: false,
+          verified_at: new Date().toISOString(),
+        });
+        if (error) throw error;
+        setIsParticipating(true);
+        setModalMessage('신청이 완료되었습니다.');
+      }
+      setIsDefaultModalOpen(true); // DefaultModal을 여는 상태
+    } catch (error) {
+      console.error('참여 상태 변경 중 오류 발생:', error);
+    }
+    setIsYesNoModalOpen(false); // YesNoModal 닫기
   };
 
   const getStatus = (startDate, endDate) => {
@@ -379,21 +362,32 @@ export default function PetstivalDetailPage() {
           </RecommendationsHeader>
           <Slider {...sliderSettings}>
             {recommendations.map((item) => (
-              <>
-                <RecommendationItem key={item.product_id} onClick={() => navigate(`/products/${item.product_id}`)}>
-                  <RecommendationImage src={item.image_url_1 || noImage} alt={item.product_name} />
-                  <ContentWrapper>
-                    <TitleText>{item.product_name}</TitleText>
-                    <ContentText>{item.contents}</ContentText>
-                    <PriceText>{item.price.toLocaleString()} 원</PriceText>
-                  </ContentWrapper>
-                </RecommendationItem>
-              </>
+              <RecommendationItem key={item.product_id} onClick={() => navigate(`/products/${item.product_id}`)}>
+                <RecommendationImage src={item.image_url_1 || noImage} alt={item.product_name} />
+                <ContentWrapper>
+                  <TitleText>{item.product_name}</TitleText>
+                  <ContentText>{item.contents}</ContentText>
+                  <PriceText>{item.price.toLocaleString()} 원</PriceText>
+                </ContentWrapper>
+              </RecommendationItem>
             ))}
           </Slider>
         </RecommendationsContainer>
       </Wrapper>
       <Navbar selectedMenu="Home" />
+      <YesNoModal
+        title={isParticipating ? '신청을 취소하시겠습니까?' : '정말 신청하시겠습니까?'}
+        content={isParticipating ? '신청을 취소하시겠습니까?' : '정말 신청하시겠습니까?'}
+        isOpen={isYesNoModalOpen}
+        setIsOpen={setIsYesNoModalOpen}
+        onYesClick={confirmParticipationChange}
+      />
+      <DefaultModal
+        title="알림"
+        content={modalMessage} // modalMessage를 사용
+        isOpen={isDefaultModalOpen}
+        setIsOpen={setIsDefaultModalOpen}
+      />
     </PageContainer>
   );
 }
