@@ -90,6 +90,8 @@ function OrderDetailPage() {
         paymentKey: product.payment_key,
       }),
     });
+    const data = await response.json();
+    console.log(data);
   }
 
   async function handleCancel() {

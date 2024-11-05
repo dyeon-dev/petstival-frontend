@@ -1,14 +1,16 @@
-import "jsr:@supabase/functions-js/edge-runtime.d.ts"
+import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { corsHeaders } from '../_shared/cors.ts';
 
 const widgetSecretKey = Deno.env.get('WIDGET_SECRET_KEY');
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
+    console.log("CORS Headers Applied:", corsHeaders);
     return new Response('ok', { headers: corsHeaders })
   }
 
-  if (req.method === "POST" && req.url === 'http://edge-runtime.supabase.com/payment-cancel') {
+  if (req.method === "POST" &&  req.url === "http://edge-runtime.supabase.com/payment-cancel") {
+    console.log("CORS Headers Applied:", corsHeaders);
     const { paymentKey } = await req.json();
     const encryptedSecretKey = "Basic " + btoa(widgetSecretKey + ":");
 
@@ -19,15 +21,13 @@ Deno.serve(async (req) => {
           Authorization: encryptedSecretKey,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          cancelReason: "고객 변심"
-        }),
+        body: JSON.stringify({ cancelReason: "고객 변심" }),
       });
 
         // data.json()으로 받아서 비동기 처리를 해줘야 한다.
         const data = await response.json();
         console.log(data);
-        
+  
       return new Response(JSON.stringify(data), {
         status: 200,
         headers: {
