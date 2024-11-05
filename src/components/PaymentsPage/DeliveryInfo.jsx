@@ -27,7 +27,7 @@ export default function DeliveryInfo() {
     const newErrors = {
       name: name ? '' : '이름을 입력해주세요.',
       detailAddress: detailAddress ? '' : '세부주소를 입력해주세요.',
-      number: /^010\d{7,8}$/.test(number) ? '' : '전화번호는 010으로 시작하고 10~11자리 숫자로 입력해주세요.',
+      number: /^010\d{7,8}$/.test(number) ? '' : '전화번호는 010으로 시작하는 10~11자리 숫자로 입력해주세요.',
     };
 
     setErrors(newErrors);
