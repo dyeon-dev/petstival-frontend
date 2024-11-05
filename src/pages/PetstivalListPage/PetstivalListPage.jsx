@@ -14,6 +14,8 @@ import noImage from '../../assets/images/no-image.jpg';
 import { LinearProgress } from '@mui/material';
 import formatDate from '../../utils/formatDate';
 import ButtonSmall from '../../components/Common/Button/ButtonSmall';
+import YesNoModal from '../../components/Common/Modal/YesNoModal';
+import DefaultModal from '../../components/Common/Modal/DefaultModal';
 
 const Container = styled.div`
   width: 100%;
@@ -47,6 +49,12 @@ export default function PetstivalListPage() {
   const [error, setError] = useState(null);
   const [userId, setUserId] = useState(null);
   const navigate = useNavigate();
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false); // YesNoModal 열림 상태
+  const [showResultModal, setShowResultModal] = useState(false); // DefaultModal 열림 상태
+  const [modalMessage, setModalMessage] = useState(''); // DefaultModal에 표시할 메시지
+  const [modalTitle, setModalTitle] = useState(''); // DefaultModal의 제목
+  const [selectedFestivalId, setSelectedFestivalId] = useState(null); // 참여 또는 취소할 페스티벌 ID
+  const [isParticipating, setIsParticipating] = useState(false); // 현재 참여 상태
 
   useEffect(() => {
     // 로그인된 사용자 ID 가져오기
@@ -56,10 +64,7 @@ export default function PetstivalListPage() {
       } = await supabase.auth.getUser();
       if (user) {
         setUserId(user.id); // 실제 user_id 설정
-      } else {
-        console.error('User is not logged in');
-        navigate('/login'); // 로그인 페이지로 리디렉션
-      }
+      } 
     };
     fetchUser();
   }, []);
@@ -126,24 +131,33 @@ export default function PetstivalListPage() {
   };
 
   // 페스티벌 참여 및 취소 함수
-  const handleParticipation = async (festivalId) => {
+  const handleParticipation = async (festivalId, currentStatus) => {
     if (!userId) {
-      navigate('/login'); // 로그인되지 않은 경우에만 로그인 페이지로 리디렉션
+      navigate('/login');
       return;
     }
-
+  
+    setSelectedFestivalId(festivalId); // 선택한 페스티벌 ID 저장
+    setIsParticipating(currentStatus.isParticipating); // 현재 참여 상태 저장
+    setModalTitle(currentStatus.isParticipating ? '신청을 취소하시겠습니까?' : '정말 신청하시겠습니까?');
+    setModalMessage(currentStatus.isParticipating ? '참여를 취소하시겠습니까?' : '참여 신청을 하시겠습니까?');
+    setShowConfirmationModal(true); // 확인 모달 열기
+  };
+  
+  const confirmParticipationChange = async () => {
+    const festivalId = selectedFestivalId;
     const currentStatus = participationStatus[festivalId] || { isParticipating: false, verified: false };
-
+  
     try {
       if (currentStatus.isParticipating) {
         // 참여 취소
         const { error } = await supabase.from('user_festival').delete().eq('user_id', userId).eq('fetstivals_id', festivalId);
-
         if (error) throw error;
         setParticipationStatus((prev) => ({
           ...prev,
           [festivalId]: { isParticipating: false, verified: false },
         }));
+        setModalMessage('참여가 취소되었습니다.');
       } else {
         // 참여 신청
         const { error } = await supabase.from('user_festival').insert({
@@ -152,16 +166,18 @@ export default function PetstivalListPage() {
           verified: false,
           verified_at: new Date().toISOString(),
         });
-
         if (error) throw error;
         setParticipationStatus((prev) => ({
           ...prev,
           [festivalId]: { isParticipating: true, verified: false },
-          [festivalId]: { isParticipating: true, verified: false },
         }));
+        setModalMessage('참여 신청이 완료되었습니다.');
       }
+      setShowResultModal(true); // 완료 모달 열기
     } catch (error) {
-      console.error('참여 신청 중 오류 발생:', error);
+      console.error('참여 상태 변경 중 오류 발생:', error);
+    } finally {
+      setShowConfirmationModal(false); // 확인 모달 닫기
     }
   };
 
@@ -233,7 +249,12 @@ export default function PetstivalListPage() {
                     />
                   </ImageListItem>
                   {(label !== '진행완료' || participation.verified) && (
-                    <ButtonSmall children={buttonLabel} onClick={() => handleParticipation(item.id)} sub="primary" disabled={participation.verified} />
+                    <ButtonSmall
+                    children={buttonLabel}
+                    onClick={() => handleParticipation(item.id, participation)}
+                    sub="primary"
+                    disabled={participation.verified}
+                  />
                   )}
                 </Paper>
               );
@@ -242,6 +263,20 @@ export default function PetstivalListPage() {
         )}
       </Wrapper>
       <Navbar selectedMenu="Home" />
+      <YesNoModal
+        title={modalTitle}
+        content={modalMessage}
+        isOpen={showConfirmationModal}
+        setIsOpen={setShowConfirmationModal}
+        onYesClick={confirmParticipationChange}
+      />
+
+      <DefaultModal
+        title="알림"
+        content={modalMessage}
+        isOpen={showResultModal}
+        setIsOpen={setShowResultModal}
+      />
     </Container>
   );
 }
