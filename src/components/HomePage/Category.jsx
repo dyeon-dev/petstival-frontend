@@ -34,7 +34,7 @@ export default function Category() {
       >
         <Grid container spacing={10}>
           <Grid item onClick={() => handleNavigate('사료/간식')}>
-            <Grid item xs container direction="column" alignItems="center">
+            <Grid item xs container direction="column" alignItems="center" sx={{ cursor: 'pointer' }}>
               <Food />
               <Typography variant="button" sx={{ display: 'block' }}>
                 사료/간식
@@ -43,7 +43,7 @@ export default function Category() {
           </Grid>
 
           <Grid item onClick={() => handleNavigate('위생/배변')}>
-            <Grid item xs container direction="column" alignItems="center">
+            <Grid item xs container direction="column" alignItems="center" sx={{ cursor: 'pointer' }}>
               <Clean />
               <Typography variant="button" sx={{ display: 'block' }}>
                 위생/배변
@@ -52,7 +52,7 @@ export default function Category() {
           </Grid>
 
           <Grid item onClick={() => handleNavigate('의류')}>
-            <Grid item xs container direction="column" alignItems="center">
+            <Grid item xs container direction="column" alignItems="center" sx={{ cursor: 'pointer' }}>
               <Outdoor />
               <Typography variant="button" sx={{ display: 'block' }}>
                 의류
@@ -61,7 +61,7 @@ export default function Category() {
           </Grid>
 
           <Grid item onClick={() => handleNavigate('장난감')}>
-            <Grid item xs container direction="column" alignItems="center">
+            <Grid item xs container direction="column" alignItems="center" sx={{ cursor: 'pointer' }}>
               <Toy />
               <Typography variant="button" sx={{ display: 'block' }}>
                 장난감

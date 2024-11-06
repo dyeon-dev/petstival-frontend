@@ -2,9 +2,11 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import ButtonBase from '@mui/material/ButtonBase';
-
+import {useEffect} from "react";
 export default function ProductInfo(props) {
   return (
+    <>
+    <h3>주문 내역</h3>
     <Paper
       sx={{
         p: 2,
@@ -30,10 +32,7 @@ export default function ProductInfo(props) {
               hour12: false,
             })
             .replace(/\.$/, '')}
-          &nbsp; &nbsp;
-        </Typography>
-        <Typography variant="body2" component="div">
-          결제 완료
+          &nbsp; 결제 완료
         </Typography>
       </Grid>
 
@@ -61,5 +60,6 @@ export default function ProductInfo(props) {
         </Grid>
       </Grid>
     </Paper>
+    </>
   );
 }

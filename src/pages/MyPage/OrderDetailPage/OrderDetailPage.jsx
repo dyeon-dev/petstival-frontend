@@ -111,13 +111,12 @@ function OrderDetailPage() {
       <DetailBar title="주문 상세" />
       <Wrapper>
         <OrderId order_id={product.order.order_title} created_at={product.order.created_at} />
-        <h3>주문 내역</h3>
         <div>
           {orderItem.map((item) => {
             return (
               <ProductInfo
                 key={item.product_id}
-                created_at={item.created_at}
+                created_at={product.order.created_at}
                 img_url_1={item.product.image_url_1}
                 product_name={item.product.product_name}
                 total_count={item.count}
