@@ -60,7 +60,7 @@ export default function PetstivalListPage() {
     const fetchUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
-        setUserId(user.id);
+        setUserId(user.id); // 실제 user_id 설정
       }
     };
     fetchUser();
@@ -125,18 +125,17 @@ export default function PetstivalListPage() {
       navigate('/login');
       return;
     }
-  
-    setSelectedFestivalId(festivalId);
-    setIsParticipating(currentStatus.isParticipating);
+    setSelectedFestivalId(festivalId); // 선택한 페스티벌 ID 저장
+    setIsParticipating(currentStatus.isParticipating); // 현재 참여 상태 저장
     setModalTitle(currentStatus.isParticipating ? '신청을 취소하시겠습니까?' : '정말 신청하시겠습니까?');
     setModalMessage(currentStatus.isParticipating ? '참여를 취소하시겠습니까?' : '참여 신청을 하시겠습니까?');
     setShowConfirmationModal(true);
   };
-  
+
   const confirmParticipationChange = async () => {
     const festivalId = selectedFestivalId;
     const currentStatus = participationStatus[festivalId] || { isParticipating: false, verified: false };
-  
+
     try {
       if (currentStatus.isParticipating) {
         const { error } = await supabase.from('user_festival').delete().eq('user_id', userId).eq('fetstivals_id', festivalId);
@@ -167,12 +166,12 @@ export default function PetstivalListPage() {
       setShowConfirmationModal(false);
     }
   };
-  
+  // 모달에서 예를 누르면 /pet 페이지로 이동하고, 계속 둘러볼게요를 선택하면 모달 닫기
   const handleResultModalConfirm = () => {
     localStorage.setItem('activeTab', '펫스티벌');
     navigate('/pet');
   };
-  
+
   const handleResultModalClose = () => {
     setShowResultModal(false);
   };
@@ -205,7 +204,7 @@ export default function PetstivalListPage() {
                 >
                   <ImageListItem onClick={() => navigate(`/petstival/${item.id}`)} style={{ cursor: 'pointer' }}>
                     <img
-                      //srcSet={`${imageSrc}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                      // srcSet={`${imageSrc}?w=248&fit=crop&auto=format&dpr=2 2x`}
                       src={`${imageSrc}?w=248&fit=crop&auto=format`}
                       alt={item.title || 'No image available'}
                       style={{ borderRadius: '8px', border: '1px solid var(--gray-20)', marginBottom: '8px' }}
