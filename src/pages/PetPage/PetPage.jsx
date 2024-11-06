@@ -123,7 +123,7 @@ function PetPage() {
               {petsData === null ? (
                 <CircularProgress />
               ) : petsData.length === 0 ? (
-                <NoPetsCard />
+                <NoPetsCard content={'등록한 반려견이 없어요.'} />
               ) : (
                 petsData.map((pet, index) => <PetProfileCard key={index} petData={pet} />)
               )}
@@ -131,16 +131,20 @@ function PetPage() {
           </>
         )}
         {activeTab === '펫스티벌' && (
-          <div className={`${styles.cardWrapper}`}>
-            <div className={`${styles.title}`}>내가 참여한 펫스티벌</div>
-            {userFestivals.length === 0 ? (
-              <p>참여한 펫스티벌이 없습니다.</p>
-            ) : (
-              userFestivals.map((festival) => (
-                <PetstivalItem key={festival.id} id={festival.id} title={festival.title} verifiedAt={festival.verifiedAt} isVerified={festival.isVerified} />
-              ))
-            )}
-          </div>
+          <>
+            <div className={`${styles.headerWrapper}`}>
+              <div className={`${styles.title}`}>내가 참여한 펫스티벌</div>
+            </div>
+            <div className={`${styles.cardWrapper}`}>
+              {userFestivals.length === 0 ? (
+                <NoPetsCard content={'신청한 펫스티벌이 없어요.'} />
+              ) : (
+                userFestivals.map((festival) => (
+                  <PetstivalItem key={festival.id} id={festival.id} title={festival.title} verifiedAt={festival.verifiedAt} isVerified={festival.isVerified} />
+                ))
+              )}
+            </div>
+          </>
         )}
       </div>
       <Navbar selectedMenu="Pet" />
