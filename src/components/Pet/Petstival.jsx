@@ -2,8 +2,8 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import styles from './PestivalItem.module.css';
-import badgeUnverified from '../../assets/icons/petstival_nonauth.svg?react';
-import badgeVerified from '../../assets/icons/petstival_auth.svg?react';
+import BadgeUnverified from '../../assets/icons/petstival_nonauth.svg?react';
+import BadgeVerified from '../../assets/icons/petstival_auth.svg?react';
 
 function PetstivalItem({ id, title, isVerified, verifiedAt }) {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ function PetstivalItem({ id, title, isVerified, verifiedAt }) {
   return (
     <div className={styles.festivalItem}>
       <div className={styles.info}>
-        {isVerified ? <badgeVerified className={styles.badge} alt="인증 완료 뱃지" /> : <badgeUnverified className={styles.badge} alt="인증 전 뱃지" />}{' '}
+        {isVerified ? <BadgeVerified className={styles.badge} alt="인증 완료 뱃지" /> : <BadgeUnverified className={styles.badge} alt="인증 전 뱃지" />}
         <h3 onClick={handleTitleClick} className={styles.title}>
           {title}
         </h3>
