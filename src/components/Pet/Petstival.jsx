@@ -16,8 +16,8 @@ function PetstivalItem({ id, title, isVerified, verifiedAt }) {
   };
 
   return (
-    <div className={styles.festivalItem} onClick={handleTitleClick}>
-      <div className={styles.rowWrapper}>
+    <div className={styles.festivalItem}>
+      <div className={styles.rowWrapper} onClick={handleTitleClick}>
         {isVerified ? <BadgeVerified className={styles.verifiedBadge} alt="인증 완료 뱃지" /> : <BadgeUnverified className={styles.badge} alt="인증 전 뱃지" />}
         <div className={styles.info}>
           <div className={styles.title}>{title}</div>
