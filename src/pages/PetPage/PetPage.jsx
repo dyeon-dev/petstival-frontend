@@ -14,6 +14,13 @@ import { useNavigate } from 'react-router-dom';
 import TabBar from '../../components/Pet/TabBar';
 import PetstivalItem from '../../components/Pet/Petstival';
 
+// 날짜 포맷팅 함수
+// 2024-11-05 11:17:58.208+00 -> 2024.11.05
+function formatVerifiedDate(dateString) {
+  if (!dateString) return null;
+  return dateString.slice(0, 10).replace(/-/g, '.');
+}
+
 function PetPage() {
   const [petsData, setPetsData] = useState(null);
   const [userFestivals, setUserFestivals] = useState([]); // 참여한 펫스티벌 상태 추가
@@ -22,7 +29,7 @@ function PetPage() {
   const [activeTab, setActiveTab] = useState('반려견'); // 초기 탭을 '반려견'으로 설정
 
   const navigate = useNavigate();
-  
+
   // 페이지 로드 시 activeTab 설정
   useEffect(() => {
     const savedTab = localStorage.getItem('activeTab');
@@ -66,14 +73,19 @@ function PetPage() {
       const { data, error } = await supabase.from('user_festival').select('*, festivals(*)').eq('user_id', userId);
 
       if (error) throw error;
-      setUserFestivals(
-        data.map((item) => ({
-          id: item.festivals.id,
-          title: item.festivals.title,
-          startdate: item.festivals.startdate,
-          isVerified: item.verified,
-        }))
-      );
+
+      const formattedData = data.map((item) => ({
+        id: item.festivals.id,
+        title: item.festivals.title,
+        verifiedAt: formatVerifiedDate(item.verified_at),
+        isVerified: item.verified,
+      }));
+
+      // isVerified가 true인 항목이 먼저 오도록 정렬
+      formattedData.sort((a, b) => b.isVerified - a.isVerified);
+
+      // 정렬된 데이터를 상태로 설정
+      setUserFestivals(formattedData);
     } catch (error) {
       console.error('오류 발생:', error);
     }
@@ -93,11 +105,6 @@ function PetPage() {
     }
   }, [activeTab, userId]);
 
-  // 인증 버튼 클릭 핸들러
-  const handleVerify = (festivalId) => {
-    console.log(`페스티벌 ${festivalId} 인증 요청`);
-  };
-
   return (
     <div className={`${styles.container}`}>
       <Header />
@@ -116,7 +123,7 @@ function PetPage() {
               {petsData === null ? (
                 <CircularProgress />
               ) : petsData.length === 0 ? (
-                <NoPetsCard />
+                <NoPetsCard content={'등록한 반려견이 없어요.'} />
               ) : (
                 petsData.map((pet, index) => <PetProfileCard key={index} petData={pet} />)
               )}
@@ -124,23 +131,20 @@ function PetPage() {
           </>
         )}
         {activeTab === '펫스티벌' && (
-          <div className={`${styles.cardWrapper}`}>
-            <div className={`${styles.title}`}>내가 참여한 펫스티벌</div>
-            {userFestivals.length === 0 ? (
-              <p>참여한 펫스티벌이 없습니다.</p>
-            ) : (
-              userFestivals.map((festival) => (
-                <PetstivalItem
-                  key={festival.id}
-                  id={festival.id}
-                  title={festival.title}
-                  startdate={festival.startdate}
-                  isVerified={festival.isVerified}
-                  onVerify={() => handleVerify(festival.id)}
-                />
-              ))
-            )}
-          </div>
+          <>
+            <div className={`${styles.headerWrapper}`}>
+              <div className={`${styles.title}`}>내가 참여한 펫스티벌</div>
+            </div>
+            <div className={`${styles.cardWrapper}`}>
+              {userFestivals.length === 0 ? (
+                <NoPetsCard content={'신청한 펫스티벌이 없어요.'} />
+              ) : (
+                userFestivals.map((festival) => (
+                  <PetstivalItem key={festival.id} id={festival.id} title={festival.title} verifiedAt={festival.verifiedAt} isVerified={festival.isVerified} />
+                ))
+              )}
+            </div>
+          </>
         )}
       </div>
       <Navbar selectedMenu="Pet" />
