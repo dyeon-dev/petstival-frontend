@@ -29,6 +29,16 @@ function PetPage() {
   const [activeTab, setActiveTab] = useState('반려견'); // 초기 탭을 '반려견'으로 설정
 
   const navigate = useNavigate();
+
+  // 페이지 로드 시 activeTab 설정
+  useEffect(() => {
+    const savedTab = localStorage.getItem('activeTab');
+    if (savedTab) {
+      setActiveTab(savedTab); // 저장된 탭 설정
+      localStorage.removeItem('activeTab'); // 설정 후 초기화
+    }
+  }, []);
+
   useEffect(() => {
     if (!userName) {
       navigate('/login'); // user가 없는 경우 login 페이지로 리디렉션
@@ -104,12 +114,12 @@ function PetPage() {
           <>
             <div className={`${styles.headerWrapper}`}>
               <div className={`${styles.title}`}>{`${userName}님의 반려견`}</div>
-              <div className={`${styles.addProfileButton}`} onClick={handleClickAddProfile}>
+              <div className={`${styles.addProfileButton}`} onClick={handleClickAddProfile} style={{ cursor: 'pointer' }}>
                 <PlusIcon />
                 프로필 추가하기
               </div>
             </div>
-            <div className={`${styles.cardWrapper}`}>
+            <div className={`${styles.cardWrapper}`} style={{ cursor: 'pointer' }}>
               {petsData === null ? (
                 <CircularProgress />
               ) : petsData.length === 0 ? (
