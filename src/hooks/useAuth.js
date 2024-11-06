@@ -19,7 +19,7 @@ export const signInWithProvider = async (provider) => {
         access_type: 'offline',
         prompt: 'consent',
       },
-      redirectTo: 'http://localhost:5173/oauth',
+      redirectTo: 'https://localhost:5173/oauth',
     },
   });
 
