@@ -1,20 +1,16 @@
-.shopTabBar {
-  position: sticky;
-  z-index: 20;
-  top: 0;
+.TabBar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  /* border-bottom: 1px solid var(--gray-gray-10, #f5f5f5); */
-  background-color: var(--white);
+  justify-content: center;
+  border-bottom: 1px solid var(--gray-gray-10, #f5f5f5);
   cursor: pointer;
-  box-shadow: 0px 2px 4px 0px rgba(24, 119, 242, 0.08);
+  margin-bottom: 16px;
+  margin-top: 23px;
 }
 
 .tab {
   display: flex;
-  width: calc(100% / 6);
-  min-width: 64px;
+  width: 75px;
   padding: 12px 10px;
   flex-direction: column;
   justify-content: center;
@@ -26,9 +22,7 @@
   font-style: normal;
   font-weight: 700;
   line-height: 22px;
-  white-space: nowrap;
   user-select: none;
-  text-overflow: ellipsis;
 }
 
 .tab.active {
