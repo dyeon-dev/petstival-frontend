@@ -107,12 +107,12 @@ function PetPage() {
           <>
             <div className={`${styles.headerWrapper}`}>
               <div className={`${styles.title}`}>{`${userName}님의 반려견`}</div>
-              <div className={`${styles.addProfileButton}`} onClick={handleClickAddProfile}>
+              <div className={`${styles.addProfileButton}`} onClick={handleClickAddProfile} style={{ cursor: 'pointer' }}>
                 <PlusIcon />
                 프로필 추가하기
               </div>
             </div>
-            <div className={`${styles.cardWrapper}`}>
+            <div className={`${styles.cardWrapper}`} style={{ cursor: 'pointer' }}>
               {petsData === null ? (
                 <CircularProgress />
               ) : petsData.length === 0 ? (
