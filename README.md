@@ -49,6 +49,10 @@
 ```plaintext
 project/
 ├── supabase/                # Supabase Edge Function 모음
+│   ├── functions/  
+│   ├──├── _shared/ 
+│   ├──├── payment-cancel/
+│   ├──├── payment/
 ├── src/
 │   ├── assets/              # 이미지, 폰트 등 정적 파일
 │   ├── components/          # UI 컴포넌트 모음
