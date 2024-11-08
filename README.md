@@ -6,7 +6,7 @@
 <img width="1206" alt="image" src="https://github.com/user-attachments/assets/2856fdd5-4f2b-4692-8d11-9a4fa6b33317">
 
 
-## 1. Project Overview (프로젝트 배경 및 기획의도)
+## ⛳️ Project Overview (프로젝트 배경 및 기획의도)
 - 최근 반려가구 추이가 증가함에 따라 페스티벌 관련된 행사도 전국 곳곳에서 열리고 있습니다.
 - 따라서 현재 분산되어 있는 반려견과 함께할 수 있는 축제 정보를 제공합니다.
 - 이를 통해 반려견과 함께할 수 있는 페스티벌 문화를 확산하고 지역 경제 활성화를 기대합니다.
@@ -16,7 +16,7 @@
 
 <br/>
 
-## 2. Team Members (팀원 및 팀 소개)
+## 🌈 Team Members (팀원 및 팀 소개)
 | 김다연 | 김영동 | 신혜민 | 유성현 | 최명지 |
 |:------:|:------:|:------:|:------:|:------:|
 | 개발리드, FE | FE, Data | 팀장, PL | FE, BE | FE |
@@ -29,21 +29,46 @@
 
 <br/>
 
-## 3. 주요 기능 및 서비스 구조도
+## 🪐 주요 기능 및 서비스 구조도
 <img width="1210" alt="image" src="https://github.com/user-attachments/assets/3e06ec70-90bb-4beb-b672-b00e93bff40f">
 <img width="1208" alt="image" src="https://github.com/user-attachments/assets/61fc44ac-2187-4c7f-80fe-a7cc8f2cf3f7">
 
 
 <br/>
 
-## 4. 기술 스택 및 아키텍쳐 구조도
+## 💫 서비스 화면 및 기능소개
+### 1. 로그인/로그아웃 화면
+<img width="1123" alt="image" src="https://github.com/user-attachments/assets/221944d8-796b-4090-9856-3a07edd166ce">
+
+### 2. 반려견 등록 페이지
+<img width="1126" alt="image" src="https://github.com/user-attachments/assets/5769d6f9-d9df-40dc-9d15-2243dbfe60b7">
+
+
+### 3. 쇼핑 페이지
+<img width="1125" alt="image" src="https://github.com/user-attachments/assets/4aaf7c31-854d-41a2-9141-bf77e3370d0b">
+<img width="1120" alt="image" src="https://github.com/user-attachments/assets/b24cb3a8-376e-434c-abe7-e8100213b066">
+<img width="1122" alt="image" src="https://github.com/user-attachments/assets/888515da-8bca-466e-b43d-b2a0555245ed">
+
+### 4. 결제 페이지
+<img width="1120" alt="image" src="https://github.com/user-attachments/assets/f9195dd1-6315-4853-a264-8cb44e0e3983">
+<img width="1117" alt="image" src="https://github.com/user-attachments/assets/106f51db-33ba-4f2c-a783-897146c6f8c6">
+
+### 5. 펫스티벌 조회 페이지
+<img width="1121" alt="image" src="https://github.com/user-attachments/assets/73633f6c-ba69-4421-9637-e331afd11d2f">
+
+### 6. 펫스티벌 참여 인증 페이지
+<img width="1125" alt="image" src="https://github.com/user-attachments/assets/c52c1eb8-79fa-49f6-a0ed-9dc55917dae2">
+
+<br/>
+
+## 🛠️ 기술 스택 및 아키텍쳐 구조도
 <img width="1014" alt="image" src="https://github.com/user-attachments/assets/fb28246f-0e9c-46fb-b8cc-d6e4cfca77d7">
 <img width="638" alt="image" src="https://github.com/user-attachments/assets/96250dd5-4507-4394-9806-54aaed089235">
 
 
 <br/>
 
-## 5. DB 설계 및 프로젝트 구조
+## 🧩 DB 설계 및 FE 프로젝트 구조
 <img width="983" alt="image" src="https://github.com/user-attachments/assets/54f13f24-f043-49ac-8f64-6bffd6b95134">
 
 ```plaintext
@@ -70,7 +95,7 @@ project/
 
 <br/>
 
-## 6. 커밋 컨벤션
+## 🪄 커밋 컨벤션
 ### 기본 구조
 ```
 type(영문): subject(한글)
@@ -92,5 +117,5 @@ type(영문): subject(한글)
 
 <br/>
 
-### 7. 프로젝트 회고
+### 😍 프로젝트 회고
 <img width="1142" alt="image" src="https://github.com/user-attachments/assets/70557f09-28a7-47fa-9684-2bf1814b6f43">
