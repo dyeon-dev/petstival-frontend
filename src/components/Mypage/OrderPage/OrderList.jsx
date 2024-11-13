@@ -60,6 +60,7 @@ export default function OrderList({ item }) {
     try {
       // order_detail 테이블에서 주문 항목 정보 가져오기
       const { data: orderDetails, error: orderDetailError } = await supabase.from('order_detail').select().eq('order_id', item.order_id);
+      const { data: orderDetails, error: orderDetailError } = await supabase.from('order_detail').select().eq('order_id', item.order_id);
       if (orderDetailError) throw orderDetailError;
 
       // order 테이블에서 배송지 및 주문 정보 가져오기
@@ -133,3 +134,4 @@ export default function OrderList({ item }) {
     </Container>
   );
 }
+

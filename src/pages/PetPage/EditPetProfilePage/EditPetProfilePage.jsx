@@ -32,6 +32,7 @@ function EditPetProfilePage() {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [modalType, setModalType] = useState('');
   const [isTyping, setIsTyping] = useState(false); // New state to track typing
+  const [isTyping, setIsTyping] = useState(false); // New state to track typing
 
   useEffect(() => {
     setPetProfileData({
@@ -81,10 +82,12 @@ function EditPetProfilePage() {
 
     return () => clearTimeout(delayDebounceFn);
   }, [inputValue, isTyping]);
+  }, [inputValue, isTyping]);
 
   const handleInputChange = (e) => {
     const newValue = e.target.value;
     setInputValue(newValue);
+    setIsTyping(true); // Start typing
     setIsTyping(true); // Start typing
     setPetProfileData((prev) => ({
       ...prev,

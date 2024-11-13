@@ -74,6 +74,13 @@ const CartItem = ({ item, isSelected, onSelect }) => {
           onCountChange={handleQuantityChange} // 수량 변경 시 updateItemQuantity 호출
         />
       </div>
+      <div className={styles.rowWrapper}>
+        <div className={styles.labelText}>수량 변경</div>
+        <CartNumberPicker
+          initialCount={item.quantity} // 현재 수량을 초기 값으로 전달
+          onCountChange={handleQuantityChange} // 수량 변경 시 updateItemQuantity 호출
+        />
+      </div>
     </div>
   );
 };

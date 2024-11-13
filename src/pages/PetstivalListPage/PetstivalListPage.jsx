@@ -55,9 +55,17 @@ export default function PetstivalListPage() {
   const [selectedFestivalId, setSelectedFestivalId] = useState(null);
   const [isParticipating, setIsParticipating] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(true);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [showResultModal, setShowResultModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const [modalTitle, setModalTitle] = useState('');
+  const [selectedFestivalId, setSelectedFestivalId] = useState(null);
+  const [isParticipating, setIsParticipating] = useState(false);
+  const [buttonLoading, setButtonLoading] = useState(true);
 
   useEffect(() => {
     const fetchUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         setUserId(user.id);
@@ -86,6 +94,7 @@ export default function PetstivalListPage() {
       if (userId) {
         const status = {};
         for (const festival of sortedData) {
+        for (const festival of sortedData) {
           const { data: participationData } = await supabase
             .from('user_festival')
             .select('verified')
@@ -103,6 +112,7 @@ export default function PetstivalListPage() {
       setError('Error fetching data');
     } finally {
       setLoading(false);
+      setButtonLoading(false);
       setButtonLoading(false);
     }
   };
@@ -136,11 +146,14 @@ export default function PetstivalListPage() {
     setModalTitle(currentStatus.isParticipating ? '신청을 취소하시겠습니까?' : '정말 신청하시겠습니까?');
     setModalMessage(currentStatus.isParticipating ? '참여를 취소하시겠습니까?' : '참여 신청을 하시겠습니까?');
     setShowConfirmationModal(true);
+    setShowConfirmationModal(true);
   };
+
 
   const confirmParticipationChange = async () => {
     const festivalId = selectedFestivalId;
     const currentStatus = participationStatus[festivalId] || { isParticipating: false, verified: false };
+
 
     try {
       if (currentStatus.isParticipating) {
@@ -150,6 +163,7 @@ export default function PetstivalListPage() {
           ...prev,
           [festivalId]: { isParticipating: false, verified: false },
         }));
+        setModalMessage('신청이 취소되었습니다. 페스티벌 페이지로 이동하여 확인해보시겠어요?');
         setModalMessage('신청이 취소되었습니다. 페스티벌 페이지로 이동하여 확인해보시겠어요?');
       } else {
         const { error } = await supabase.from('user_festival').insert({
@@ -164,11 +178,24 @@ export default function PetstivalListPage() {
           [festivalId]: { isParticipating: true, verified: false },
         }));
         setModalMessage('참여 신청이 완료되었습니다. 페스티벌 페이지로 이동하여 확인해보시겠어요?');
+        setModalMessage('참여 신청이 완료되었습니다. 페스티벌 페이지로 이동하여 확인해보시겠어요?');
       }
+      setShowResultModal(true);
       setShowResultModal(true);
     } catch (error) {
       console.error('참여 상태 변경 중 오류 발생:', error);
     } finally {
+      setShowConfirmationModal(false);
+    }
+  };
+  // 모달에서 예를 누르면 /pet 페이지로 이동하고, 계속 둘러볼게요를 선택하면 모달 닫기
+  const handleResultModalConfirm = () => {
+    localStorage.setItem('activeTab', '펫스티벌');
+    navigate('/pet');
+  };
+
+  const handleResultModalClose = () => {
+    setShowResultModal(false);
       setShowConfirmationModal(false);
     }
   };
@@ -195,6 +222,7 @@ export default function PetstivalListPage() {
               const { label, color } = getStatus(item.startdate, item.enddate);
               const imageSrc = item.firstimage || noImage;
               const participation = participationStatus[item.id] || {};
+              const buttonLabel = buttonLoading ? '로딩 중...' : participation.verified ? '참여 완료' : participation.isParticipating ? '신청 취소' : '참여 신청';
               const buttonLabel = buttonLoading ? '로딩 중...' : participation.verified ? '참여 완료' : participation.isParticipating ? '신청 취소' : '참여 신청';
 
               return (
@@ -249,7 +277,13 @@ export default function PetstivalListPage() {
                     />
                   </ImageListItem>
                   {(label !== '진행완료' || participation.verified) && isStatusLoaded && (
+                  {(label !== '진행완료' || participation.verified) && isStatusLoaded && (
                     <ButtonSmall
+                      children={buttonLabel}
+                      onClick={() => handleParticipation(item.id, participation)}
+                      sub="primary"
+                      disabled={participation.verified}
+                    />
                       children={buttonLabel}
                       onClick={() => handleParticipation(item.id, participation)}
                       sub="primary"
@@ -272,10 +306,13 @@ export default function PetstivalListPage() {
       />
 
       <YesNoModal
+      <YesNoModal
         title="알림"
         content={modalMessage}
         isOpen={showResultModal}
         setIsOpen={setShowResultModal}
+        onYesClick={handleResultModalConfirm} // "예"를 누르면 /pet로 이동
+        onNoClick={handleResultModalClose} // "계속 둘러볼게요"를 누르면 모달 닫기
         onYesClick={handleResultModalConfirm} // "예"를 누르면 /pet로 이동
         onNoClick={handleResultModalClose} // "계속 둘러볼게요"를 누르면 모달 닫기
       />
