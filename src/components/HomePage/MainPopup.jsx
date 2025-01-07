@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import CloseIcon from '../../assets/icons/cancel.svg?react';
 export default function MainPopup({ setShowMainPop }) {
   const navigate = useNavigate();
-  const navigate = useNavigate();
   const closePop = () => {
     setShowMainPop(false);
   };
@@ -23,9 +22,6 @@ export default function MainPopup({ setShowMainPop }) {
       closePop();
     }
   };
-  const handleQRScanner = () =>{
-    navigate('/qrscanner');
-  }
   const handleQRScanner = () => {
     navigate('/qrscanner');
   };
