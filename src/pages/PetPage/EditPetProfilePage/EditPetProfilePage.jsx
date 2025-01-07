@@ -31,8 +31,7 @@ function EditPetProfilePage() {
   const [isFailedModalOpen, setIsFailedModalOpen] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [modalType, setModalType] = useState('');
-  const [isTyping, setIsTyping] = useState(false); // New state to track typing
-  const [isTyping, setIsTyping] = useState(false); // New state to track typing
+  const [isTyping, setIsTyping] = useState(false);
 
   useEffect(() => {
     setPetProfileData({
@@ -81,7 +80,6 @@ function EditPetProfilePage() {
     }, 300);
 
     return () => clearTimeout(delayDebounceFn);
-  }, [inputValue, isTyping]);
   }, [inputValue, isTyping]);
 
   const handleInputChange = (e) => {
