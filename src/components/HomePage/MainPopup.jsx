@@ -1,7 +1,6 @@
 import styles from './MainPopup.module.css';
 import QR from '../../assets/images/QR.svg?react';
 import { useNavigate } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
 import CloseIcon from '../../assets/icons/cancel.svg?react';
 export default function MainPopup({ setShowMainPop }) {
   const navigate = useNavigate();
